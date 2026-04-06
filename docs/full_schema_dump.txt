@@ -1,0 +1,961 @@
+
+================================================================================
+  DATABASE: catalog-db
+================================================================================
+
+  TABLE: Allergen
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Name                           character varying              NOT NULL
+    IsUsed                         boolean                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    PK: Id
+    ROWS: 15
+
+  TABLE: Availability
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Monday                         boolean                        NOT NULL
+    Tuesday                        boolean                        NOT NULL
+    Wednesday                      boolean                        NOT NULL
+    Thursday                       boolean                        NOT NULL
+    Friday                         boolean                        NOT NULL
+    Saturday                       boolean                        NOT NULL
+    Sunday                         boolean                        NOT NULL
+    AvailableDateFrom              timestamp with time zone       NULL DEFAULT CURRENT_TIMESTAMP
+    AvailableDateTo                timestamp with time zone       NULL DEFAULT CURRENT_TIMESTAMP
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    PK: Id
+    ROWS: 144
+
+  TABLE: BakeryOffer
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Name                           character varying              NOT NULL
+    Price                          numeric                        NOT NULL
+    State                          integer                        NOT NULL
+    Type                           integer                        NOT NULL
+    AvailableStock                 integer                        NOT NULL
+    IsAvailable                    boolean                        NOT NULL
+    PictureFileName                text                           NOT NULL
+    PlatformClientId               integer                        NOT NULL
+    VatRateId                      integer                        NOT NULL
+    VAT                            numeric                        NOT NULL
+    PreviousVersionOfferId         integer                        NULL
+    NextVersionId                  integer                        NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    PK: Id
+    ROWS: 145
+
+  TABLE: BakeryProduct
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Name                           character varying              NOT NULL
+    Description                    character varying              NOT NULL
+    State                          integer                        NOT NULL
+    PictureFileName                text                           NOT NULL
+    BakeryProductsTypeId           integer                        NOT NULL
+    PlatformClientId               integer                        NOT NULL
+    PreviousVersionProductId       integer                        NULL
+    ModifiedVersionProductId       integer                        NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    Weight                         integer                        NOT NULL DEFAULT 0
+    PK: Id
+    FK: BakeryProductsTypeId -> BakeryProductsTypes.Id
+    ROWS: 83
+
+  TABLE: BakeryProductSiteNew
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    BakeryProductId                integer                        NOT NULL
+    SiteId                         integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    PK: Id
+    FK: BakeryProductId -> BakeryProduct.Id
+    ROWS: 143
+
+  TABLE: BakeryProductsTypes
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Name                           character varying              NOT NULL
+    PictureFileName                text                           NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    ProductTypeDisplayOrder        integer                        NOT NULL DEFAULT 0
+    PK: Id
+    ROWS: 4
+
+  TABLE: Nutrition
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Calories                       bigint                         NOT NULL
+    TotalFats                      double precision               NOT NULL
+    SaturatedFats                  double precision               NOT NULL
+    TotalCarbohydrates             double precision               NOT NULL
+    Sugar                          double precision               NOT NULL
+    Protein                        double precision               NOT NULL
+    Sodium                         double precision               NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    ProductId                      integer                        NOT NULL
+    PK: Id
+    FK: ProductId -> BakeryProduct.Id
+    ROWS: 83
+
+  TABLE: OfferAvailability
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    BakeryOfferId                  integer                        NOT NULL
+    PK: Id
+    FK: Id -> Availability.Id
+    FK: BakeryOfferId -> BakeryOffer.Id
+    ROWS: 144
+
+  TABLE: OfferLocation
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    LocationId                     integer                        NOT NULL
+    BakeryOfferId                  integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    PK: Id
+    FK: BakeryOfferId -> BakeryOffer.Id
+    ROWS: 797
+
+  TABLE: OfferProduct
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    ProductId                      integer                        NOT NULL
+    ProductPrice                   numeric                        NOT NULL
+    ProductName                    text                           NOT NULL
+    PictureFieName                 text                           NULL
+    BakeryOfferId                  integer                        NOT NULL
+    ProductCount                   integer                        NOT NULL
+    IsAvailableInOffer             boolean                        NOT NULL
+    IsAvailableInOfferSite         boolean                        NOT NULL
+    ProductInOfferPrice            numeric                        NOT NULL
+    VATForProductInOffer           numeric                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    PK: Id
+    FK: BakeryOfferId -> BakeryOffer.Id
+    FK: ProductId -> BakeryProduct.Id
+    ROWS: 151
+
+  TABLE: OfferSite
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    SiteId                         integer                        NOT NULL
+    BakeryOfferId                  integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    PK: Id
+    FK: BakeryOfferId -> BakeryOffer.Id
+    ROWS: 278
+
+  TABLE: PrivateIngredient
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    PlatformClientId               integer                        NOT NULL
+    Name                           character varying              NOT NULL
+    Unit                           character varying              NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    PK: Id
+    ROWS: 3
+
+  TABLE: ProductAllergen
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    AllergenId                     integer                        NOT NULL
+    BakeryProductId                integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    PK: Id
+    FK: AllergenId -> Allergen.Id
+    FK: BakeryProductId -> BakeryProduct.Id
+    ROWS: 48
+
+  TABLE: ProductAttribute
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Description                    character varying              NOT NULL
+    Value                          character varying              NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    BakeryProductId                integer                        NULL
+    PK: Id
+    FK: BakeryProductId -> BakeryProduct.Id
+    ROWS: 3
+
+  TABLE: ProductPrivateIngredient
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    BakeryProductId                integer                        NOT NULL
+    IngredientId                   integer                        NOT NULL
+    Value                          double precision               NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    PK: Id
+    FK: BakeryProductId -> BakeryProduct.Id
+    FK: IngredientId -> PrivateIngredient.Id
+    ROWS: 12
+
+  TABLE: ProductPublicIngredient
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    BakeryProductId                integer                        NOT NULL
+    IngredientId                   integer                        NOT NULL
+    Value                          double precision               NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    PK: Id
+    FK: BakeryProductId -> BakeryProduct.Id
+    FK: IngredientId -> PublicIngredient.Id
+    ROWS: 74
+
+  TABLE: PublicIngredient
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Name                           character varying              NOT NULL
+    Unit                           character varying              NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    PK: Id
+    ROWS: 11
+
+
+================================================================================
+  DATABASE: claim-manager-db
+================================================================================
+
+  TABLE: ClaimEntityDeliveryItems
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    IssueType                      integer                        NOT NULL
+    DeliveryItemId                 integer                        NOT NULL
+    ClaimId                        integer                        NULL
+    ProductName                    text                           NULL
+    OrderedQuantity                integer                        NOT NULL
+    DeliveredQuantity              integer                        NOT NULL
+    NumberOfProductsWithAcceptedClaim integer                        NOT NULL
+    UserId                         character varying              NOT NULL
+    ProductId                      integer                        NOT NULL DEFAULT 0
+    ClaimedQuantity                integer                        NOT NULL DEFAULT 0
+    PK: Id
+    FK: ClaimId -> ClaimsEntity.Id
+    ROWS: 26
+
+  TABLE: ClaimItems
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    ClaimEntityId                  integer                        NOT NULL
+    Description                    text                           NULL
+    Notifier                       text                           NULL
+    PictureName                    text                           NULL
+    Created                        timestamp with time zone       NOT NULL
+    Updated                        timestamp with time zone       NOT NULL
+    UserId                         text                           NOT NULL
+    Type                           integer                        NOT NULL
+    PK: Id
+    FK: ClaimEntityId -> ClaimsEntity.Id
+    ROWS: 46
+
+  TABLE: ClaimsEntity
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    OrderId                        integer                        NOT NULL
+    DeliveryId                     integer                        NOT NULL
+    Description                    text                           NULL
+    Date                           timestamp with time zone       NOT NULL
+    State                          integer                        NOT NULL
+    Type                           integer                        NOT NULL
+    AgreedDiscountId               integer                        NOT NULL
+    AgreedReturnAmount             integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL
+    Updated                        timestamp with time zone       NOT NULL
+    UserId                         text                           NOT NULL
+    ServicingBySiteId              integer                        NOT NULL
+    PK: Id
+    ROWS: 34
+
+
+================================================================================
+  DATABASE: client-manager-db
+================================================================================
+
+  TABLE: Client
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Name                           text                           NULL
+    Description                    text                           NULL
+    NIP                            bigint                         NULL
+    BankAccount                    character                      NULL
+    Street                         text                           NULL
+    City                           text                           NULL
+    Country                        text                           NULL
+    ZipCode                        character varying              NULL
+    PictureFileName                text                           NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    ModifiedByUserId               character varying              NOT NULL DEFAULT ''::text
+    Email                          text                           NULL
+    FullFormalName                 text                           NULL
+    Phone                          text                           NULL
+    TpayMerchantId                 text                           NULL
+    Story                          text                           NULL
+    PK: Id
+    ROWS: 4
+
+  TABLE: IndicatedBakery
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    BakeryName                     character varying              NOT NULL
+    BakeryAddress                  text                           NOT NULL
+    MapInfo                        text                           NULL
+    PK: Id
+    ROWS: 6
+
+  TABLE: Leave
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    SiteId                         integer                        NOT NULL
+    DateFrom                       timestamp with time zone       NOT NULL
+    DateTo                         timestamp with time zone       NULL
+    Type                           integer                        NOT NULL
+    Description                    text                           NOT NULL
+    State                          integer                        NOT NULL DEFAULT 0
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    ModifiedByUserId               character varying              NOT NULL DEFAULT ''::text
+    PK: Id
+    FK: SiteId -> Site.Id
+    ROWS: 24
+
+  TABLE: Location
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Name                           character varying              NOT NULL
+    Description                    character varying              NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    ModifiedByUserId               character varying              NOT NULL DEFAULT ''::text
+    Status                         integer                        NOT NULL DEFAULT 0
+    PK: Id
+    ROWS: 35
+
+  TABLE: LocationSite
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    SiteId                         integer                        NOT NULL
+    LocationId                     integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    ModifiedByUserId               character varying              NOT NULL
+    PK: Id
+    FK: LocationId -> Location.Id
+    FK: SiteId -> Site.Id
+    ROWS: 13
+
+  TABLE: Person
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    ClientId                       integer                        NOT NULL
+    Name                           text                           NULL
+    Interview                      text                           NULL
+    PictureLink                    text                           NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    ModifiedByUserId               character varying              NOT NULL
+    PK: Id
+    FK: ClientId -> Client.Id
+    ROWS: 8
+
+  TABLE: PolygonVertex
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    LocationId                     integer                        NOT NULL
+    Latitude                       double precision               NOT NULL
+    Longitude                      double precision               NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    ModifiedByUserId               character varying              NOT NULL DEFAULT ''::text
+    PK: Id
+    FK: LocationId -> Location.Id
+    ROWS: 234
+
+  TABLE: Site
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Name                           character varying              NOT NULL
+    Street                         character varying              NOT NULL
+    Nr                             character varying              NOT NULL
+    City                           character varying              NOT NULL
+    State                          text                           NOT NULL
+    Country                        character varying              NOT NULL
+    ZipCode                        character varying              NOT NULL
+    ClientId                       integer                        NOT NULL
+    SiteCoordinatesId              integer                        NULL
+    PictureFileName                text                           NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    ModifiedByUserId               character varying              NOT NULL DEFAULT ''::character varying
+    PK: Id
+    FK: ClientId -> Client.Id
+    FK: SiteCoordinatesId -> SiteCoordinates.Id
+    ROWS: 8
+
+  TABLE: SiteCoordinates
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Latitude                       double precision               NOT NULL
+    Longitude                      double precision               NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    ModifiedByUserId               text                           NOT NULL DEFAULT ''::text
+    PK: Id
+    ROWS: 9
+
+
+================================================================================
+  DATABASE: customer-manager-db
+================================================================================
+
+  TABLE: Consents
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Type                           integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    LinkToDocument                 character varying              NULL
+    UserId                         text                           NOT NULL
+    ModifiedByUserId               character varying              NOT NULL
+    Status                         integer                        NOT NULL DEFAULT 0
+    Version                        text                           NULL
+    ExpiryDate                     timestamp with time zone       NULL
+    GoLiveDate                     timestamp with time zone       NOT NULL DEFAULT '-infinity'::timestamp with time zone
+    ObligationType                 integer                        NOT NULL DEFAULT 0
+    PK: Id
+    ROWS: 3
+
+  TABLE: Customer
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Name                           character varying              NULL
+    PhoneNumber                    character varying              NULL
+    Avatar                         character varying              NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Email                          text                           NULL
+    UserId                         text                           NOT NULL
+    ModifiedByUserId               character varying              NOT NULL
+    OtherRoleStatus                integer                        NOT NULL
+    CustomerState                  integer                        NOT NULL
+    CustomerIp                     text                           NULL
+    PK: Id
+    ROWS: 176
+
+  TABLE: CustomerAddress
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    AddressName                    character varying              NULL
+    Address                        character varying              NULL
+    Longitude                      double precision               NOT NULL
+    Latitude                       double precision               NOT NULL
+    EntryInformationAndCodes       character varying              NULL
+    AdditionalInformation          text                           NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    ModifiedByUserId               character varying              NOT NULL
+    CustomerId                     integer                        NOT NULL
+    State                          integer                        NOT NULL DEFAULT 0
+    PK: Id
+    FK: CustomerId -> Customer.Id
+    ROWS: 544
+
+  TABLE: CustomerAndroidToken
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    CustomerId                     integer                        NOT NULL
+    Token                          text                           NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    TokenState                     integer                        NOT NULL
+    CustomerUserId                 character varying              NOT NULL
+    ModifiedByUserId               character varying              NOT NULL
+    ExpirationTime                 timestamp with time zone       NULL
+    InstallationId                 text                           NOT NULL DEFAULT ''::text
+    Platform                       text                           NOT NULL DEFAULT ''::text
+    PK: Id
+    FK: CustomerId -> Customer.Id
+    ROWS: 521
+
+  TABLE: CustomerConsent
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    CustomerId                     integer                        NOT NULL
+    ConsentId                      integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    ModifiedByUserId               character varying              NOT NULL
+    Status                         integer                        NOT NULL DEFAULT 0
+    Date                           timestamp with time zone       NOT NULL DEFAULT '-infinity'::timestamp with time zone
+    PK: Id
+    FK: ConsentId -> Consents.Id
+    FK: CustomerId -> Customer.Id
+    ROWS: 471
+
+
+================================================================================
+  DATABASE: delivery-account-manager-db
+================================================================================
+
+  TABLE: Address
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    AddressName                    text                           NULL
+    Voivodeship                    text                           NULL
+    City                           text                           NULL
+    District                       text                           NULL
+    StreetName                     text                           NULL
+    HouseNumber                    text                           NULL
+    ZipCode                        text                           NULL
+    PostOffice                     text                           NULL
+    DeliveryManId                  integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    PK: Id
+    FK: DeliveryManId -> DeliveryMan.Id
+    ROWS: 6
+
+  TABLE: BankAccount
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    BankName                       text                           NULL
+    BankAccountNumber              text                           NULL
+    DeliveryManId                  integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    PK: Id
+    FK: DeliveryManId -> DeliveryMan.Id
+    ROWS: 2
+
+  TABLE: DeliveryMan
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Name                           character varying              NOT NULL
+    PhoneNumber                    text                           NOT NULL DEFAULT ''::text
+    Email                          text                           NOT NULL DEFAULT ''::text
+    DateOfBirth                    timestamp with time zone       NULL
+    NumberOfIDCard                 text                           NULL
+    Pesel                          text                           NULL
+    NIP                            text                           NULL
+    PictureFileName                text                           NULL
+    SiteId                         integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    ContractOwner                  integer                        NOT NULL DEFAULT 0
+    PK: Id
+    ROWS: 6
+
+  TABLE: DeliveryManAndroidToken
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    DeliveryManId                  integer                        NOT NULL
+    Token                          text                           NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    TokenState                     integer                        NOT NULL
+    InstallationId                 text                           NOT NULL
+    Platform                       text                           NOT NULL
+    ExpirationTime                 timestamp with time zone       NULL
+    DeliveryManUserId              character varying              NOT NULL
+    ModifiedByUserId               character varying              NOT NULL
+    PK: Id
+    FK: DeliveryManId -> DeliveryMan.Id
+    ROWS: 3
+
+  TABLE: DeliveryManLocationAllocation
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    LocationId                     integer                        NOT NULL
+    Date                           timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    DeliveryManId                  integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    SiteId                         integer                        NOT NULL DEFAULT 0
+    PK: Id
+    FK: DeliveryManId -> DeliveryMan.Id
+    ROWS: 493
+
+  TABLE: DeliveryManUnavailability
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    DeliveryManId                  integer                        NOT NULL
+    DateFrom                       timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    DateTo                         timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    State                          integer                        NOT NULL
+    UserId                         text                           NOT NULL
+    PK: Id
+    FK: DeliveryManId -> DeliveryMan.Id
+    ROWS: 17
+
+
+================================================================================
+  DATABASE: delivery-manager-db
+================================================================================
+
+  TABLE: AreaOfDeliveryForDate
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Date                           timestamp with time zone       NOT NULL
+    Name                           text                           NULL
+    EstimatedNoOfDelivery          integer                        NOT NULL
+    LocationId                     integer                        NOT NULL
+    SiteId                         integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    PK: Id
+    ROWS: 578
+
+  TABLE: Deliveries
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    CustomerAddressId              integer                        NOT NULL
+    AreaOfDeliveryForDateId        integer                        NOT NULL
+    AddressName                    character varying              NULL
+    Address                        character varying              NULL
+    Longitude                      double precision               NOT NULL
+    Latitude                       double precision               NOT NULL
+    EntryInformationAndCodes       character varying              NULL
+    AdditionalInformation          text                           NULL
+    State                          integer                        NOT NULL
+    DeliveryManId                  integer                        NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    SiteId                         integer                        NOT NULL
+    UserId                         text                           NOT NULL
+    CustomerUserId                 text                           NOT NULL
+    DeliveryManUserId              text                           NOT NULL
+    OrderId                        integer                        NOT NULL DEFAULT 0
+    PK: Id
+    FK: AreaOfDeliveryForDateId -> AreaOfDeliveryForDate.Id
+    ROWS: 1162
+
+  TABLE: DeliveryItems
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    State                          integer                        NOT NULL
+    PlannedQuantity                integer                        NOT NULL
+    PackedQuantity                 integer                        NULL
+    ProductName                    character varying              NULL
+    ProductPrice                   numeric                        NOT NULL
+    PictureFileName                text                           NULL
+    ProductId                      integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    DeliveryId                     integer                        NOT NULL
+    UserId                         text                           NOT NULL
+    PK: Id
+    FK: DeliveryId -> Deliveries.Id
+    ROWS: 1741
+
+  TABLE: DeliveryManArea
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    DeliveryManId                  integer                        NULL
+    AreaOfDeliveryForDateId        integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    State                          integer                        NOT NULL
+    UserId                         text                           NOT NULL
+    PK: Id
+    FK: AreaOfDeliveryForDateId -> AreaOfDeliveryForDate.Id
+    ROWS: 578
+
+
+================================================================================
+  DATABASE: planner-db
+================================================================================
+
+  TABLE: BakeryOrderItems
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Quantity                       integer                        NOT NULL
+    OrderId                        integer                        NOT NULL
+    BoughtOfferInstanceId          integer                        NOT NULL
+    OrderItemState                 integer                        NOT NULL
+    ModifiedByHand                 boolean                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         character varying              NOT NULL
+    PlannerItemId                  integer                        NULL
+    PK: Id
+    FK: OrderId -> BakeryOrders.Id
+    FK: BoughtOfferInstanceId -> BoughtOfferInstances.Id
+    FK: PlannerItemId -> PlannerItems.Id
+    ROWS: 9454
+
+  TABLE: BakeryOrders
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    CustomerAddressId              integer                        NOT NULL
+    DailySettlementItemId          integer                        NOT NULL
+    PlatformDiscountId             integer                        NULL
+    Date                           timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    OrderState                     integer                        NOT NULL
+    UserId                         character varying              NOT NULL
+    ServicingBySiteId              integer                        NOT NULL
+    LocationId                     integer                        NOT NULL
+    PK: Id
+    FK: PlatformDiscountId -> PlatformDiscount.Id
+    ROWS: 5743
+
+  TABLE: BoughtOfferInstances
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Price                          numeric                        NOT NULL
+    OfferId                        integer                        NOT NULL
+    AdditionalInfo                 text                           NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    OfferName                      text                           NOT NULL
+    PictureFileName                text                           NOT NULL
+    VAT                            numeric                        NOT NULL
+    VatRateId                      integer                        NOT NULL
+    UserId                         text                           NOT NULL
+    Type                           integer                        NOT NULL
+    PK: Id
+    ROWS: 1805
+
+  TABLE: PlannerItems
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    PlannerItemState               integer                        NOT NULL
+    Quantity                       integer                        NOT NULL
+    CustomerAddressId              integer                        NOT NULL
+    DayIndex                       integer                        NOT NULL
+    NextVersion                    integer                        NOT NULL
+    PreviousVersion                integer                        NOT NULL
+    StartDate                      timestamp with time zone       NOT NULL
+    EndDate                        timestamp with time zone       NOT NULL
+    BoughtOfferInstanceId          integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         text                           NOT NULL
+    ServicingBySiteId              integer                        NOT NULL
+    LocationId                     integer                        NOT NULL
+    PK: Id
+    FK: BoughtOfferInstanceId -> BoughtOfferInstances.Id
+    ROWS: 1931
+
+  TABLE: PlatformDiscount
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    BoughtOfferInstanceId          integer                        NOT NULL
+    DateFrom                       timestamp with time zone       NOT NULL
+    DateTo                         timestamp with time zone       NOT NULL
+    NumbersOfOrders                integer                        NOT NULL
+    Discount                       integer                        NOT NULL
+    AdditionalInformation          text                           NULL
+    Created                        timestamp with time zone       NOT NULL
+    Updated                        timestamp with time zone       NOT NULL
+    UserId                         text                           NOT NULL
+    PK: Id
+    FK: BoughtOfferInstanceId -> BoughtOfferInstances.Id
+    ROWS: 0
+
+
+================================================================================
+  DATABASE: wallet-db
+================================================================================
+
+  TABLE: DiscountUses
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    UseDate                        timestamp with time zone       NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    CustomerId                     integer                        NOT NULL
+    DiscountId                     integer                        NOT NULL
+    UserId                         character varying              NOT NULL
+    ListOfPaymentIds               text                           NULL
+    PK: Id
+    FK: DiscountId -> Discounts.Id
+    ROWS: 10
+
+  TABLE: Discounts
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    DiscountPercentage             money                          NULL
+    DiscountFlatRate               money                          NULL
+    DiscountCode                   character varying              NOT NULL
+    ActiveFrom                     timestamp with time zone       NOT NULL DEFAULT '-infinity'::timestamp with time zone
+    ActiveTo                       timestamp with time zone       NOT NULL DEFAULT '-infinity'::timestamp with time zone
+    UseLimitGlobally               integer                        NULL
+    UseLimitPerCustomer            integer                        NULL
+    MinimalTransactionAmount       money                          NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    ClientId                       integer                        NULL
+    UserId                         character varying              NOT NULL
+    MaximumTransactionAmount       money                          NULL
+    MoneyLimitGlobally             money                          NULL
+    MoneyLimitPerCustomer          money                          NULL
+    OnlyForFirstPurchase           boolean                        NULL
+    CustomerId                     integer                        NULL
+    LinkToTerms                    character varying              NULL
+    PK: Id
+    ROWS: 21
+
+  TABLE: PaymentMethods
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Type                           integer                        NOT NULL
+    Currency                       text                           NOT NULL
+    Status                         integer                        NOT NULL
+    EncryptedToken                 text                           NULL
+    CardMask                       text                           NULL
+    MarkedAsPrimaryOnCreation      boolean                        NULL
+    UserId                         character varying              NOT NULL
+    CustomerId                     integer                        NOT NULL
+    CardBrand                      text                           NULL
+    Mobile                         boolean                        NOT NULL DEFAULT false
+    PK: Id
+    ROWS: 187
+
+  TABLE: Payments
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Status                         integer                        NOT NULL
+    Amount                         money                          NOT NULL
+    OrderId                        integer                        NOT NULL
+    DeliveryId                     integer                        NULL
+    UserId                         character varying              NOT NULL
+    PaymentMethodId                integer                        NOT NULL
+    ListOfOrderItems               text                           NULL
+    ForManualHandling              boolean                        NOT NULL DEFAULT false
+    PaymentType                    integer                        NOT NULL DEFAULT 0
+    PointOfSaleId                  text                           NULL
+    PaidByTransactionId            text                           NULL
+    Error                          text                           NULL
+    DiscountId                     integer                        NULL
+    DiscountedAmount               money                          NULL
+    ClientId                       integer                        NULL
+    PK: Id
+    FK: DiscountId -> Discounts.Id
+    FK: PaymentMethodId -> PaymentMethods.Id
+    ROWS: 2235
+
+  TABLE: RefundCreationErrors
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    StatusCode                     text                           NULL
+    CodeLiteral                    text                           NULL
+    Code                           integer                        NOT NULL
+    Description                    text                           NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    UserId                         character varying              NOT NULL
+    RefundId                       integer                        NOT NULL
+    PK: Id
+    FK: RefundId -> Refunds.Id
+    ROWS: 122
+
+  TABLE: RefundFinalizationError
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL
+    Updated                        timestamp with time zone       NOT NULL
+    PayURefundId                   text                           NULL
+    ExtRefundId                    text                           NULL
+    RefundId                       integer                        NOT NULL
+    Amount                         numeric                        NOT NULL
+    RefundRegistrationDate         timestamp with time zone       NOT NULL
+    StatusChangeDate               timestamp with time zone       NOT NULL
+    Status                         text                           NULL
+    ErrorCode                      text                           NULL
+    ErrorDescription               text                           NULL
+    UserId                         text                           NOT NULL
+    FurtherInstructions            text                           NULL
+    PK: Id
+    FK: RefundId -> Refunds.Id
+    ROWS: 0
+
+  TABLE: RefundItems
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    RefundId                       integer                        NOT NULL
+    MissingProductQuantity         integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Amount                         money                          NOT NULL
+    VatAmount                      money                          NOT NULL
+    UserId                         character varying              NOT NULL
+    ProductId                      integer                        NOT NULL DEFAULT 0
+    PK: Id
+    FK: RefundId -> Refunds.Id
+    ROWS: 1132
+
+  TABLE: Refunds
+  ----------------------------------------
+    Id                             integer                        NOT NULL
+    Created                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Updated                        timestamp with time zone       NOT NULL DEFAULT CURRENT_TIMESTAMP
+    Status                         integer                        NOT NULL
+    Type                           integer                        NOT NULL
+    Amount                         money                          NOT NULL
+    Description                    text                           NULL
+    UserId                         character varying              NOT NULL
+    ClaimId                        integer                        NULL
+    PaymentId                      integer                        NOT NULL
+    BaseAmount                     money                          NULL
+    PK: Id
+    FK: PaymentId -> Payments.Id
+    ROWS: 1063
