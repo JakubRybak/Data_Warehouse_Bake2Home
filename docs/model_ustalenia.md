@@ -15,6 +15,8 @@
 ### FACT_PAYMENT
 - dorzucic ID_SITE
 - error YES/NO
+### DIM_COMPETITORS
+- usunąć z listy piekarni własne site
 
 
 # Co trzeba przemyśleć
@@ -25,7 +27,3 @@
 - sprawdzic wszedzie `STATE` co znaczy i może usunąć
 - ID_AGREED_DISCOUNT w FACT_CLAIM_ITEM
 - czy da sie wyłuskać date dołączenia customera/clienta
-
-
-# Google Maps API
-- dodać do modelu
