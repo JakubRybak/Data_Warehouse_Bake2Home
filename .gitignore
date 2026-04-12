@@ -9,11 +9,6 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Dane i wyniki (opcjonalnie, jeśli nie chcesz ich w Gicie)
-google_maps_test/api_results/
-raw_api_results.json
-formatted_poi_results.csv
-
 # Folder cache i temp
 cache/
 temp/

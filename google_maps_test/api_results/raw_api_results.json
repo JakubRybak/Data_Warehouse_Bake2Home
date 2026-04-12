@@ -1,0 +1,981 @@
+{
+  "summary": {
+    "total_unique_places": 21,
+    "bakeries_count": 16,
+    "supermarkets_count": 5,
+    "others_count": 0
+  },
+  "results": {
+    "bakeries": [
+      {
+        "id": "ChIJrRVn51AzGUcRCPLlh0nx8mk",
+        "types": [
+          "bakery",
+          "food_store",
+          "point_of_interest",
+          "food",
+          "store",
+          "establishment"
+        ],
+        "formattedAddress": "Sportowa 1B, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.152120499999995,
+          "longitude": 20.924192899999998
+        },
+        "displayName": {
+          "text": "Piekarnia PIECZYWKO",
+          "languageCode": "pl"
+        },
+        "primaryType": "bakery"
+      },
+      {
+        "id": "ChIJ1yQv3IYzGUcRzQUF2BJ2TUU",
+        "types": [
+          "pastry_shop",
+          "dessert_shop",
+          "confectionery",
+          "bakery",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Pruszkowska 12, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.158778399999996,
+          "longitude": 20.9216119
+        },
+        "displayName": {
+          "text": "Tudel - produkcja i sprzedaż",
+          "languageCode": "tr"
+        },
+        "primaryType": "pastry_shop"
+      },
+      {
+        "id": "ChIJNT8Eh4YzGUcRNJ-tjFjL2Rk",
+        "types": [
+          "candy_store",
+          "cafe",
+          "dessert_shop",
+          "confectionery",
+          "bakery",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Aleja Krakowska 53, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.156937299999996,
+          "longitude": 20.922996899999998
+        },
+        "displayName": {
+          "text": "Cukiernia Bracia Sośniccy - torty Warszawa",
+          "languageCode": "pl"
+        },
+        "primaryType": "candy_store"
+      },
+      {
+        "id": "ChIJF_7VcYYzGUcRjY2BV-BuU3M",
+        "types": [
+          "candy_store",
+          "cake_shop",
+          "wholesaler",
+          "confectionery",
+          "bakery",
+          "food_store",
+          "food",
+          "manufacturer",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Aleja Krakowska 41, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.156052499999994,
+          "longitude": 20.922085
+        },
+        "displayName": {
+          "text": "Bała Kazimierz. Cukiernia",
+          "languageCode": "pl"
+        },
+        "primaryType": "candy_store"
+      },
+      {
+        "id": "ChIJu5sTULtn2YgRh4EL2gbwkP8",
+        "types": [
+          "bakery",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Pruszkowska 3, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.157759,
+          "longitude": 20.9227719
+        },
+        "displayName": {
+          "text": "Mama Bakery Poland",
+          "languageCode": "en"
+        },
+        "primaryType": "bakery"
+      },
+      {
+        "id": "ChIJ3wspGrgzGUcRBQ2hHD7rf8M",
+        "types": [
+          "bakery",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Szkolna 11, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.1545907,
+          "longitude": 20.9257389
+        },
+        "displayName": {
+          "text": "Piekarnia Oskroba",
+          "languageCode": "pl"
+        },
+        "primaryType": "bakery"
+      },
+      {
+        "id": "ChIJYWIdkGIzGUcRVqIS-lSzPX4",
+        "types": [
+          "bakery",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Aleja Krakowska 24B, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.1554594,
+          "longitude": 20.9222301
+        },
+        "displayName": {
+          "text": "Piekarnia Cukiernia",
+          "languageCode": "pl"
+        },
+        "primaryType": "bakery"
+      },
+      {
+        "id": "ChIJffDJk7MzGUcRpdnlJhOtQ_c",
+        "types": [
+          "dessert_shop",
+          "confectionery",
+          "dessert_restaurant",
+          "turkish_restaurant",
+          "bakery",
+          "food_store",
+          "restaurant",
+          "food",
+          "manufacturer",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Aleja Krakowska 44, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.1576375,
+          "longitude": 20.9244561
+        },
+        "displayName": {
+          "text": "OTTO Baklava",
+          "languageCode": "tr"
+        },
+        "primaryType": "dessert_shop"
+      },
+      {
+        "id": "ChIJRZWXp4czGUcR9Znbbfv2xA8",
+        "types": [
+          "bakery",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Jesienna 6, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.1575327,
+          "longitude": 20.9185929
+        },
+        "displayName": {
+          "text": "Świercz K.L. Piekarnia",
+          "languageCode": "pl"
+        },
+        "primaryType": "bakery"
+      },
+      {
+        "id": "ChIJ93YVUw4zGUcR_xlJRzntmg4",
+        "types": [
+          "bakery",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Szkolna 2D, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.153604599999994,
+          "longitude": 20.9265099
+        },
+        "displayName": {
+          "text": "Pieczywo Sobański",
+          "languageCode": "pl"
+        },
+        "primaryType": "bakery"
+      },
+      {
+        "id": "ChIJIcjf6tEzGUcRUWlJ2LqWIHk",
+        "types": [
+          "bakery",
+          "market",
+          "food_store",
+          "restaurant",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Młynarska 3, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.159132199999995,
+          "longitude": 20.9276006
+        },
+        "displayName": {
+          "text": "Bałkańska Piekarnia MONI",
+          "languageCode": "pl"
+        },
+        "primaryType": "bakery"
+      },
+      {
+        "id": "ChIJ58uuqXUzGUcRyBcmT9z9h2I",
+        "types": [
+          "candy_store",
+          "confectionery",
+          "bakery",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Projektowana 27A, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.163597499999995,
+          "longitude": 20.922187299999997
+        },
+        "displayName": {
+          "text": "Ala Ma Ciasto",
+          "languageCode": "pl"
+        },
+        "primaryType": "candy_store"
+      },
+      {
+        "id": "ChIJc-hrZwAzGUcRbWNuVMiP-Ts",
+        "types": [
+          "bakery",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Młynarska 3, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.158922399999994,
+          "longitude": 20.9272465
+        },
+        "displayName": {
+          "text": "Harman Pide & Lahmacun",
+          "languageCode": "en"
+        },
+        "primaryType": "bakery"
+      },
+      {
+        "id": "ChIJs2HF0h4zGUcR16nADDTn_cg",
+        "types": [
+          "bakery",
+          "food_store",
+          "food",
+          "point_of_interest",
+          "store",
+          "establishment"
+        ],
+        "formattedAddress": "Wschodnia 1, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.1584122,
+          "longitude": 20.930630999999998
+        },
+        "displayName": {
+          "text": "Piekarnia Jan Sobański",
+          "languageCode": "pl"
+        },
+        "primaryType": "bakery"
+      },
+      {
+        "id": "ChIJcUZapu0zGUcRJxdIrO6cibM",
+        "types": [
+          "bakery",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Aleja Krakowska 61, 02-183 Warszawa, Poland",
+        "location": {
+          "latitude": 52.17041150000001,
+          "longitude": 20.9333948
+        },
+        "displayName": {
+          "text": "Mistrz Piekarz Krakowska 61",
+          "languageCode": "pl"
+        },
+        "primaryType": "bakery"
+      },
+      {
+        "id": "ChIJL-Dy0MkzGUcRD2WAZuEu-Hc",
+        "types": [
+          "bakery",
+          "food_store",
+          "food",
+          "point_of_interest",
+          "store",
+          "establishment"
+        ],
+        "formattedAddress": "Aleja Krakowska 61, 02-285 Warszawa, Poland",
+        "location": {
+          "latitude": 52.1711992,
+          "longitude": 20.9346711
+        },
+        "displayName": {
+          "text": "Kołacz na Okrągło Auchan Okęcie",
+          "languageCode": "pl"
+        },
+        "primaryType": "bakery"
+      }
+    ],
+    "supermarkets": [
+      {
+        "id": "ChIJ3xjgsXwzGUcRr2p0t3JBanY",
+        "types": [
+          "discount_supermarket",
+          "cosmetics_store",
+          "liquor_store",
+          "supermarket",
+          "book_store",
+          "grocery_store",
+          "food_store",
+          "home_goods_store",
+          "point_of_interest",
+          "food",
+          "store",
+          "establishment"
+        ],
+        "formattedAddress": "Sportowa 1, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.1536184,
+          "longitude": 20.921732199999997
+        },
+        "displayName": {
+          "text": "Biedronka",
+          "languageCode": "pl"
+        },
+        "primaryType": "discount_supermarket"
+      },
+      {
+        "id": "ChIJ-WcKK380GUcRlrNg589pWCc",
+        "types": [
+          "grocery_store",
+          "supermarket",
+          "deli",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Pruszkowska 52, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.1612933,
+          "longitude": 20.9147626
+        },
+        "displayName": {
+          "text": "Delikatesy Centrum",
+          "languageCode": "pl"
+        },
+        "primaryType": "grocery_store"
+      },
+      {
+        "id": "ChIJ97fH5XgzGUcRIGUiwuRCzYA",
+        "types": [
+          "discount_supermarket",
+          "supermarket",
+          "cosmetics_store",
+          "book_store",
+          "liquor_store",
+          "grocery_store",
+          "home_goods_store",
+          "food_store",
+          "food",
+          "point_of_interest",
+          "store",
+          "establishment"
+        ],
+        "formattedAddress": "Aleja Krakowska 113, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.1638308,
+          "longitude": 20.9299633
+        },
+        "displayName": {
+          "text": "Biedronka",
+          "languageCode": "pl"
+        },
+        "primaryType": "discount_supermarket"
+      },
+      {
+        "id": "ChIJ89p2gLE3AkcR3y_vtuVm270",
+        "types": [
+          "discount_store",
+          "discount_supermarket",
+          "supermarket",
+          "grocery_store",
+          "food_store",
+          "food",
+          "point_of_interest",
+          "store",
+          "establishment"
+        ],
+        "formattedAddress": "Młynarska 3a, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.158732199999996,
+          "longitude": 20.927679299999998
+        },
+        "displayName": {
+          "text": "Netto",
+          "languageCode": "pl"
+        },
+        "primaryType": "discount_store"
+      },
+      {
+        "id": "ChIJYVl5cnwzGUcRdWyusEMHlEM",
+        "types": [
+          "hypermarket",
+          "supermarket",
+          "grocery_store",
+          "food_store",
+          "food",
+          "point_of_interest",
+          "store",
+          "establishment"
+        ],
+        "formattedAddress": "Aleja Krakowska 61, 02-183 Warszawa, Poland",
+        "location": {
+          "latitude": 52.171193900000006,
+          "longitude": 20.9349636
+        },
+        "displayName": {
+          "text": "Auchan",
+          "languageCode": "en"
+        },
+        "primaryType": "hypermarket"
+      }
+    ],
+    "others": [],
+    "all_unique_data": [
+      {
+        "id": "ChIJ3xjgsXwzGUcRr2p0t3JBanY",
+        "types": [
+          "discount_supermarket",
+          "cosmetics_store",
+          "liquor_store",
+          "supermarket",
+          "book_store",
+          "grocery_store",
+          "food_store",
+          "home_goods_store",
+          "point_of_interest",
+          "food",
+          "store",
+          "establishment"
+        ],
+        "formattedAddress": "Sportowa 1, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.1536184,
+          "longitude": 20.921732199999997
+        },
+        "displayName": {
+          "text": "Biedronka",
+          "languageCode": "pl"
+        },
+        "primaryType": "discount_supermarket"
+      },
+      {
+        "id": "ChIJrRVn51AzGUcRCPLlh0nx8mk",
+        "types": [
+          "bakery",
+          "food_store",
+          "point_of_interest",
+          "food",
+          "store",
+          "establishment"
+        ],
+        "formattedAddress": "Sportowa 1B, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.152120499999995,
+          "longitude": 20.924192899999998
+        },
+        "displayName": {
+          "text": "Piekarnia PIECZYWKO",
+          "languageCode": "pl"
+        },
+        "primaryType": "bakery"
+      },
+      {
+        "id": "ChIJ1yQv3IYzGUcRzQUF2BJ2TUU",
+        "types": [
+          "pastry_shop",
+          "dessert_shop",
+          "confectionery",
+          "bakery",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Pruszkowska 12, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.158778399999996,
+          "longitude": 20.9216119
+        },
+        "displayName": {
+          "text": "Tudel - produkcja i sprzedaż",
+          "languageCode": "tr"
+        },
+        "primaryType": "pastry_shop"
+      },
+      {
+        "id": "ChIJNT8Eh4YzGUcRNJ-tjFjL2Rk",
+        "types": [
+          "candy_store",
+          "cafe",
+          "dessert_shop",
+          "confectionery",
+          "bakery",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Aleja Krakowska 53, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.156937299999996,
+          "longitude": 20.922996899999998
+        },
+        "displayName": {
+          "text": "Cukiernia Bracia Sośniccy - torty Warszawa",
+          "languageCode": "pl"
+        },
+        "primaryType": "candy_store"
+      },
+      {
+        "id": "ChIJF_7VcYYzGUcRjY2BV-BuU3M",
+        "types": [
+          "candy_store",
+          "cake_shop",
+          "wholesaler",
+          "confectionery",
+          "bakery",
+          "food_store",
+          "food",
+          "manufacturer",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Aleja Krakowska 41, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.156052499999994,
+          "longitude": 20.922085
+        },
+        "displayName": {
+          "text": "Bała Kazimierz. Cukiernia",
+          "languageCode": "pl"
+        },
+        "primaryType": "candy_store"
+      },
+      {
+        "id": "ChIJu5sTULtn2YgRh4EL2gbwkP8",
+        "types": [
+          "bakery",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Pruszkowska 3, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.157759,
+          "longitude": 20.9227719
+        },
+        "displayName": {
+          "text": "Mama Bakery Poland",
+          "languageCode": "en"
+        },
+        "primaryType": "bakery"
+      },
+      {
+        "id": "ChIJ3wspGrgzGUcRBQ2hHD7rf8M",
+        "types": [
+          "bakery",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Szkolna 11, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.1545907,
+          "longitude": 20.9257389
+        },
+        "displayName": {
+          "text": "Piekarnia Oskroba",
+          "languageCode": "pl"
+        },
+        "primaryType": "bakery"
+      },
+      {
+        "id": "ChIJYWIdkGIzGUcRVqIS-lSzPX4",
+        "types": [
+          "bakery",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Aleja Krakowska 24B, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.1554594,
+          "longitude": 20.9222301
+        },
+        "displayName": {
+          "text": "Piekarnia Cukiernia",
+          "languageCode": "pl"
+        },
+        "primaryType": "bakery"
+      },
+      {
+        "id": "ChIJffDJk7MzGUcRpdnlJhOtQ_c",
+        "types": [
+          "dessert_shop",
+          "confectionery",
+          "dessert_restaurant",
+          "turkish_restaurant",
+          "bakery",
+          "food_store",
+          "restaurant",
+          "food",
+          "manufacturer",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Aleja Krakowska 44, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.1576375,
+          "longitude": 20.9244561
+        },
+        "displayName": {
+          "text": "OTTO Baklava",
+          "languageCode": "tr"
+        },
+        "primaryType": "dessert_shop"
+      },
+      {
+        "id": "ChIJRZWXp4czGUcR9Znbbfv2xA8",
+        "types": [
+          "bakery",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Jesienna 6, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.1575327,
+          "longitude": 20.9185929
+        },
+        "displayName": {
+          "text": "Świercz K.L. Piekarnia",
+          "languageCode": "pl"
+        },
+        "primaryType": "bakery"
+      },
+      {
+        "id": "ChIJ93YVUw4zGUcR_xlJRzntmg4",
+        "types": [
+          "bakery",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Szkolna 2D, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.153604599999994,
+          "longitude": 20.9265099
+        },
+        "displayName": {
+          "text": "Pieczywo Sobański",
+          "languageCode": "pl"
+        },
+        "primaryType": "bakery"
+      },
+      {
+        "id": "ChIJIcjf6tEzGUcRUWlJ2LqWIHk",
+        "types": [
+          "bakery",
+          "market",
+          "food_store",
+          "restaurant",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Młynarska 3, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.159132199999995,
+          "longitude": 20.9276006
+        },
+        "displayName": {
+          "text": "Bałkańska Piekarnia MONI",
+          "languageCode": "pl"
+        },
+        "primaryType": "bakery"
+      },
+      {
+        "id": "ChIJ-WcKK380GUcRlrNg589pWCc",
+        "types": [
+          "grocery_store",
+          "supermarket",
+          "deli",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Pruszkowska 52, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.1612933,
+          "longitude": 20.9147626
+        },
+        "displayName": {
+          "text": "Delikatesy Centrum",
+          "languageCode": "pl"
+        },
+        "primaryType": "grocery_store"
+      },
+      {
+        "id": "ChIJ58uuqXUzGUcRyBcmT9z9h2I",
+        "types": [
+          "candy_store",
+          "confectionery",
+          "bakery",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Projektowana 27A, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.163597499999995,
+          "longitude": 20.922187299999997
+        },
+        "displayName": {
+          "text": "Ala Ma Ciasto",
+          "languageCode": "pl"
+        },
+        "primaryType": "candy_store"
+      },
+      {
+        "id": "ChIJc-hrZwAzGUcRbWNuVMiP-Ts",
+        "types": [
+          "bakery",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Młynarska 3, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.158922399999994,
+          "longitude": 20.9272465
+        },
+        "displayName": {
+          "text": "Harman Pide & Lahmacun",
+          "languageCode": "en"
+        },
+        "primaryType": "bakery"
+      },
+      {
+        "id": "ChIJ97fH5XgzGUcRIGUiwuRCzYA",
+        "types": [
+          "discount_supermarket",
+          "supermarket",
+          "cosmetics_store",
+          "book_store",
+          "liquor_store",
+          "grocery_store",
+          "home_goods_store",
+          "food_store",
+          "food",
+          "point_of_interest",
+          "store",
+          "establishment"
+        ],
+        "formattedAddress": "Aleja Krakowska 113, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.1638308,
+          "longitude": 20.9299633
+        },
+        "displayName": {
+          "text": "Biedronka",
+          "languageCode": "pl"
+        },
+        "primaryType": "discount_supermarket"
+      },
+      {
+        "id": "ChIJ89p2gLE3AkcR3y_vtuVm270",
+        "types": [
+          "discount_store",
+          "discount_supermarket",
+          "supermarket",
+          "grocery_store",
+          "food_store",
+          "food",
+          "point_of_interest",
+          "store",
+          "establishment"
+        ],
+        "formattedAddress": "Młynarska 3a, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.158732199999996,
+          "longitude": 20.927679299999998
+        },
+        "displayName": {
+          "text": "Netto",
+          "languageCode": "pl"
+        },
+        "primaryType": "discount_store"
+      },
+      {
+        "id": "ChIJs2HF0h4zGUcR16nADDTn_cg",
+        "types": [
+          "bakery",
+          "food_store",
+          "food",
+          "point_of_interest",
+          "store",
+          "establishment"
+        ],
+        "formattedAddress": "Wschodnia 1, 05-090 Raszyn, Poland",
+        "location": {
+          "latitude": 52.1584122,
+          "longitude": 20.930630999999998
+        },
+        "displayName": {
+          "text": "Piekarnia Jan Sobański",
+          "languageCode": "pl"
+        },
+        "primaryType": "bakery"
+      },
+      {
+        "id": "ChIJcUZapu0zGUcRJxdIrO6cibM",
+        "types": [
+          "bakery",
+          "food_store",
+          "food",
+          "store",
+          "point_of_interest",
+          "establishment"
+        ],
+        "formattedAddress": "Aleja Krakowska 61, 02-183 Warszawa, Poland",
+        "location": {
+          "latitude": 52.17041150000001,
+          "longitude": 20.9333948
+        },
+        "displayName": {
+          "text": "Mistrz Piekarz Krakowska 61",
+          "languageCode": "pl"
+        },
+        "primaryType": "bakery"
+      },
+      {
+        "id": "ChIJYVl5cnwzGUcRdWyusEMHlEM",
+        "types": [
+          "hypermarket",
+          "supermarket",
+          "grocery_store",
+          "food_store",
+          "food",
+          "point_of_interest",
+          "store",
+          "establishment"
+        ],
+        "formattedAddress": "Aleja Krakowska 61, 02-183 Warszawa, Poland",
+        "location": {
+          "latitude": 52.171193900000006,
+          "longitude": 20.9349636
+        },
+        "displayName": {
+          "text": "Auchan",
+          "languageCode": "en"
+        },
+        "primaryType": "hypermarket"
+      },
+      {
+        "id": "ChIJL-Dy0MkzGUcRD2WAZuEu-Hc",
+        "types": [
+          "bakery",
+          "food_store",
+          "food",
+          "point_of_interest",
+          "store",
+          "establishment"
+        ],
+        "formattedAddress": "Aleja Krakowska 61, 02-285 Warszawa, Poland",
+        "location": {
+          "latitude": 52.1711992,
+          "longitude": 20.9346711
+        },
+        "displayName": {
+          "text": "Kołacz na Okrągło Auchan Okęcie",
+          "languageCode": "pl"
+        },
+        "primaryType": "bakery"
+      }
+    ]
+  }
+}
