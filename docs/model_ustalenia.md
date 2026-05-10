@@ -27,3 +27,4 @@
 - sprawdzic wszedzie `STATE` co znaczy i może usunąć
 - ID_AGREED_DISCOUNT w FACT_CLAIM_ITEM
 - czy da sie wyłuskać date dołączenia customera/clienta
+- MOBILE w DIM_PAYMENT_METHOD
