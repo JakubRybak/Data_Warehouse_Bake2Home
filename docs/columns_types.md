@@ -28,6 +28,9 @@
 | `QUANTITY` | INT64 | |
 | `VAT` | NUMERIC | |
 | `DISCOUNT_PERCENT` | NUMERIC | |
+| `WEATHER_MORNING_PRECIP_PROB` | INT64 | max prawdopodobieństwo opadu w oknie 6-10, % |
+| `WEATHER_MORNING_PRECIP_SUM_MM` | NUMERIC | suma opadów w oknie 6-10, mm |
+| `WEATHER_MORNING_WAS_RAINY` | BOOL | |
 ## DIM_SITE
 | Kolumna | Typ w BigQuery | Uwagi |
 | :--- | :--- | :--- |
