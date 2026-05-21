@@ -1,12 +1,12 @@
 -- ================================================================================
--- Automatycznie wygenerowany skrypt DDL dla tabel Bronze w BigQuery
--- Projekt GCP: bake2home-data-warehouse
--- Kubełek GCS: bake2home-raw-data
+-- Automatically generated DDL script for Bronze tables in BigQuery
+-- GCP Project: bake2home-data-warehouse
+-- GCS Bucket: bake2home-raw-data
 -- ================================================================================
 
 
 -- --------------------------------------------------------------------------------
--- BAZA DANYCH: catalog-db
+-- DATABASE: catalog-db
 -- --------------------------------------------------------------------------------
 
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_catalog_Allergen`
@@ -106,7 +106,7 @@ OPTIONS (
 );
 
 -- --------------------------------------------------------------------------------
--- BAZA DANYCH: claim-manager-db
+-- DATABASE: claim-manager-db
 -- --------------------------------------------------------------------------------
 
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_claim_manager_ClaimEntityDeliveryItems`
@@ -136,7 +136,7 @@ OPTIONS (
 );
 
 -- --------------------------------------------------------------------------------
--- BAZA DANYCH: client-manager-db
+-- DATABASE: client-manager-db
 -- --------------------------------------------------------------------------------
 
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_client_manager_Client`
@@ -196,7 +196,7 @@ OPTIONS (
 );
 
 -- --------------------------------------------------------------------------------
--- BAZA DANYCH: customer-manager-db
+-- DATABASE: customer-manager-db
 -- --------------------------------------------------------------------------------
 
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_customer_manager_Consents`
@@ -236,7 +236,7 @@ OPTIONS (
 );
 
 -- --------------------------------------------------------------------------------
--- BAZA DANYCH: delivery-account-manager-db
+-- DATABASE: delivery-account-manager-db
 -- --------------------------------------------------------------------------------
 
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_delivery_account_manager_Address`
@@ -281,7 +281,7 @@ OPTIONS (
 );
 
 -- --------------------------------------------------------------------------------
--- BAZA DANYCH: delivery-manager-db
+-- DATABASE: delivery-manager-db
 -- --------------------------------------------------------------------------------
 
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_delivery_manager_AreaOfDeliveryForDate`
@@ -316,7 +316,7 @@ OPTIONS (
 );
 
 -- --------------------------------------------------------------------------------
--- BAZA DANYCH: planner-db
+-- DATABASE: planner-db
 -- --------------------------------------------------------------------------------
 
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_planner_BakeryOrderItems`
@@ -356,7 +356,7 @@ OPTIONS (
 );
 
 -- --------------------------------------------------------------------------------
--- BAZA DANYCH: wallet-db
+-- DATABASE: wallet-db
 -- --------------------------------------------------------------------------------
 
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_wallet_DataProtectionKeys`

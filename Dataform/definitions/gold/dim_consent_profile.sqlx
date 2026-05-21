@@ -1,0 +1,23 @@
+config {
+  type: "table",
+  schema: "gold",
+  description: "Junk dimension storing all possible combinations of customer consent states (GDPR, Terms, Marketing). Uses FARM_FINGERPRINT hash of states as the surrogate key."
+}
+
+WITH states AS (
+  SELECT 'AGREED' AS state
+  UNION ALL
+  SELECT 'REJECTED' AS state
+  UNION ALL
+  SELECT 'NOT_SET' AS state
+)
+
+SELECT
+  -- Generate unique INT64 surrogate key using FARM_FINGERPRINT on combined states
+  FARM_FINGERPRINT(CONCAT(g.state, '|', t.state, '|', m.state)) AS sk_consent_profile,
+  g.state AS gdpr_state,
+  t.state AS terms_state,
+  m.state AS marketing_state
+FROM states g
+CROSS JOIN states t
+CROSS JOIN states m

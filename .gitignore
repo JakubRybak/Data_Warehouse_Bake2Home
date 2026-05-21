@@ -21,3 +21,5 @@ temp/
 # Dataform
 dataform/node_modules/
 
+# Dane i wyciągi z baz danych (Parquet)
+Extraction/data/

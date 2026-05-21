@@ -3,13 +3,13 @@ import sys
 import pandas as pd
 from sqlalchemy import create_engine, inspect
 
-# Dane połączenia z bazą PostgreSQL (Docker)
+# PostgreSQL database connection credentials (Docker)
 DB_USER = "admin"
 DB_PASSWORD = "password"
 DB_HOST = "localhost"
 DB_PORT = "5432"
 
-# Lista 8 operacyjnych baz danych zdefiniowanych w Twoim systemie
+# List of 8 operational databases defined in the system
 DATABASES = [
     "catalog-db",
     "claim-manager-db",
@@ -21,17 +21,17 @@ DATABASES = [
     "wallet-db"
 ]
 
-# Ścieżka docelowa dla wyekstrahowanych danych - folder 'data' wewnątrz bieżącego folderu 'Extraction'
+# Destination path for extracted data - 'data' folder inside the current 'Extraction' folder
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_DIR = os.path.join(CURRENT_DIR, "data")
 
 def export_all():
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    print(f"Rozpoczynanie eksportu baz danych do formatu Parquet w wydzielonym katalogu: {OUTPUT_DIR}")
+    print(f"Starting export of databases to Parquet format in the output directory: {OUTPUT_DIR}")
     
     for db_name in DATABASES:
         print(f"\n========================================")
-        print(f" Łączenie z bazą: {db_name}")
+        print(f" Connecting to database: {db_name}")
         print(f"========================================")
         
         # PostgreSQL connection string
@@ -41,14 +41,14 @@ def export_all():
             engine = create_engine(conn_str)
             inspector = inspect(engine)
             
-            # Pobierz nazwy wszystkich tabel w schemacie public
+            # Get names of all tables in the public schema
             tables = inspector.get_table_names(schema="public")
             
             if not tables:
-                print(f" [INFO] Brak tabel w schemacie 'public' dla bazy: {db_name}")
+                print(f" [INFO] No tables in 'public' schema for database: {db_name}")
                 continue
                 
-            # Tabela wykluczeń ze względów bezpieczeństwa i braku przydatności analitycznej
+            # Excluded tables due to security reasons or lack of analytical usefulness
             EXCLUDED_TABLES = {
                 "DataProtectionKeys",
                 "__EFMigrationsHistory",
@@ -56,38 +56,38 @@ def export_all():
                 "DeliveryManAndroidToken"
             }
             
-            # Stworzenie dedykowanego podfolderu dla konkretnej bazy danych
+            # Create a dedicated subdirectory for the specific database
             db_dir = os.path.join(OUTPUT_DIR, db_name)
             os.makedirs(db_dir, exist_ok=True)
             
             for table in tables:
                 if table in EXCLUDED_TABLES:
-                    print(f"  -> Pomijanie tabeli (bezpieczeństwo/brak przydatności): {table}")
+                    print(f"  -> Skipping table (security/not analytically useful): {table}")
                     continue
-                print(f"  -> Eksportowanie tabeli: {table} ... ", end="")
+                print(f"  -> Exporting table: {table} ... ", end="")
                 try:
-                    # Wczytanie tabeli do ramki danych Pandas
+                    # Read table into a Pandas DataFrame
                     df = pd.read_sql_table(table, engine, schema="public")
                     
-                    # Ścieżka docelowa dla pliku Parquet
+                    # Target path for the Parquet file
                     parquet_file = os.path.join(db_dir, f"{table}.parquet")
                     
-                    # Zapis do Parquet z użyciem silnika pyarrow
+                    # Write to Parquet using the pyarrow engine
                     df.to_parquet(parquet_file, index=False, engine="pyarrow")
-                    print(f"SUKCES ({len(df)} wierszy -> data/{db_name}/{table}.parquet)")
+                    print(f"SUCCESS ({len(df)} rows -> data/{db_name}/{table}.parquet)")
                 except Exception as e:
-                    print(f"BŁĄD (Szczegóły: {e})")
+                    print(f"ERROR (Details: {e})")
                     
         except Exception as e:
-            print(f" [BŁĄD] Nie można połączyć się z bazą {db_name}. Szczegóły: {e}")
+            print(f" [ERROR] Could not connect to database {db_name}. Details: {e}")
             
     print("\n========================================")
-    print(" Eksport zakończony sukcesem!")
-    print(f" Wyekstrahowane pliki danych znajdziesz w: {OUTPUT_DIR}")
+    print(" Export completed successfully!")
+    print(f" You can find the extracted data files in: {OUTPUT_DIR}")
     print("========================================")
 
 if __name__ == "__main__":
-    # Sprawdzenie zależności
+    # Verify dependencies
     missing_deps = []
     try:
         import pandas
@@ -107,8 +107,8 @@ if __name__ == "__main__":
         missing_deps.append("psycopg2-binary")
         
     if missing_deps:
-        print(f"Brakujące biblioteki Pythona: {', '.join(missing_deps)}")
-        print("Uruchom w konsoli (najlepiej w swoim venv):")
+        print(f"Missing Python packages: {', '.join(missing_deps)}")
+        print("Run in the console (preferably inside your venv):")
         print(f"  pip install {' '.join(missing_deps)}")
         sys.exit(1)
         
