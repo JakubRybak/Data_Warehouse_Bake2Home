@@ -1,15 +1,15 @@
-# Klucze API i sekrety
+# API keys and secrets
 .env
 google_maps_test/.env
 
-# Python (wirtualne środowiska i cache)
+# Python (virtual environments and cache)
 venv/
 .venv/
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Folder cache i temp
+# Cache and temp folders
 cache/
 temp/
 
@@ -19,7 +19,8 @@ temp/
 *.code-workspace
 
 # Dataform
-dataform/node_modules/
+node_modules/
 
-# Dane i wyciągi z baz danych (Parquet)
+# Data and database dumps (Parquet)
 Extraction/data/
+
