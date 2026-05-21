@@ -1,0 +1,21 @@
+config {
+  type: "view",
+  schema: "silver",
+  description: "Cleaned and standardized customer address data, including geographic points"
+}
+
+SELECT
+  CAST(Id AS INT64) AS id_customer_address,
+  CAST(CustomerId AS INT64) AS id_customer,
+  CAST(AddressName AS STRING) AS address_name,
+  CAST(Address AS STRING) AS address,
+  CAST(Longitude AS FLOAT64) AS longitude,
+  CAST(Latitude AS FLOAT64) AS latitude,
+  
+  -- Create a standard BigQuery GEOGRAPHY point for high-performance spatial analysis
+  ST_GEOGPOINT(CAST(Longitude AS FLOAT64), CAST(Latitude AS FLOAT64)) AS geo_point,
+  
+  CAST(EntryInformationAndCodes AS STRING) AS entry_information_and_codes,
+  CAST(AdditionalInformation AS STRING) AS additional_information,
+  CAST(State AS INT64) AS state
+FROM ${ref("raw_customer_manager_CustomerAddress")}

@@ -1,0 +1,5 @@
+defaultProject: bake2home-data-warehouse
+defaultDataset: dataform
+defaultAssertionDataset: dataform_assertions
+dataformCoreVersion: 3.0.52
+defaultLocation: us-central1

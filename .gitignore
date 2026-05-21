@@ -17,3 +17,7 @@ temp/
 .vscode/
 .idea/
 *.code-workspace
+
+# Dataform
+dataform/node_modules/
+

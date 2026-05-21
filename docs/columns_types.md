@@ -84,17 +84,6 @@
 | `GEO_POINT` | GEOGRAPHY | |
 | `ADDITIONAL_INFORMATION` | STRING | |
 | `STATE` | STRING | |
-## DIM_CUSTOMER
-| Kolumna | Typ w BigQuery | Uwagi |
-| :--- | :--- | :--- |
-| `SK_CUSTOMER` | INT64 | |
-| `ID_CUSTOMER` | INT64 | |
-| `NAME` | STRING | |
-| `EMAIL` | STRING | |
-| `CUSTOMER_STATE` | STRING | |
-| `VALID_FROM` | TIMESTAMP | |
-| `VALID_TO` | TIMESTAMP | |
-| `IS_CURRENT` | BOOL | |
 | `DIST_TO_NEAREST_OWN_SITE_M` | FLOAT64 | |
 | `DIST_TO_NEAREST_COMP_BAKERY_M` | FLOAT64 | |
 | `DIST_TO_NEAREST_COMP_SUPERMARKET_M` | FLOAT64 | |
@@ -111,6 +100,27 @@
 | `OWN_SITE_COUNT_1000M` | INT64 | |
 | `OWN_SITE_COUNT_2000M` | INT64 | |
 | `OWN_SITE_COUNT_3000M` | INT64 | |
+
+## DIM_CUSTOMER
+| Kolumna | Typ w BigQuery | Uwagi |
+| :--- | :--- | :--- |
+| `SK_CUSTOMER` | INT64 | |
+| `ID_CUSTOMER` | INT64 | |
+| `SK_CONSENT_PROFILE` | INT64 | Klucz do profilu zgód (dim_consent_profile) |
+| `NAME` | STRING | |
+| `EMAIL` | STRING | |
+| `CUSTOMER_STATE` | STRING | |
+| `VALID_FROM` | TIMESTAMP | |
+| `VALID_TO` | TIMESTAMP | |
+| `IS_CURRENT` | BOOL | |
+
+## DIM_CONSENT_PROFILE
+| Kolumna | Typ w BigQuery | Uwagi |
+| :--- | :--- | :--- |
+| `SK_CONSENT_PROFILE` | INT64 | Klucz główny (PK) |
+| `GDPR_STATE` | STRING | Status zgody RODO |
+| `TERMS_STATE` | STRING | Status zgody na regulamin |
+| `MARKETING_STATE` | STRING | Status zgody marketingowej |
 ## FACT_DELIVERY_ITEM
 | Kolumna | Typ w BigQuery | Uwagi |
 | :--- | :--- | :--- |
