@@ -1,0 +1,27 @@
+config {
+  type: "view",
+  schema: "silver",
+  description: "Cleaned and standardized business client data from client-manager-db"
+}
+
+SELECT
+  CAST(Id AS INT64) AS id_client,
+  CAST(Name AS STRING) AS name,
+  CAST(Description AS STRING) AS description,
+  CAST(NIP AS INT64) AS nip,
+  CAST(BankAccount AS STRING) AS bank_account,
+  CAST(Street AS STRING) AS street,
+  CAST(City AS STRING) AS city,
+  CAST(Country AS STRING) AS country,
+  CAST(ZipCode AS STRING) AS zip_code,
+  CAST(PictureFileName AS STRING) AS picture_file_name,
+  CAST(Created AS TIMESTAMP) AS created_at,
+  CAST(Updated AS TIMESTAMP) AS updated_at,
+  CAST(UserId AS STRING) AS user_id,
+  CAST(ModifiedByUserId AS STRING) AS modified_by_user_id,
+  CAST(Email AS STRING) AS email,
+  CAST(FullFormalName AS STRING) AS full_formal_name,
+  CAST(Phone AS STRING) AS phone,
+  CAST(TpayMerchantId AS STRING) AS tpay_merchant_id,
+  CAST(Story AS STRING) AS story
+FROM ${ref("raw_client_manager_Client")}

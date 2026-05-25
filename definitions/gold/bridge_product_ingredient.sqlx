@@ -1,0 +1,27 @@
+config {
+  type: "table",
+  schema: "gold",
+  description: "Bridge table linking Products (dim_product) and Ingredients (dim_ingredient) in a Many-to-Many relationship, using conformed surrogate and natural keys (SCD Type 1)."
+}
+
+SELECT
+  -- Unique surrogate key for the relationship itself (very useful for BI counts)
+  FARM_FINGERPRINT(CONCAT('PUBLIC|', CAST(id_product_ingredient AS STRING))) AS sk_product_ingredient,
+  id_product_ingredient,
+  id_product,
+  id_ingredient,
+  value,
+  TRUE AS is_public
+FROM ${ref("stg_product_public_ingredient")}
+
+UNION ALL
+
+SELECT
+  -- Unique surrogate key for the relationship itself (very useful for BI counts)
+  FARM_FINGERPRINT(CONCAT('PRIVATE|', CAST(id_product_ingredient AS STRING))) AS sk_product_ingredient,
+  id_product_ingredient,
+  id_product,
+  id_ingredient,
+  value,
+  FALSE AS is_public
+FROM ${ref("stg_product_private_ingredient")}

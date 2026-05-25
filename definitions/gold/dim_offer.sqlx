@@ -1,0 +1,105 @@
+config {
+  type: "incremental",
+  schema: "gold",
+  description: "Offers dimension table, including prices, C# enum mapped states and types, and conformed Slowly Changing Dimension (SCD Type 2) history using incremental strategy."
+}
+
+pre_operations {
+  ${when(incremental(), `
+    -- Close historical records that have changed in the source
+    MERGE ${self()} T
+    USING (
+      SELECT
+        id_offer,
+        name,
+        price,
+        state AS state_id,
+        CASE
+          WHEN state = 0 THEN 'INCOMPLETE_OFFER'
+          WHEN state = 1 THEN 'OFFER_READY_FOR_SALE'
+          WHEN state = 2 THEN 'EXISTING_OFFER'
+          WHEN state = 3 THEN 'OFFER_REPLACED_WITH_A_NEW_VERSION'
+          WHEN state = 4 THEN 'OFFER_CONTAINS_WITHDRAWED_PRODUCTS'
+          WHEN state = 5 THEN 'OFFER_AVAILABILITY_INCOMPATIBLE_WITH_THE_PRODUCT'
+          WHEN state = 6 THEN 'OFFER_SITE_INCOMPATIBLE_WITH_THE_PRODUCT'
+          WHEN state = 7 THEN 'OFFER_WITHDRAWING'
+          WHEN state = 8 THEN 'OFFER_WITHDRAWN'
+          WHEN state = 9 THEN 'MODIFICATION_DRAFT'
+          ELSE 'UNKNOWN'
+        END AS state,
+        type AS type_id,
+        CASE
+          WHEN type = 0 THEN 'SINGLE'
+          WHEN type = 1 THEN 'PROMOTION'
+          ELSE 'UNKNOWN'
+        END AS type,
+        vat,
+        created_at,
+        updated_at
+      FROM ${ref("stg_bakery_offer")}
+    ) S
+    ON T.id_offer = S.id_offer AND T.is_current = TRUE
+    WHEN MATCHED AND (
+      T.name IS DISTINCT FROM S.name OR
+      T.price IS DISTINCT FROM S.price OR
+      T.state_id IS DISTINCT FROM S.state_id OR
+      T.state IS DISTINCT FROM S.state OR
+      T.type_id IS DISTINCT FROM S.type_id OR
+      T.type IS DISTINCT FROM S.type OR
+      T.vat IS DISTINCT FROM S.vat
+    ) THEN
+      UPDATE SET 
+        T.valid_to = COALESCE(S.updated_at, S.created_at, CURRENT_TIMESTAMP()),
+        T.is_current = FALSE
+  `)}
+}
+
+SELECT
+  FARM_FINGERPRINT(
+    CONCAT(
+      CAST(o.id_offer AS STRING), '|',
+      CAST(
+        ${when(incremental(), 
+          `COALESCE(o.updated_at, o.created_at, CURRENT_TIMESTAMP())`, 
+          `COALESCE(o.created_at, CURRENT_TIMESTAMP())`
+        )} AS STRING
+      )
+    )
+  ) AS sk_offer,
+  o.id_offer,
+  o.name,
+  o.price,
+  o.state AS state_id,
+  CASE
+    WHEN o.state = 0 THEN 'INCOMPLETE_OFFER'
+    WHEN o.state = 1 THEN 'OFFER_READY_FOR_SALE'
+    WHEN o.state = 2 THEN 'EXISTING_OFFER'
+    WHEN o.state = 3 THEN 'OFFER_REPLACED_WITH_A_NEW_VERSION'
+    WHEN o.state = 4 THEN 'OFFER_CONTAINS_WITHDRAWED_PRODUCTS'
+    WHEN o.state = 5 THEN 'OFFER_AVAILABILITY_INCOMPATIBLE_WITH_THE_PRODUCT'
+    WHEN o.state = 6 THEN 'OFFER_SITE_INCOMPATIBLE_WITH_THE_PRODUCT'
+    WHEN o.state = 7 THEN 'OFFER_WITHDRAWING'
+    WHEN o.state = 8 THEN 'OFFER_WITHDRAWN'
+    WHEN o.state = 9 THEN 'MODIFICATION_DRAFT'
+    ELSE 'UNKNOWN'
+  END AS state,
+  o.type AS type_id,
+  CASE
+    WHEN o.type = 0 THEN 'SINGLE'
+    WHEN o.type = 1 THEN 'PROMOTION'
+    ELSE 'UNKNOWN'
+  END AS type,
+  o.vat,
+  ${when(incremental(), 
+    `COALESCE(o.updated_at, o.created_at, CURRENT_TIMESTAMP())`, 
+    `COALESCE(o.created_at, CURRENT_TIMESTAMP())`
+  )} AS valid_from,
+  TIMESTAMP("9999-12-31 23:59:59") AS valid_to,
+  TRUE AS is_current
+FROM ${ref("stg_bakery_offer")} o
+${when(incremental(), `
+  WHERE NOT EXISTS (
+    SELECT 1 FROM ${self()} t
+    WHERE t.id_offer = o.id_offer AND t.is_current = TRUE
+  )
+`)}

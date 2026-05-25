@@ -1,0 +1,20 @@
+config {
+  type: "view",
+  schema: "silver",
+  description: "Cleaned and standardized product nutritional data from catalog-db"
+}
+
+SELECT
+  CAST(Id AS INT64) AS id_nutrition,
+  CAST(ProductId AS INT64) AS id_product,
+  CAST(Calories AS FLOAT64) AS calories,
+  CAST(TotalFats AS FLOAT64) AS total_fats,
+  CAST(SaturatedFats AS FLOAT64) AS saturated_fats,
+  CAST(TotalCarbohydrates AS FLOAT64) AS total_carbohydrates,
+  CAST(Sugar AS FLOAT64) AS sugar,
+  CAST(Protein AS FLOAT64) AS protein,
+  CAST(Sodium AS FLOAT64) AS sodium,
+  CAST(Created AS TIMESTAMP) AS created_at,
+  CAST(Updated AS TIMESTAMP) AS updated_at,
+  CAST(UserId AS STRING) AS user_id
+FROM ${ref("raw_catalog_Nutrition")}

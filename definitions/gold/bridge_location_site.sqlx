@@ -1,0 +1,14 @@
+config {
+  type: "table",
+  schema: "gold",
+  description: "Bridge table linking Sites/Bakeries (dim_site) and Locations/Delivery zones (dim_location) in a Many-to-Many relationship, using conformed surrogate and natural keys."
+}
+
+SELECT
+  -- Unique surrogate key for the relationship itself (very useful for BI counts)
+  FARM_FINGERPRINT(CAST(id_location_site AS STRING)) AS sk_location_site,
+  
+  id_location_site,
+  id_location,
+  id_site
+FROM ${ref("stg_location_site")}

@@ -1,0 +1,14 @@
+config {
+  type: "table",
+  schema: "gold",
+  description: "Bridge table linking Products (dim_product) and Allergens (dim_allergen) in a Many-to-Many relationship, using conformed surrogate and natural keys."
+}
+
+SELECT
+  -- Unique surrogate key for the relationship itself (very useful for BI counts)
+  FARM_FINGERPRINT(CAST(id_product_allergen AS STRING)) AS sk_product_allergen,
+  
+  id_product_allergen,
+  id_product,
+  id_allergen
+FROM ${ref("stg_product_allergen")}

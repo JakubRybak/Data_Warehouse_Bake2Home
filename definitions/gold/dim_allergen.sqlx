@@ -1,0 +1,12 @@
+config {
+  type: "table",
+  schema: "gold",
+  description: "Allergens dimension table, containing allergen names (SCD Type 1)."
+}
+
+SELECT
+  -- Generate unique conformed surrogate key based on natural primary key (SCD Type 1)
+  FARM_FINGERPRINT(CAST(id_allergen AS STRING)) AS sk_allergen,
+  id_allergen,
+  name
+FROM ${ref("stg_allergen")}

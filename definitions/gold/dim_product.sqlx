@@ -1,0 +1,113 @@
+config {
+  type: "incremental",
+  schema: "gold",
+  description: "Products dimension table, including categories, weights, nutritional values, and slowly changing historical data (SCD Type 2)."
+}
+
+pre_operations {
+  ${when(incremental(), `
+    -- Close historical records that have changed in the source
+    MERGE ${self()} T
+    USING (
+      SELECT
+        p.id_product,
+        p.name,
+        p.description,
+        p.state AS state_id,
+        CASE
+          WHEN p.state = 0 THEN 'INCOMPLETE_PRODUCT'
+          WHEN p.state = 1 THEN 'PRODUCT_READY_FOR_SALE'
+          WHEN p.state = 2 THEN 'EXISTING_PRODUCT'
+          WHEN p.state = 3 THEN 'PRODUCT_REPLACED_WITH_A_NEW_VERSION'
+          WHEN p.state = 4 THEN 'WITHDRAWING_PRODUCT'
+          WHEN p.state = 5 THEN 'WITHDRAWN_PRODUCT'
+          WHEN p.state = 6 THEN 'MODIFICATION_DRAFT'
+          ELSE 'UNKNOWN'
+        END AS state,
+        pt.name AS product_type_name,
+        p.weight,
+        n.calories,
+        n.total_fats,
+        n.saturated_fats,
+        n.total_carbohydrates,
+        n.sugar,
+        n.protein,
+        n.sodium,
+        p.created_at,
+        p.updated_at
+      FROM ${ref("stg_bakery_product")} p
+      LEFT JOIN ${ref("stg_bakery_product_type")} pt ON p.id_product_type = pt.id_product_type
+      LEFT JOIN ${ref("stg_nutrition")} n ON p.id_product = n.id_product
+    ) S
+    ON T.id_product = S.id_product AND T.is_current = TRUE
+    WHEN MATCHED AND (
+      T.name IS DISTINCT FROM S.name OR
+      T.description IS DISTINCT FROM S.description OR
+      T.state_id IS DISTINCT FROM S.state_id OR
+      T.state IS DISTINCT FROM S.state OR
+      T.product_type_name IS DISTINCT FROM S.product_type_name OR
+      T.weight IS DISTINCT FROM S.weight OR
+      T.calories IS DISTINCT FROM S.calories OR
+      T.total_fats IS DISTINCT FROM S.total_fats OR
+      T.saturated_fats IS DISTINCT FROM S.saturated_fats OR
+      T.total_carbohydrates IS DISTINCT FROM S.total_carbohydrates OR
+      T.sugar IS DISTINCT FROM S.sugar OR
+      T.protein IS DISTINCT FROM S.protein OR
+      T.sodium IS DISTINCT FROM S.sodium
+    ) THEN
+      UPDATE SET 
+        T.valid_to = COALESCE(S.updated_at, S.created_at, CURRENT_TIMESTAMP()),
+        T.is_current = FALSE
+  `)}
+}
+
+SELECT
+  FARM_FINGERPRINT(
+    CONCAT(
+      CAST(p.id_product AS STRING), '|',
+      CAST(
+        ${when(incremental(), 
+          `COALESCE(p.updated_at, p.created_at, CURRENT_TIMESTAMP())`, 
+          `COALESCE(p.created_at, CURRENT_TIMESTAMP())`
+        )} AS STRING
+      )
+    )
+  ) AS sk_product,
+  p.id_product,
+  p.name,
+  p.description,
+  p.state AS state_id,
+  CASE
+    WHEN p.state = 0 THEN 'INCOMPLETE_PRODUCT'
+    WHEN p.state = 1 THEN 'PRODUCT_READY_FOR_SALE'
+    WHEN p.state = 2 THEN 'EXISTING_PRODUCT'
+    WHEN p.state = 3 THEN 'PRODUCT_REPLACED_WITH_A_NEW_VERSION'
+    WHEN p.state = 4 THEN 'WITHDRAWING_PRODUCT'
+    WHEN p.state = 5 THEN 'WITHDRAWN_PRODUCT'
+    WHEN p.state = 6 THEN 'MODIFICATION_DRAFT'
+    ELSE 'UNKNOWN'
+  END AS state,
+  pt.name AS product_type_name,
+  p.weight,
+  n.calories,
+  n.total_fats,
+  n.saturated_fats,
+  n.total_carbohydrates,
+  n.sugar,
+  n.protein,
+  n.sodium,
+  ${when(incremental(), 
+    `COALESCE(p.updated_at, p.created_at, CURRENT_TIMESTAMP())`, 
+    `COALESCE(p.created_at, CURRENT_TIMESTAMP())`
+  )} AS valid_from,
+  TIMESTAMP("9999-12-31 23:59:59") AS valid_to,
+  TRUE AS is_current
+FROM ${ref("stg_bakery_product")} p
+LEFT JOIN ${ref("stg_bakery_product_type")} pt ON p.id_product_type = pt.id_product_type
+LEFT JOIN ${ref("stg_nutrition")} n ON p.id_product = n.id_product
+${when(incremental(), `
+  WHERE NOT EXISTS (
+    SELECT 1 FROM ${self()} t
+    WHERE t.id_product = p.id_product AND t.is_current = TRUE
+  )
+`)}

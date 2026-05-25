@@ -1,0 +1,113 @@
+config {
+  type: "incremental",
+  schema: "gold",
+  description: "Sites/Bakeries dimension table including conformed client details, geographic coordinates, and slowly changing historical data (SCD Type 2)."
+}
+
+pre_operations {
+  ${when(incremental(), `
+    -- Close historical records that have changed in the source
+    MERGE ${self()} T
+    USING (
+      SELECT
+        s.id_site,
+        c.name AS client_name,
+        c.description AS client_description,
+        c.street AS client_street,
+        c.city AS client_city,
+        CAST(c.country AS STRING) AS client_country,
+        c.zip_code AS client_zip_code,
+        c.email AS client_email,
+        c.full_formal_name AS client_full_formal_name,
+        c.phone AS client_phone,
+        s.name,
+        s.street,
+        s.nr,
+        s.city,
+        s.state,
+        CAST(s.country AS STRING) AS country,
+        s.zip_code AS zip_code,
+        sc.latitude,
+        sc.longitude,
+        s.created_at,
+        s.updated_at
+      FROM ${ref("stg_site")} s
+      LEFT JOIN ${ref("stg_site_coordinates")} sc ON s.id_coordinates = sc.id_coordinates
+      LEFT JOIN ${ref("stg_client")} c ON s.id_client = c.id_client
+    ) S
+    ON T.id_site = S.id_site AND T.is_current = TRUE
+    WHEN MATCHED AND (
+      T.client_name IS DISTINCT FROM S.client_name OR
+      T.client_description IS DISTINCT FROM S.client_description OR
+      T.client_street IS DISTINCT FROM S.client_street OR
+      T.client_city IS DISTINCT FROM S.client_city OR
+      T.client_country IS DISTINCT FROM S.client_country OR
+      T.client_zip_code IS DISTINCT FROM S.client_zip_code OR
+      T.client_email IS DISTINCT FROM S.client_email OR
+      T.client_full_formal_name IS DISTINCT FROM S.client_full_formal_name OR
+      T.client_phone IS DISTINCT FROM S.client_phone OR
+      T.name IS DISTINCT FROM S.name OR
+      T.street IS DISTINCT FROM S.street OR
+      T.nr IS DISTINCT FROM S.nr OR
+      T.city IS DISTINCT FROM S.city OR
+      T.state IS DISTINCT FROM S.state OR
+      T.country IS DISTINCT FROM S.country OR
+      T.zip_code IS DISTINCT FROM S.zip_code OR
+      T.latitude IS DISTINCT FROM S.latitude OR
+      T.longitude IS DISTINCT FROM S.longitude
+    ) THEN
+      UPDATE SET 
+        T.valid_to = COALESCE(S.updated_at, S.created_at, CURRENT_TIMESTAMP()),
+        T.is_current = FALSE
+  `)}
+}
+
+SELECT
+  FARM_FINGERPRINT(
+    CONCAT(
+      CAST(s.id_site AS STRING), '|',
+      CAST(
+        ${when(incremental(), 
+          `COALESCE(s.updated_at, s.created_at, CURRENT_TIMESTAMP())`, 
+          `COALESCE(s.created_at, CURRENT_TIMESTAMP())`
+        )} AS STRING
+      )
+    )
+  ) AS sk_site,
+  s.id_site,
+  s.id_client,
+  s.id_coordinates,
+  c.name AS client_name,
+  c.description AS client_description,
+  c.street AS client_street,
+  c.city AS client_city,
+  CAST(c.country AS STRING) AS client_country,
+  c.zip_code AS client_zip_code,
+  c.email AS client_email,
+  c.full_formal_name AS client_full_formal_name,
+  c.phone AS client_phone,
+  s.name,
+  s.street,
+  s.nr,
+  s.city,
+  s.state,
+  CAST(s.country AS STRING) AS country,
+  s.zip_code AS zip_code,
+  sc.latitude,
+  sc.longitude,
+  sc.geo_point,
+  ${when(incremental(), 
+    `COALESCE(s.updated_at, s.created_at, CURRENT_TIMESTAMP())`, 
+    `COALESCE(s.created_at, CURRENT_TIMESTAMP())`
+  )} AS valid_from,
+  TIMESTAMP("9999-12-31 23:59:59") AS valid_to,
+  TRUE AS is_current
+FROM ${ref("stg_site")} s
+LEFT JOIN ${ref("stg_site_coordinates")} sc ON s.id_coordinates = sc.id_coordinates
+LEFT JOIN ${ref("stg_client")} c ON s.id_client = c.id_client
+${when(incremental(), `
+  WHERE NOT EXISTS (
+    SELECT 1 FROM ${self()} t
+    WHERE t.id_site = s.id_site AND t.is_current = TRUE
+  )
+`)}

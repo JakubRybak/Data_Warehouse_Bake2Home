@@ -1,0 +1,15 @@
+config {
+  type: "view",
+  schema: "silver",
+  description: "Cleaned and standardized location-site relationship data from client-manager-db"
+}
+
+SELECT
+  CAST(Id AS INT64) AS id_location_site,
+  CAST(LocationId AS INT64) AS id_location,
+  CAST(SiteId AS INT64) AS id_site,
+  CAST(Created AS TIMESTAMP) AS created_at,
+  CAST(Updated AS TIMESTAMP) AS updated_at,
+  CAST(UserId AS STRING) AS user_id,
+  CAST(ModifiedByUserId AS STRING) AS modified_by_user_id
+FROM ${ref("raw_client_manager_LocationSite")}

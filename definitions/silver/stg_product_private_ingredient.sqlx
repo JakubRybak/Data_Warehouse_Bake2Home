@@ -1,0 +1,15 @@
+config {
+  type: "view",
+  schema: "silver",
+  description: "Cleaned and standardized product private ingredient relationship data from catalog-db"
+}
+
+SELECT
+  CAST(Id AS INT64) AS id_product_ingredient,
+  CAST(BakeryProductId AS INT64) AS id_product,
+  CAST(IngredientId AS INT64) AS id_ingredient,
+  CAST(Value AS FLOAT64) AS value,
+  CAST(Created AS TIMESTAMP) AS created_at,
+  CAST(Updated AS TIMESTAMP) AS updated_at,
+  CAST(UserId AS STRING) AS user_id
+FROM ${ref("raw_catalog_ProductPrivateIngredient")}

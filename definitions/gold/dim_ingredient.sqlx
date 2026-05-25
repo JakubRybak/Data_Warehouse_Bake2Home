@@ -1,0 +1,27 @@
+config {
+  type: "table",
+  schema: "gold",
+  description: "Ingredients dimension table, combining public and private ingredients (SCD Type 1)."
+}
+
+SELECT
+  -- Generate unique conformed surrogate key based on source type and natural primary key
+  FARM_FINGERPRINT(CONCAT('PUBLIC|', CAST(id_ingredient AS STRING))) AS sk_ingredient,
+  id_ingredient,
+  name,
+  unit,
+  TRUE AS is_public,
+  CAST(NULL AS INT64) AS platform_client_id
+FROM ${ref("stg_public_ingredient")}
+
+UNION ALL
+
+SELECT
+  -- Generate unique conformed surrogate key based on source type and natural primary key
+  FARM_FINGERPRINT(CONCAT('PRIVATE|', CAST(id_ingredient AS STRING))) AS sk_ingredient,
+  id_ingredient,
+  name,
+  unit,
+  FALSE AS is_public,
+  platform_client_id
+FROM ${ref("stg_private_ingredient")}

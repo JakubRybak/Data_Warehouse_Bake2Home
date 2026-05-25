@@ -1,0 +1,25 @@
+config {
+  type: "table",
+  schema: "gold",
+  description: "Customer delivery addresses dimension table, storing geo-coordinates, BigQuery spatial geography points, and customer associations."
+}
+
+SELECT
+  -- Generate unique INT64 surrogate key using FARM_FINGERPRINT on the natural primary key
+  FARM_FINGERPRINT(CAST(id_customer_address AS STRING)) AS sk_customer_address,
+  id_customer_address,
+  id_customer,
+  address_name,
+  address,
+  longitude,
+  latitude,
+  geo_point,
+  additional_information,
+  state AS state_id,
+  CASE
+    WHEN state = 0 THEN 'CURRENT'
+    WHEN state = 1 THEN 'PREVIOUS'
+    WHEN state = 2 THEN 'OTHER'
+    ELSE 'UNKNOWN'
+  END AS state
+FROM ${ref("stg_customer_address")}

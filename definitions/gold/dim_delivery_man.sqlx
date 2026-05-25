@@ -1,0 +1,64 @@
+config {
+  type: "incremental",
+  schema: "gold",
+  description: "Delivery couriers dimension table, including contact details, bakery associations, and slowly changing historical data (SCD Type 2)."
+}
+
+pre_operations {
+  ${when(incremental(), `
+    -- Close historical records that have changed in the source
+    MERGE ${self()} T
+    USING (
+      SELECT
+        id_delivery_man,
+        name,
+        email,
+        phone_number,
+        id_site,
+        created_at,
+        updated_at
+      FROM ${ref("stg_delivery_man")}
+    ) S
+    ON T.id_delivery_man = S.id_delivery_man AND T.is_current = TRUE
+    WHEN MATCHED AND (
+      T.name IS DISTINCT FROM S.name OR
+      T.email IS DISTINCT FROM S.email OR
+      T.phone_number IS DISTINCT FROM S.phone_number OR
+      T.id_site IS DISTINCT FROM S.id_site
+    ) THEN
+      UPDATE SET 
+        T.valid_to = COALESCE(S.updated_at, S.created_at, CURRENT_TIMESTAMP()),
+        T.is_current = FALSE
+  `)}
+}
+
+SELECT
+  FARM_FINGERPRINT(
+    CONCAT(
+      CAST(id_delivery_man AS STRING), '|',
+      CAST(
+        ${when(incremental(), 
+          `COALESCE(updated_at, created_at, CURRENT_TIMESTAMP())`, 
+          `COALESCE(created_at, CURRENT_TIMESTAMP())`
+        )} AS STRING
+      )
+    )
+  ) AS sk_delivery_man,
+  id_delivery_man,
+  name,
+  email,
+  phone_number,
+  id_site,
+  ${when(incremental(), 
+    `COALESCE(updated_at, created_at, CURRENT_TIMESTAMP())`, 
+    `COALESCE(created_at, CURRENT_TIMESTAMP())`
+  )} AS valid_from,
+  TIMESTAMP("9999-12-31 23:59:59") AS valid_to,
+  TRUE AS is_current
+FROM ${ref("stg_delivery_man")} s
+${when(incremental(), `
+  WHERE NOT EXISTS (
+    SELECT 1 FROM ${self()} t
+    WHERE t.id_delivery_man = s.id_delivery_man AND t.is_current = TRUE
+  )
+`)}

@@ -1,0 +1,38 @@
+config {
+  type: "table",
+  schema: "gold",
+  description: "Payment methods dimension table, including mapped types, currencies, card brands, mobile flags, and status details (SCD Type 1)."
+}
+
+SELECT
+  -- Generate unique conformed surrogate key based on natural primary key (SCD Type 1)
+  FARM_FINGERPRINT(CAST(id_payment_method AS STRING)) AS sk_payment_method,
+  id_payment_method,
+  
+  -- Map C# PaymentMethodType enum (0 = CardToken, 1 = PayByLink, shifted by 1 in the database)
+  type AS type_id,
+  CASE
+    WHEN type = 1 THEN 'CARD_TOKEN'
+    WHEN type = 2 THEN 'PAY_BY_LINK'
+    ELSE 'UNKNOWN'
+  END AS type,
+  
+  currency,
+  card_brand,
+  mobile,
+  
+  -- Map C# PaymentMethodState enum
+  status AS status_id,
+  CASE
+    WHEN status = 0 THEN 'PRIMARY'
+    WHEN status = 1 THEN 'ACTIVE'
+    WHEN status = 2 THEN 'EXPIRED'
+    WHEN status = 3 THEN 'ENABLED'
+    WHEN status = 4 THEN 'DISABLED'
+    WHEN status = 5 THEN 'TEMPORARY_DISABLED'
+    WHEN status = 6 THEN 'WAITING_FOR_3DS2'
+    WHEN status = 7 THEN 'WAITING_FOR_CVV'
+    WHEN status = 8 THEN 'REJECTED'
+    ELSE 'UNKNOWN'
+  END AS status
+FROM ${ref("stg_payment_method")}

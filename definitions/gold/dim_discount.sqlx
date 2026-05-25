@@ -1,0 +1,73 @@
+config {
+  type: "incremental",
+  schema: "gold",
+  description: "Discounts (vouchers) dimension table, including rates, codes, limits, and slowly changing historical data (SCD Type 2)."
+}
+
+pre_operations {
+  ${when(incremental(), `
+    -- Close historical records that have changed in the source
+    MERGE ${self()} T
+    USING (
+      SELECT
+        id_discount,
+        discount_percentage,
+        discount_flat_rate,
+        discount_code,
+        use_limit_globally,
+        use_limit_per_user,
+        minimal_transaction_amount,
+        only_for_first_purchase,
+        created_at,
+        updated_at
+      FROM ${ref("stg_discount")}
+    ) S
+    ON T.id_discount = S.id_discount AND T.is_current = TRUE
+    WHEN MATCHED AND (
+      T.discount_percentage IS DISTINCT FROM S.discount_percentage OR
+      T.discount_flat_rate IS DISTINCT FROM S.discount_flat_rate OR
+      T.discount_code IS DISTINCT FROM S.discount_code OR
+      T.use_limit_globally IS DISTINCT FROM S.use_limit_globally OR
+      T.use_limit_per_user IS DISTINCT FROM S.use_limit_per_user OR
+      T.minimal_transaction_amount IS DISTINCT FROM S.minimal_transaction_amount OR
+      T.only_for_first_purchase IS DISTINCT FROM S.only_for_first_purchase
+    ) THEN
+      UPDATE SET 
+        T.valid_to = COALESCE(S.updated_at, S.created_at, CURRENT_TIMESTAMP()),
+        T.is_current = FALSE
+  `)}
+}
+
+SELECT
+  FARM_FINGERPRINT(
+    CONCAT(
+      CAST(id_discount AS STRING), '|',
+      CAST(
+        ${when(incremental(), 
+          `COALESCE(updated_at, created_at, CURRENT_TIMESTAMP())`, 
+          `COALESCE(created_at, CURRENT_TIMESTAMP())`
+        )} AS STRING
+      )
+    )
+  ) AS sk_discount,
+  id_discount,
+  discount_percentage,
+  discount_flat_rate,
+  discount_code,
+  ${when(incremental(), 
+    `COALESCE(updated_at, created_at, CURRENT_TIMESTAMP())`, 
+    `COALESCE(created_at, CURRENT_TIMESTAMP())`
+  )} AS valid_from,
+  TIMESTAMP("9999-12-31 23:59:59") AS valid_to,
+  TRUE AS is_current,
+  use_limit_globally,
+  use_limit_per_user,
+  minimal_transaction_amount,
+  only_for_first_purchase
+FROM ${ref("stg_discount")} s
+${when(incremental(), `
+  WHERE NOT EXISTS (
+    SELECT 1 FROM ${self()} t
+    WHERE t.id_discount = s.id_discount AND t.is_current = TRUE
+  )
+`)}

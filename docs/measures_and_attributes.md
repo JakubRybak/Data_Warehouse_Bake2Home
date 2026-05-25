@@ -8,7 +8,6 @@
 | `PRICE` | Value/Price for a given product/offer | **SUM** (Revenue), **AVG** (Average price) |
 | `QUANTITY` | Quantity of ordered items | **SUM** |
 | `VAT` | VAT tax amount | **SUM** |
-| `DISCOUNT_PERCENT` | Applied discount in percentage | **AVG**, **MAX** |
 | `WEATHER_MORNING_WAS_RAINY` | (`PRECIP_PROB` >= 50 AND `PRECIP_SUM_MM` >= 1.0) OR (`PRECIP_SUM_MM` >= 2.5) | **CUSTOM** |
 
 ### FACT_DELIVERY_ITEM

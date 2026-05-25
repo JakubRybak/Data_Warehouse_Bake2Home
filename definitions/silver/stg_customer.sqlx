@@ -13,5 +13,7 @@ SELECT
   CAST(PhoneNumber AS STRING) AS phone_number,
   CAST(Avatar AS STRING) AS avatar,
   CAST(OtherRoleStatus AS INT64) AS other_role_status,
-  CAST(CustomerIp AS STRING) AS customer_ip
+  CAST(CustomerIp AS STRING) AS customer_ip,
+  CAST(Created AS TIMESTAMP) AS created_at,
+  CAST(Updated AS TIMESTAMP) AS updated_at
 FROM ${ref("raw_customer_manager_Customer")}

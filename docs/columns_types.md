@@ -118,7 +118,7 @@
 | Kolumna | Typ w BigQuery | Uwagi |
 | :--- | :--- | :--- |
 | `SK_CONSENT_PROFILE` | INT64 | Klucz główny (PK) |
-| `GDPR_STATE` | STRING | Status zgody RODO |
+| `RODO_STATE` | STRING | Status zgody RODO |
 | `TERMS_STATE` | STRING | Status zgody na regulamin |
 | `MARKETING_STATE` | STRING | Status zgody marketingowej |
 ## FACT_DELIVERY_ITEM
@@ -257,12 +257,12 @@
 | `ID_DISCOUNT` | INT64 | |
 | `DISCOUNT_PERCENTAGE` | NUMERIC | |
 | `DISCOUNT_FLAT_RATE` | NUMERIC | |
-| `DISCOUNT_CODE` | NUMERIC | |
+| `DISCOUNT_CODE` | STRING | |
 | `VALID_FROM` | TIMESTAMP | |
 | `VALID_TO` | TIMESTAMP | |
 | `IS_CURRENT` | BOOL | |
-| `USE_LIMIT_GLOBALLY` | BOOL | |
-| `USE_LIMIT_PER_USER` | BOOL | |
+| `USE_LIMIT_GLOBALLY` | INT64 | |
+| `USE_LIMIT_PER_USER` | INT64 | |
 | `MINIMAL_TRANSACTION_AMOUNT` | NUMERIC | |
 | `ONLY_FOR_FIRST_PURCHASE` | BOOL | |
 ## DIM_PRODUCT
