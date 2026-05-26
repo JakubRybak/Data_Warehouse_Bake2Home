@@ -8,24 +8,24 @@ SELECT
   CAST(Id AS INT64) AS id_discount,
   
   -- Clean and cast financial/money columns that contain currency symbols in the raw parquet files
-  SAFE_CAST(REGEXP_REPLACE(DiscountPercentage, r'[^\d.-]', '') AS NUMERIC) AS discount_percentage,
-  SAFE_CAST(REGEXP_REPLACE(DiscountFlatRate, r'[^\d.-]', '') AS NUMERIC) AS discount_flat_rate,
+  COALESCE(SAFE_CAST(REGEXP_REPLACE(DiscountPercentage, r'[^\d.-]', '') AS NUMERIC), 0.0) AS discount_percentage,
+  COALESCE(SAFE_CAST(REGEXP_REPLACE(DiscountFlatRate, r'[^\d.-]', '') AS NUMERIC), 0.0) AS discount_flat_rate,
   
-  CAST(DiscountCode AS STRING) AS discount_code,
+  COALESCE(CAST(DiscountCode AS STRING), 'Unknown') AS discount_code,
   CAST(ActiveFrom AS TIMESTAMP) AS active_from,
   CAST(ActiveTo AS TIMESTAMP) AS active_to,
-  CAST(UseLimitGlobally AS INT64) AS use_limit_globally,
-  CAST(UseLimitPerCustomer AS INT64) AS use_limit_per_user,
+  COALESCE(CAST(UseLimitGlobally AS INT64), 0) AS use_limit_globally,
+  COALESCE(CAST(UseLimitPerCustomer AS INT64), 0) AS use_limit_per_user,
   
-  SAFE_CAST(REGEXP_REPLACE(MinimalTransactionAmount, r'[^\d.-]', '') AS NUMERIC) AS minimal_transaction_amount,
-  SAFE_CAST(REGEXP_REPLACE(MaximumTransactionAmount, r'[^\d.-]', '') AS NUMERIC) AS maximum_transaction_amount,
-  SAFE_CAST(REGEXP_REPLACE(MoneyLimitGlobally, r'[^\d.-]', '') AS NUMERIC) AS money_limit_globally,
-  SAFE_CAST(REGEXP_REPLACE(MoneyLimitPerCustomer, r'[^\d.-]', '') AS NUMERIC) AS money_limit_per_user,
+  COALESCE(SAFE_CAST(REGEXP_REPLACE(MinimalTransactionAmount, r'[^\d.-]', '') AS NUMERIC), 0.0) AS minimal_transaction_amount,
+  COALESCE(SAFE_CAST(REGEXP_REPLACE(MaximumTransactionAmount, r'[^\d.-]', '') AS NUMERIC), 0.0) AS maximum_transaction_amount,
+  COALESCE(SAFE_CAST(REGEXP_REPLACE(MoneyLimitGlobally, r'[^\d.-]', '') AS NUMERIC), 0.0) AS money_limit_globally,
+  COALESCE(SAFE_CAST(REGEXP_REPLACE(MoneyLimitPerCustomer, r'[^\d.-]', '') AS NUMERIC), 0.0) AS money_limit_per_user,
   
-  CAST(OnlyForFirstPurchase AS BOOL) AS only_for_first_purchase,
+  COALESCE(CAST(OnlyForFirstPurchase AS BOOL), FALSE) AS only_for_first_purchase,
   CAST(ClientId AS INT64) AS id_client,
   CAST(CustomerId AS INT64) AS id_customer,
-  CAST(LinkToTerms AS STRING) AS link_to_terms,
+  COALESCE(CAST(LinkToTerms AS STRING), 'Unknown') AS link_to_terms,
   CAST(Created AS TIMESTAMP) AS created_at,
   CAST(Updated AS TIMESTAMP) AS updated_at
 FROM ${ref("raw_wallet_Discounts")}

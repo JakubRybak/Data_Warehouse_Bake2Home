@@ -6,9 +6,9 @@ config {
 
 SELECT
   CAST(Id AS INT64) AS id_ingredient,
-  CAST(Name AS STRING) AS name,
-  CAST(Unit AS STRING) AS unit,
+  COALESCE(CAST(Name AS STRING), 'Unknown') AS name,
+  COALESCE(CAST(Unit AS STRING), 'Unknown') AS unit,
   CAST(Created AS TIMESTAMP) AS created_at,
   CAST(Updated AS TIMESTAMP) AS updated_at,
-  CAST(UserId AS STRING) AS user_id
+  COALESCE(CAST(UserId AS STRING), 'Unknown') AS user_id
 FROM ${ref("raw_catalog_PublicIngredient")}

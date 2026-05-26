@@ -14,7 +14,6 @@ SELECT
   longitude,
   latitude,
   geo_point,
-  additional_information,
   state AS state_id,
   CASE
     WHEN state = 0 THEN 'CURRENT'

@@ -6,18 +6,18 @@ config {
 
 SELECT
   CAST(Id AS INT64) AS id_offer,
-  CAST(Name AS STRING) AS name,
-  CAST(Price AS NUMERIC) AS price,
-  CAST(State AS INT64) AS state,
-  CAST(Type AS INT64) AS type,
-  CAST(AvailableStock AS INT64) AS available_stock,
-  CAST(IsAvailable AS BOOL) AS is_available,
+  COALESCE(CAST(Name AS STRING), 'Unknown') AS name,
+  COALESCE(CAST(Price AS NUMERIC), 0.0) AS price,
+  COALESCE(CAST(State AS INT64), 0) AS state,
+  COALESCE(CAST(Type AS INT64), 0) AS type,
+  COALESCE(CAST(AvailableStock AS INT64), 0) AS available_stock,
+  COALESCE(CAST(IsAvailable AS BOOL), FALSE) AS is_available,
   CAST(PlatformClientId AS INT64) AS platform_client_id,
   CAST(VatRateId AS INT64) AS vat_rate_id,
-  CAST(VAT AS NUMERIC) AS vat,
+  COALESCE(CAST(VAT AS NUMERIC), 0.0) AS vat,
   CAST(PreviousVersionOfferId AS INT64) AS previous_version_offer_id,
   CAST(NextVersionId AS INT64) AS next_version_id,
   CAST(Created AS TIMESTAMP) AS created_at,
   CAST(Updated AS TIMESTAMP) AS updated_at,
-  CAST(UserId AS STRING) AS user_id
+  COALESCE(CAST(UserId AS STRING), 'Unknown') AS user_id
 FROM ${ref("raw_catalog_BakeryOffer")}

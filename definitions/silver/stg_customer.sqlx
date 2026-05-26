@@ -6,14 +6,14 @@ config {
 
 SELECT
   CAST(Id AS INT64) AS id_customer,
-  CAST(Name AS STRING) AS name,
-  CAST(Email AS STRING) AS email,
-  CAST(CustomerState AS INT64) AS customer_state,
-  CAST(UserId AS STRING) AS user_id,
-  CAST(PhoneNumber AS STRING) AS phone_number,
-  CAST(Avatar AS STRING) AS avatar,
-  CAST(OtherRoleStatus AS INT64) AS other_role_status,
-  CAST(CustomerIp AS STRING) AS customer_ip,
+  COALESCE(CAST(Name AS STRING), 'Unknown') AS name,
+  COALESCE(CAST(Email AS STRING), 'Unknown') AS email,
+  COALESCE(CAST(CustomerState AS INT64), 0) AS customer_state,
+  COALESCE(CAST(UserId AS STRING), 'Unknown') AS user_id,
+  COALESCE(CAST(PhoneNumber AS STRING), 'Unknown') AS phone_number,
+  COALESCE(CAST(Avatar AS STRING), 'Unknown') AS avatar,
+  COALESCE(CAST(OtherRoleStatus AS INT64), 0) AS other_role_status,
+  COALESCE(CAST(CustomerIp AS STRING), 'Unknown') AS customer_ip,
   CAST(Created AS TIMESTAMP) AS created_at,
   CAST(Updated AS TIMESTAMP) AS updated_at
 FROM ${ref("raw_customer_manager_Customer")}

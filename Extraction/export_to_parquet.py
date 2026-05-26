@@ -21,6 +21,61 @@ DATABASES = [
     "wallet-db"
 ]
 
+# Dictionary specifying columns to drop for each table to ensure GDPR/RODO compliance and security.
+# Key is formatted as "database_name.table_name" to be perfectly precise.
+EXCLUDED_COLUMNS = {
+    "delivery-account-manager-db.DeliveryMan": [
+        "Pesel",
+        "NumberOfIDCard",
+        "NIP",
+        "ContractOwner",
+        "PictureFileName"
+    ],
+    "delivery-account-manager-db.BankAccount": [
+        "BankAccountNumber"
+    ],
+    "delivery-account-manager-db.Address": [
+        "StreetName",
+        "HouseNumber",
+        "ZipCode"
+    ],
+    "customer-manager-db.Customer": [
+        "PhoneNumber",
+        "Email",
+        "Avatar",
+        "CustomerIp"
+    ],
+    "customer-manager-db.CustomerAddress": [
+        "EntryInformationAndCodes",
+        "AdditionalInformation"
+    ],
+    "client-manager-db.Client": [
+        "BankAccount",
+        "Phone",
+        "Email",
+        "TpayMerchantId"
+    ],
+    "client-manager-db.Person": [
+        "Phone",
+        "Email"
+    ],
+    "wallet-db.PaymentMethods": [
+        "EncryptedToken",
+        "CardMask"
+    ],
+    "wallet-db.Payments": [
+        "PaidByTransactionId"
+    ],
+    "wallet-db.RefundFinalizationError": [
+        "PayURefundId",
+        "ExtRefundId"
+    ],
+    "delivery-manager-db.Deliveries": [
+        "EntryInformationAndCodes",
+        "AdditionalInformation"
+    ]
+}
+
 # Destination path for extracted data - 'data' folder inside the current 'Extraction' folder
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_DIR = os.path.join(CURRENT_DIR, "data")
@@ -69,6 +124,14 @@ def export_all():
                     # Read table into a Pandas DataFrame
                     df = pd.read_sql_table(table, engine, schema="public")
                     
+                    # Drop PII / sensitive columns if defined
+                    db_table_key = f"{db_name}.{table}"
+                    if db_table_key in EXCLUDED_COLUMNS:
+                        cols_to_drop = [col for col in EXCLUDED_COLUMNS[db_table_key] if col in df.columns]
+                        if cols_to_drop:
+                            df = df.drop(columns=cols_to_drop)
+                            print(f"(Dropped PII: {', '.join(cols_to_drop)}) ... ", end="")
+                            
                     # Target path for the Parquet file
                     parquet_file = os.path.join(db_dir, f"{table}.parquet")
                     

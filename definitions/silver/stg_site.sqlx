@@ -6,18 +6,18 @@ config {
 
 SELECT
   CAST(Id AS INT64) AS id_site,
-  CAST(Name AS STRING) AS name,
-  CAST(Street AS STRING) AS street,
-  CAST(Nr AS STRING) AS nr,
-  CAST(City AS STRING) AS city,
-  CAST(State AS STRING) AS state,
-  CAST(Country AS STRING) AS country,
-  CAST(ZipCode AS STRING) AS zip_code,
+  COALESCE(CAST(Name AS STRING), 'Unknown') AS name,
+  COALESCE(CAST(Street AS STRING), 'Unknown') AS street,
+  COALESCE(CAST(Nr AS STRING), 'Unknown') AS nr,
+  COALESCE(CAST(City AS STRING), 'Unknown') AS city,
+  COALESCE(CAST(State AS STRING), 'Unknown') AS state,
+  COALESCE(CAST(Country AS STRING), 'Unknown') AS country,
+  COALESCE(CAST(ZipCode AS STRING), 'Unknown') AS zip_code,
   CAST(ClientId AS INT64) AS id_client,
   CAST(SiteCoordinatesId AS INT64) AS id_coordinates,
-  CAST(PictureFileName AS STRING) AS picture_file_name,
+  COALESCE(CAST(PictureFileName AS STRING), 'Unknown') AS picture_file_name,
   CAST(Created AS TIMESTAMP) AS created_at,
   CAST(Updated AS TIMESTAMP) AS updated_at,
-  CAST(UserId AS STRING) AS user_id,
-  CAST(ModifiedByUserId AS STRING) AS modified_by_user_id
+  COALESCE(CAST(UserId AS STRING), 'Unknown') AS user_id,
+  COALESCE(CAST(ModifiedByUserId AS STRING), 'Unknown') AS modified_by_user_id
 FROM ${ref("raw_client_manager_Site")}

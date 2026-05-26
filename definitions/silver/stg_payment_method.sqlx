@@ -6,16 +6,14 @@ config {
 
 SELECT
   CAST(Id AS INT64) AS id_payment_method,
-  CAST(Type AS INT64) AS type,
-  CAST(Currency AS STRING) AS currency,
-  CAST(Status AS INT64) AS status,
-  CAST(CardBrand AS STRING) AS card_brand,
-  CAST(Mobile AS BOOL) AS mobile,
+  COALESCE(CAST(Type AS INT64), 0) AS type,
+  COALESCE(CAST(Currency AS STRING), 'Unknown') AS currency,
+  COALESCE(CAST(Status AS INT64), 0) AS status,
+  COALESCE(CAST(CardBrand AS STRING), 'Unknown') AS card_brand,
+  COALESCE(CAST(Mobile AS BOOL), FALSE) AS mobile,
   CAST(Created AS TIMESTAMP) AS created_at,
   CAST(Updated AS TIMESTAMP) AS updated_at,
-  CAST(UserId AS STRING) AS user_id,
+  COALESCE(CAST(UserId AS STRING), 'Unknown') AS user_id,
   CAST(CustomerId AS INT64) AS id_customer,
-  CAST(EncryptedToken AS STRING) AS encrypted_token,
-  CAST(CardMask AS STRING) AS card_mask,
-  CAST(MarkedAsPrimaryOnCreation AS BOOL) AS marked_as_primary_on_creation
+  COALESCE(CAST(MarkedAsPrimaryOnCreation AS BOOL), FALSE) AS marked_as_primary_on_creation
 FROM ${ref("raw_wallet_PaymentMethods")}

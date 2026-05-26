@@ -24,3 +24,5 @@ node_modules/
 # Data and database dumps (Parquet)
 Extraction/data/
 
+# scratch scripts
+scratch/
