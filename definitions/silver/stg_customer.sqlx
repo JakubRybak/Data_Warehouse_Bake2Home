@@ -7,13 +7,6 @@ config {
 SELECT
   CAST(Id AS INT64) AS id_customer,
   COALESCE(CAST(Name AS STRING), 'Unknown') AS name,
-  
-  -- Mocked PII columns (excluded at Bronze level for GDPR compliance)
-  'Unknown' AS email,
-  'Unknown' AS phone_number,
-  'Unknown' AS avatar,
-  'Unknown' AS customer_ip,
-  
   COALESCE(CAST(CustomerState AS INT64), 0) AS customer_state,
   COALESCE(CAST(UserId AS STRING), 'Unknown') AS user_id,
   COALESCE(CAST(OtherRoleStatus AS INT64), 0) AS other_role_status,

@@ -17,9 +17,7 @@ pre_operations {
         COALESCE(c.city, 'Unknown') AS client_city,
         COALESCE(CAST(c.country AS STRING), 'Unknown') AS client_country,
         COALESCE(c.zip_code, 'Unknown') AS client_zip_code,
-        COALESCE(c.email, 'Unknown') AS client_email,
         COALESCE(c.full_formal_name, 'Unknown') AS client_full_formal_name,
-        COALESCE(c.phone, 'Unknown') AS client_phone,
         s.name,
         s.street,
         s.nr,
@@ -43,9 +41,7 @@ pre_operations {
       T.client_city IS DISTINCT FROM S.client_city OR
       T.client_country IS DISTINCT FROM S.client_country OR
       T.client_zip_code IS DISTINCT FROM S.client_zip_code OR
-      T.client_email IS DISTINCT FROM S.client_email OR
       T.client_full_formal_name IS DISTINCT FROM S.client_full_formal_name OR
-      T.client_phone IS DISTINCT FROM S.client_phone OR
       T.name IS DISTINCT FROM S.name OR
       T.street IS DISTINCT FROM S.street OR
       T.nr IS DISTINCT FROM S.nr OR
@@ -83,9 +79,7 @@ SELECT
   COALESCE(c.city, 'Unknown') AS client_city,
   COALESCE(CAST(c.country AS STRING), 'Unknown') AS client_country,
   COALESCE(c.zip_code, 'Unknown') AS client_zip_code,
-  COALESCE(c.email, 'Unknown') AS client_email,
   COALESCE(c.full_formal_name, 'Unknown') AS client_full_formal_name,
-  COALESCE(c.phone, 'Unknown') AS client_phone,
   s.name,
   s.street,
   s.nr,
