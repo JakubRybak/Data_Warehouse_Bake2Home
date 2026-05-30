@@ -71,12 +71,8 @@ SELECT
 
   -- 5. Wymiar Adresu Dostawy (Delivery Address Details)
   COALESCE(ca.address_name, 'Unknown') AS address_name,
-  COALESCE(ca.street, 'Unknown') AS street,
-  COALESCE(ca.building_number, 'Unknown') AS building_number,
-  COALESCE(ca.flat_number, 'Unknown') AS flat_number,
-  COALESCE(ca.postal_code, 'Unknown') AS postal_code,
-  COALESCE(ca.city, 'Unknown') AS city,
-  COALESCE(ca.country, 'Unknown') AS country,
+  COALESCE(ca.address, 'Unknown') AS delivery_address,
+  COALESCE(ca.state, 'Unknown') AS address_state,
 
   -- 6. Wymiar Lokalizacji i Piekarni (Location & Site Details)
   COALESCE(l.name, 'Unknown') AS location_name,
