@@ -24,15 +24,15 @@ pre_operations {
           WHEN p.state = 6 THEN 'MODIFICATION_DRAFT'
           ELSE 'UNKNOWN'
         END AS state,
-        pt.name AS product_type_name,
+        COALESCE(pt.name, 'Unknown') AS product_type_name,
         p.weight,
-        n.calories,
-        n.total_fats,
-        n.saturated_fats,
-        n.total_carbohydrates,
-        n.sugar,
-        n.protein,
-        n.sodium,
+        COALESCE(n.calories, 0) AS calories,
+        COALESCE(n.total_fats, 0.0) AS total_fats,
+        COALESCE(n.saturated_fats, 0.0) AS saturated_fats,
+        COALESCE(n.total_carbohydrates, 0.0) AS total_carbohydrates,
+        COALESCE(n.sugar, 0.0) AS sugar,
+        COALESCE(n.protein, 0.0) AS protein,
+        COALESCE(n.sodium, 0.0) AS sodium,
         p.created_at,
         p.updated_at
       FROM ${ref("stg_bakery_product")} p
@@ -87,15 +87,15 @@ SELECT
     WHEN p.state = 6 THEN 'MODIFICATION_DRAFT'
     ELSE 'UNKNOWN'
   END AS state,
-  pt.name AS product_type_name,
+  COALESCE(pt.name, 'Unknown') AS product_type_name,
   p.weight,
-  n.calories,
-  n.total_fats,
-  n.saturated_fats,
-  n.total_carbohydrates,
-  n.sugar,
-  n.protein,
-  n.sodium,
+  COALESCE(n.calories, 0) AS calories,
+  COALESCE(n.total_fats, 0.0) AS total_fats,
+  COALESCE(n.saturated_fats, 0.0) AS saturated_fats,
+  COALESCE(n.total_carbohydrates, 0.0) AS total_carbohydrates,
+  COALESCE(n.sugar, 0.0) AS sugar,
+  COALESCE(n.protein, 0.0) AS protein,
+  COALESCE(n.sodium, 0.0) AS sodium,
   ${when(incremental(), 
     `COALESCE(p.updated_at, p.created_at, CURRENT_TIMESTAMP())`, 
     `COALESCE(p.created_at, CURRENT_TIMESTAMP())`

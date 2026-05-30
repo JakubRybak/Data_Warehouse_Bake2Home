@@ -12,9 +12,7 @@ pre_operations {
       SELECT
         id_delivery_man,
         name,
-        email,
-        phone_number,
-        id_site,
+        COALESCE(id_site, -999999) AS id_site,
         created_at,
         updated_at
       FROM ${ref("stg_delivery_man")}
@@ -22,8 +20,6 @@ pre_operations {
     ON T.id_delivery_man = S.id_delivery_man AND T.is_current = TRUE
     WHEN MATCHED AND (
       T.name IS DISTINCT FROM S.name OR
-      T.email IS DISTINCT FROM S.email OR
-      T.phone_number IS DISTINCT FROM S.phone_number OR
       T.id_site IS DISTINCT FROM S.id_site
     ) THEN
       UPDATE SET 
@@ -46,9 +42,7 @@ SELECT
   ) AS sk_delivery_man,
   id_delivery_man,
   name,
-  email,
-  phone_number,
-  id_site,
+  COALESCE(id_site, -999999) AS id_site,
   ${when(incremental(), 
     `COALESCE(updated_at, created_at, CURRENT_TIMESTAMP())`, 
     `COALESCE(created_at, CURRENT_TIMESTAMP())`

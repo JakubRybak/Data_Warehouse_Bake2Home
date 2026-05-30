@@ -29,7 +29,10 @@ EXCLUDED_COLUMNS = {
         "NumberOfIDCard",
         "NIP",
         "ContractOwner",
-        "PictureFileName"
+        "PictureFileName",
+        "PhoneNumber",
+        "Email",
+        "DateOfBirth"
     ],
     "delivery-account-manager-db.BankAccount": [
         "BankAccountNumber"

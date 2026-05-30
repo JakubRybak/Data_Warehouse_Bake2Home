@@ -11,7 +11,7 @@ SELECT
   name,
   unit,
   TRUE AS is_public,
-  CAST(NULL AS INT64) AS platform_client_id
+  CAST(-999999 AS INT64) AS platform_client_id
 FROM ${ref("stg_public_ingredient")}
 
 UNION ALL
@@ -23,5 +23,5 @@ SELECT
   name,
   unit,
   FALSE AS is_public,
-  platform_client_id
+  COALESCE(platform_client_id, -999999) AS platform_client_id
 FROM ${ref("stg_private_ingredient")}
