@@ -1,0 +1,32 @@
+config {
+  type: "view",
+  schema: "silver",
+  description: "Cleaned and standardized bakery order headers from planner-db, including conformed states."
+}
+
+SELECT
+  CAST(Id AS INT64) AS id_order,
+  CAST(CustomerAddressId AS INT64) AS id_customer_address,
+  CAST(Date AS DATE) AS date_order,
+  
+  -- Map C# OrderState enum
+  COALESCE(CAST(OrderState AS INT64), 0) AS order_state_id,
+  CASE
+    WHEN OrderState = 0 THEN 'PLANNED'
+    WHEN OrderState = 1 THEN 'IN_PROGRESS'
+    WHEN OrderState = 2 THEN 'COMPLETED'
+    WHEN OrderState = 3 THEN 'CANCELLED_BY_BAKERY'
+    WHEN OrderState = 4 THEN 'CANCELLED_BY_CUSTOMER'
+    WHEN OrderState = 5 THEN 'PENDING_APPROVAL'
+    WHEN OrderState = 6 THEN 'PAYMENT_ISSUES'
+    WHEN OrderState = 7 THEN 'UNREALIZED'
+    WHEN OrderState = 8 THEN 'NOT_MET_ORDER_PRICE_REQUIREMENT'
+    ELSE 'UNKNOWN'
+  END AS order_state,
+  
+  COALESCE(CAST(UserId AS STRING), 'Unknown') AS user_id,
+  CAST(ServicingBySiteId AS INT64) AS id_site,
+  CAST(LocationId AS INT64) AS id_location,
+  CAST(Created AS TIMESTAMP) AS created_at,
+  CAST(Updated AS TIMESTAMP) AS updated_at
+FROM ${ref("raw_planner_BakeryOrders")}

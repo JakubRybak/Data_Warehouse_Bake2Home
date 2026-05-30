@@ -1,0 +1,106 @@
+config {
+  type: "table",
+  schema: "gold",
+  description: "Sales fact table containing individual order items, pricing, quantities, tax, C# enum states, and conformed surrogate key joins to dimensions. Partitioned by date and clustered by customer, site, and offer. Zero NULLs guaranteed.",
+  bigquery: {
+    partitionBy: "sk_date_order",
+    clusterBy: ["sk_customer", "sk_site", "sk_offer"]
+  }
+}
+
+SELECT
+  -- 1. Unique surrogate key of the fact line itself
+  FARM_FINGERPRINT(COALESCE(CAST(i.id_order_item AS STRING), "-999999")) AS sk_order_item,
+  
+  -- 2. Natural Keys & Degenerate Dimensions (IDs)
+  COALESCE(i.id_order_item, -999999) AS id_order_item,
+  COALESCE(i.id_order, -999999) AS id_order,
+  COALESCE(i.id_bought_offer_instance, -999999) AS id_bought_offer_instance,
+  COALESCE(o.id_customer_address, -999999) AS id_customer_address,
+  COALESCE(o.id_location, -999999) AS id_location,
+  COALESCE(o.id_site, -999999) AS id_site,
+  COALESCE(boi.id_offer, -999999) AS id_offer,
+  COALESCE(ca.id_customer, -999999) AS id_customer,
+  COALESCE(i.id_planner_item, -999999) AS id_planner_item,
+  
+  -- 3. Conformed Surrogate Keys for Dimension Joins
+  COALESCE(o.date_order, CAST("1970-01-01" AS DATE)) AS sk_date_order,
+  
+  -- Offer SCD2 Join (Temporal Range with Active Fallback & Safe Default)
+  COALESCE(off.sk_offer, active_off.sk_offer, FARM_FINGERPRINT("-999999")) AS sk_offer,
+  
+  -- Customer Address SCD1 Join
+  COALESCE(dca.sk_customer_address, FARM_FINGERPRINT("-999999")) AS sk_customer_address,
+  
+  -- Location SCD2 Join (Temporal Range with Active Fallback & Safe Default)
+  COALESCE(loc.sk_location, active_loc.sk_location, FARM_FINGERPRINT("-999999")) AS sk_location,
+  
+  -- Site SCD2 Join (Temporal Range with Active Fallback & Safe Default)
+  COALESCE(site.sk_site, active_site.sk_site, FARM_FINGERPRINT("-999999")) AS sk_site,
+  
+  -- Customer SCD2 Join (Temporal Range with Active Fallback & Safe Default)
+  COALESCE(cust.sk_customer, active_cust.sk_customer, FARM_FINGERPRINT("-999999")) AS sk_customer,
+  
+  -- 4. Metrics / Facts
+  COALESCE(boi.price, 0.0) AS price,
+  COALESCE(i.quantity, 0) AS quantity,
+  COALESCE(boi.vat, 0.0) AS vat,
+  COALESCE(i.modified_by_hand, FALSE) AS modified_by_hand,
+  
+  -- 5. Conformed Enum States (Mapped from C#)
+  COALESCE(boi.bought_offer_instance_type_id, 0) AS bought_offer_instance_type_id,
+  COALESCE(boi.bought_offer_instance_type, 'Unknown') AS bought_offer_instance_type,
+  COALESCE(i.order_item_state_id, 0) AS order_item_state_id,
+  COALESCE(i.order_item_state, 'Unknown') AS order_item_state,
+  COALESCE(o.order_state_id, 0) AS order_state_id,
+  COALESCE(o.order_state, 'Unknown') AS order_state,
+  
+  -- 6. Audit Timestamp (Degenerate dimension for hourly analysis)
+  COALESCE(o.created_at, TIMESTAMP("1970-01-01 00:00:00")) AS created_at
+FROM ${ref("stg_bakery_order_items")} i
+LEFT JOIN ${ref("stg_bakery_orders")} o 
+  ON i.id_order = o.id_order
+LEFT JOIN ${ref("stg_bought_offer_instance")} boi 
+  ON i.id_bought_offer_instance = boi.id_bought_offer_instance
+LEFT JOIN ${ref("stg_customer_address")} ca 
+  ON o.id_customer_address = ca.id_customer_address
+
+-- Join dim_customer_address (SCD Type 1)
+LEFT JOIN ${ref("dim_customer_address")} dca
+  ON o.id_customer_address = dca.id_customer_address
+
+-- Join dim_offer (SCD Type 2: Temporal Range + Active Version Fallback)
+LEFT JOIN ${ref("dim_offer")} off
+  ON boi.id_offer = off.id_offer
+  AND o.created_at >= off.valid_from
+  AND o.created_at < off.valid_to
+LEFT JOIN ${ref("dim_offer")} active_off
+  ON boi.id_offer = active_off.id_offer
+  AND active_off.is_current = TRUE
+
+-- Join dim_location (SCD Type 2: Temporal Range + Active Version Fallback)
+LEFT JOIN ${ref("dim_location")} loc
+  ON o.id_location = loc.id_location
+  AND o.created_at >= loc.valid_from
+  AND o.created_at < loc.valid_to
+LEFT JOIN ${ref("dim_location")} active_loc
+  ON o.id_location = active_loc.id_location
+  AND active_loc.is_current = TRUE
+
+-- Join dim_site (SCD Type 2: Temporal Range + Active Version Fallback)
+LEFT JOIN ${ref("dim_site")} site
+  ON o.id_site = site.id_site
+  AND o.created_at >= site.valid_from
+  AND o.created_at < site.valid_to
+LEFT JOIN ${ref("dim_site")} active_site
+  ON o.id_site = active_site.id_site
+  AND active_site.is_current = TRUE
+
+-- Join dim_customer (SCD Type 2: Temporal Range + Active Version Fallback)
+LEFT JOIN ${ref("dim_customer")} cust
+  ON ca.id_customer = cust.id_customer
+  AND o.created_at >= cust.valid_from
+  AND o.created_at < cust.valid_to
+LEFT JOIN ${ref("dim_customer")} active_cust
+  ON ca.id_customer = active_cust.id_customer
+  AND active_cust.is_current = TRUE

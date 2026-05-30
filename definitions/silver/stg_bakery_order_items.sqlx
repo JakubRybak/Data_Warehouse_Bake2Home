@@ -1,0 +1,48 @@
+config {
+  type: "view",
+  schema: "silver",
+  description: "Cleaned and standardized bakery order items from planner-db, including conformed states."
+}
+
+SELECT
+  CAST(Id AS INT64) AS id_order_item,
+  COALESCE(CAST(Quantity AS INT64), 0) AS quantity,
+  CAST(OrderId AS INT64) AS id_order,
+  CAST(BoughtOfferInstanceId AS INT64) AS id_bought_offer_instance,
+  CAST(PlannerItemId AS INT64) AS id_planner_item,
+  COALESCE(CAST(ModifiedByHand AS BOOL), FALSE) AS modified_by_hand,
+  
+  -- Map C# OrderItemState enum
+  COALESCE(CAST(OrderItemState AS INT64), 0) AS order_item_state_id,
+  CASE
+    WHEN OrderItemState = 0 THEN 'PLANNED'
+    WHEN OrderItemState = 1 THEN 'IN_PROGRESS'
+    WHEN OrderItemState = 2 THEN 'COMPLETED'
+    WHEN OrderItemState = 3 THEN 'CANCELLED_CLOSED_BAKERY'
+    WHEN OrderItemState = 4 THEN 'CANCELLED_BY_CUSTOMER'
+    WHEN OrderItemState = 5 THEN 'PENDING_APPROVAL'
+    WHEN OrderItemState = 6 THEN 'CLOSED_OFFER_NOT_AVAILABLE'
+    WHEN OrderItemState = 7 THEN 'MODIFICATION_CANCELLED'
+    WHEN OrderItemState = 8 THEN 'REMOVED_BY_REMOVED_PLANNER_ITEM'
+    WHEN OrderItemState = 9 THEN 'OFFER_NOT_AVAILABLE_IN_LOCATION'
+    WHEN OrderItemState = 10 THEN 'OFFER_NOT_AVAILABLE_IN_WEEKDAY'
+    WHEN OrderItemState = 11 THEN 'OLD_CUSTOMER_ADDRESS_ORDER'
+    WHEN OrderItemState = 12 THEN 'OLD_OFFER_ORDER'
+    WHEN OrderItemState = 13 THEN 'OLD_OFFERS_PRICE_ORDER'
+    WHEN OrderItemState = 14 THEN 'ORDER_ITEM_NOT_ACCEPTED'
+    WHEN OrderItemState = 15 THEN 'NO_PAYMENT_METHOD'
+    WHEN OrderItemState = 16 THEN 'PAYMENT_FAILED'
+    WHEN OrderItemState = 17 THEN 'PAID'
+    WHEN OrderItemState = 18 THEN 'ORDER_ITEM_NOT_PAID_IN_TIME'
+    WHEN OrderItemState = 19 THEN 'NOT_MET_ORDER_PRICE_REQUIREMENT'
+    WHEN OrderItemState = 20 THEN 'DELIVERY_CANCELLED_BY_BAKERY'
+    WHEN OrderItemState = 21 THEN 'OFFER_NOT_AVAILABLE_IN_CUSTOMER_LOCATION'
+    WHEN OrderItemState = 22 THEN 'UNREALIZED'
+    WHEN OrderItemState = 23 THEN 'WAITING_FOR_PAYMENT'
+    ELSE 'UNKNOWN'
+  END AS order_item_state,
+  
+  COALESCE(CAST(UserId AS STRING), 'Unknown') AS user_id,
+  CAST(Created AS TIMESTAMP) AS created_at,
+  CAST(Updated AS TIMESTAMP) AS updated_at
+FROM ${ref("raw_planner_BakeryOrderItems")}
