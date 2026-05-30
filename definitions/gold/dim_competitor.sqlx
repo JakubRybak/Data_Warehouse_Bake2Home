@@ -32,12 +32,11 @@ SELECT
   c.google_types,
   c.extracted_at
 FROM ${ref("stg_google_competitors")} c
-WHERE
-  -- Spatial Self-Exclusion: Exclude any competitor located within 30 meters of an active Bake2Home site
-  NOT EXISTS (
-    SELECT 1 
-    FROM ${ref("dim_site")} s
-    WHERE s.id_site != -999999 
-      AND s.is_current = TRUE
-      AND ST_DISTANCE(c.geo_point, s.geo_point) < 30.0
-  )
+-- Spatial Self-Exclusion: Join with active Bake2Home sites closer than 30 meters
+LEFT JOIN ${ref("dim_site")} s
+  ON s.id_site != -999999
+  AND s.is_current = TRUE
+  AND ST_DISTANCE(c.geo_point, s.geo_point) < 30.0
+-- Exclude records where a match was found (s.id_site is NOT NULL)
+WHERE s.id_site IS NULL
+
