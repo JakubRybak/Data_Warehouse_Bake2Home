@@ -75,11 +75,11 @@ SELECT
   COALESCE(ca.state, 'Unknown') AS address_state,
 
   -- 6. Wymiar Lokalizacji i Piekarni (Location & Site Details)
-  COALESCE(l.name, 'Unknown') AS location_name,
-  COALESCE(l.city, 'Unknown') AS location_city,
-  COALESCE(l.country, 'Unknown') AS location_country,
+  COALESCE(l.name, 'Unknown') AS location_zone_name,
+  COALESCE(l.description, 'Unknown') AS location_zone_description,
   COALESCE(s.name, 'Unknown') AS bakery_site_name,
   COALESCE(s.city, 'Unknown') AS bakery_site_city,
+  COALESCE(s.country, 'Unknown') AS bakery_site_country,
 
   -- 7. Statusy i Stany Biznesowe (Conformed Enum States)
   f.bought_offer_instance_type,
