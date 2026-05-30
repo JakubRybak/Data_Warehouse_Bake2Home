@@ -1,0 +1,17 @@
+config {
+  type: "view",
+  schema: "silver",
+  description: "Cleaned and standardized Google competitor data from Places API (New)"
+}
+
+SELECT
+  COALESCE(CAST(place_id AS STRING), 'Unknown') AS id_place,
+  COALESCE(CAST(name AS STRING), 'Unknown') AS name,
+  COALESCE(CAST(address AS STRING), 'Unknown') AS address,
+  CAST(latitude AS FLOAT64) AS latitude,
+  CAST(longitude AS FLOAT64) AS longitude,
+  ST_GEOGPOINT(longitude, latitude) AS geo_point,
+  COALESCE(CAST(competitor_type AS STRING), 'Unknown') AS competitor_type,
+  ARRAY(SELECT element FROM UNNEST(types.list)) AS google_types,
+  CAST(extracted_at AS TIMESTAMP) AS extracted_at
+FROM ${ref("raw_google_competitors")}

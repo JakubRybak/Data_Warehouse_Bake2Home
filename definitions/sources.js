@@ -69,7 +69,10 @@ const tables = [
   "raw_wallet_RefundCreationErrors",
   "raw_wallet_RefundFinalizationError",
   "raw_wallet_RefundItems",
-  "raw_wallet_Refunds"
+  "raw_wallet_Refunds",
+  
+  // Google Places API Pipeline (Competitors)
+  "raw_google_competitors"
 ];
 
 // Loop to declare each source table in Dataform
