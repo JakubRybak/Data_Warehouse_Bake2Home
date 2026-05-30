@@ -114,3 +114,17 @@ SELECT
   IF(h.is_weekend = FALSE AND h.is_holiday = FALSE, TRUE, FALSE) AS is_working
 FROM base_calendar c
 JOIN holidays h ON c.sk_date = h.sk_date
+
+UNION ALL
+
+SELECT
+  CAST('1970-01-01' AS DATE) AS sk_date,
+  1970 AS year,
+  1 AS quarter,
+  1 AS month_number,
+  'Styczeń' AS month_name,
+  1 AS weekday_number,
+  'Poniedziałek' AS weekday_name,
+  FALSE AS is_weekend,
+  FALSE AS is_holiday,
+  TRUE AS is_working

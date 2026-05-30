@@ -1,8 +1,21 @@
 config {
   type: "table",
   schema: "gold",
-  description: "Payment methods dimension table, including mapped types, currencies, card brands, mobile flags, and status details (SCD Type 1)."
+  description: "Payment methods dimension table, including mapped types, currencies, card brands, mobile flags, and status details (SCD Type 1). Includes a conformed Unknown row."
 }
+
+SELECT
+  FARM_FINGERPRINT("-999999") AS sk_payment_method,
+  -999999 AS id_payment_method,
+  0 AS type_id,
+  'Unknown' AS type,
+  'Unknown' AS currency,
+  'Unknown' AS card_brand,
+  FALSE AS mobile,
+  0 AS status_id,
+  'Unknown' AS status
+
+UNION ALL
 
 SELECT
   -- Generate unique conformed surrogate key based on natural primary key (SCD Type 1)

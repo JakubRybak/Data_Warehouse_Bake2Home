@@ -1,8 +1,22 @@
 config {
   type: "table",
   schema: "gold",
-  description: "Customer delivery addresses dimension table, storing geo-coordinates, BigQuery spatial geography points, and customer associations."
+  description: "Customer delivery addresses dimension table, storing geo-coordinates, BigQuery spatial geography points, and customer associations. Includes a conformed Unknown row."
 }
+
+SELECT
+  FARM_FINGERPRINT("-999999") AS sk_customer_address,
+  -999999 AS id_customer_address,
+  -999999 AS id_customer,
+  'Unknown' AS address_name,
+  'Unknown' AS address,
+  0.0 AS longitude,
+  0.0 AS latitude,
+  ST_GEOGPOINT(0.0, 0.0) AS geo_point,
+  0 AS state_id,
+  'Unknown' AS state
+
+UNION ALL
 
 SELECT
   -- Generate unique INT64 surrogate key using FARM_FINGERPRINT on the natural primary key

@@ -1,8 +1,18 @@
 config {
   type: "table",
   schema: "gold",
-  description: "Ingredients dimension table, combining public and private ingredients (SCD Type 1)."
+  description: "Ingredients dimension table, combining public and private ingredients (SCD Type 1). Includes a conformed Unknown row."
 }
+
+SELECT
+  FARM_FINGERPRINT("-999999") AS sk_ingredient,
+  -999999 AS id_ingredient,
+  'Unknown' AS name,
+  'Unknown' AS unit,
+  FALSE AS is_public,
+  -999999 AS platform_client_id
+
+UNION ALL
 
 SELECT
   -- Generate unique conformed surrogate key based on source type and natural primary key

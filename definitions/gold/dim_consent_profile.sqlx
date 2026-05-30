@@ -1,7 +1,7 @@
 config {
   type: "table",
   schema: "gold",
-  description: "Junk dimension storing all possible combinations of customer consent states (RODO, Terms, Marketing). Stored values correspond directly to backend ConsentStatus enum: ACTIVE, CANCELLED, EXPIRED, NO_CONSENT."
+  description: "Junk dimension storing all possible combinations of customer consent states (RODO, Terms, Marketing). Stored values correspond directly to backend ConsentStatus enum: ACTIVE, CANCELLED, EXPIRED, NO_CONSENT. Includes a conformed Unknown row."
 }
 
 WITH states AS (
@@ -13,6 +13,17 @@ WITH states AS (
   UNION ALL
   SELECT 0 AS status_id, 'NO_CONSENT' AS state
 )
+
+SELECT
+  FARM_FINGERPRINT("-999999") AS sk_consent_profile,
+  0 AS rodo_status_id,
+  'Unknown' AS rodo_state,
+  0 AS terms_status_id,
+  'Unknown' AS terms_state,
+  0 AS marketing_status_id,
+  'Unknown' AS marketing_state
+
+UNION ALL
 
 SELECT
   -- Generate unique INT64 surrogate key using FARM_FINGERPRINT on combined states

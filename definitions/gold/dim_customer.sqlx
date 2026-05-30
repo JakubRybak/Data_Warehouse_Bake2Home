@@ -101,6 +101,20 @@ source_data AS (
 )
 
 SELECT
+  FARM_FINGERPRINT("-999999") AS sk_customer,
+  -999999 AS id_customer,
+  FARM_FINGERPRINT("-999999") AS sk_consent_profile,
+  'Unknown' AS name,
+  0 AS customer_state_id,
+  'Unknown' AS customer_state,
+  TIMESTAMP("1970-01-01 00:00:00") AS valid_from,
+  TIMESTAMP("9999-12-31 23:59:59") AS valid_to,
+  TRUE AS is_current
+${when(incremental(), `WHERE FALSE`)}
+
+UNION ALL
+
+SELECT
   FARM_FINGERPRINT(
     CONCAT(
       CAST(id_customer AS STRING), '|',

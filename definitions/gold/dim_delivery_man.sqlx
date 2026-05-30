@@ -29,6 +29,18 @@ pre_operations {
 }
 
 SELECT
+  FARM_FINGERPRINT("-999999") AS sk_delivery_man,
+  -999999 AS id_delivery_man,
+  'Unknown' AS name,
+  -999999 AS id_site,
+  TIMESTAMP("1970-01-01 00:00:00") AS valid_from,
+  TIMESTAMP("9999-12-31 23:59:59") AS valid_to,
+  TRUE AS is_current
+${when(incremental(), `WHERE FALSE`)}
+
+UNION ALL
+
+SELECT
   FARM_FINGERPRINT(
     CONCAT(
       CAST(id_delivery_man AS STRING), '|',

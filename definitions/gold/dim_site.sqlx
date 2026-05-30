@@ -59,6 +59,35 @@ pre_operations {
 }
 
 SELECT
+  FARM_FINGERPRINT("-999999") AS sk_site,
+  -999999 AS id_site,
+  -999999 AS id_client,
+  -999999 AS id_coordinates,
+  'Unknown' AS client_name,
+  'Unknown' AS client_description,
+  'Unknown' AS client_street,
+  'Unknown' AS client_city,
+  'Unknown' AS client_country,
+  'Unknown' AS client_zip_code,
+  'Unknown' AS client_full_formal_name,
+  'Unknown' AS name,
+  'Unknown' AS street,
+  'Unknown' AS nr,
+  'Unknown' AS city,
+  0 AS state,
+  'Unknown' AS country,
+  'Unknown' AS zip_code,
+  0.0 AS latitude,
+  0.0 AS longitude,
+  ST_GEOGPOINT(0.0, 0.0) AS geo_point,
+  TIMESTAMP("1970-01-01 00:00:00") AS valid_from,
+  TIMESTAMP("9999-12-31 23:59:59") AS valid_to,
+  TRUE AS is_current
+${when(incremental(), `WHERE FALSE`)}
+
+UNION ALL
+
+SELECT
   FARM_FINGERPRINT(
     CONCAT(
       CAST(s.id_site AS STRING), '|',
