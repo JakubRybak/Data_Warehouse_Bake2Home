@@ -91,15 +91,9 @@ SELECT
   f.quantity,
   f.price AS gross_unit_price,
   f.vat AS vat_rate,
-  
-  -- Kwota brutto (gross amount) = cena * ilość
-  ROUND(f.price * f.quantity, 2) AS gross_amount,
-  
-  -- Kwota netto (net amount) = brutto / (1 + vat)
-  ROUND((f.price * f.quantity) / (1.0 + f.vat), 2) AS net_amount,
-  
-  -- Kwota VAT (vat amount) = brutto - netto
-  ROUND((f.price * f.quantity) - ((f.price * f.quantity) / (1.0 + f.vat)), 2) AS vat_amount
+  f.gross_amount,
+  f.net_amount,
+  f.vat_amount
 
 FROM ${ref("fact_order_item")} f
 LEFT JOIN ${ref("dim_date")} d 

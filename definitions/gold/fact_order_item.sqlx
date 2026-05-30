@@ -45,6 +45,16 @@ SELECT
   COALESCE(boi.price, 0.0) AS price,
   COALESCE(i.quantity, 0) AS quantity,
   COALESCE(boi.vat, 0.0) AS vat,
+  
+  -- Pre-calculated Additive Financial Measures (Kimball Best Practice)
+  ROUND(COALESCE(boi.price, 0.0) * COALESCE(i.quantity, 0), 2) AS gross_amount,
+  ROUND((COALESCE(boi.price, 0.0) * COALESCE(i.quantity, 0)) / (1.0 + COALESCE(boi.vat, 0.0)), 2) AS net_amount,
+  ROUND(
+    (COALESCE(boi.price, 0.0) * COALESCE(i.quantity, 0)) - 
+    ((COALESCE(boi.price, 0.0) * COALESCE(i.quantity, 0)) / (1.0 + COALESCE(boi.vat, 0.0))), 
+    2
+  ) AS vat_amount,
+  
   COALESCE(i.modified_by_hand, FALSE) AS modified_by_hand,
   
   -- 5. Conformed Enum States (Mapped from C#)
