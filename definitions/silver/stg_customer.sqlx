@@ -7,13 +7,16 @@ config {
 SELECT
   CAST(Id AS INT64) AS id_customer,
   COALESCE(CAST(Name AS STRING), 'Unknown') AS name,
-  COALESCE(CAST(Email AS STRING), 'Unknown') AS email,
+  
+  -- Mocked PII columns (excluded at Bronze level for GDPR compliance)
+  'Unknown' AS email,
+  'Unknown' AS phone_number,
+  'Unknown' AS avatar,
+  'Unknown' AS customer_ip,
+  
   COALESCE(CAST(CustomerState AS INT64), 0) AS customer_state,
   COALESCE(CAST(UserId AS STRING), 'Unknown') AS user_id,
-  COALESCE(CAST(PhoneNumber AS STRING), 'Unknown') AS phone_number,
-  COALESCE(CAST(Avatar AS STRING), 'Unknown') AS avatar,
   COALESCE(CAST(OtherRoleStatus AS INT64), 0) AS other_role_status,
-  COALESCE(CAST(CustomerIp AS STRING), 'Unknown') AS customer_ip,
   CAST(Created AS TIMESTAMP) AS created_at,
   CAST(Updated AS TIMESTAMP) AS updated_at
 FROM ${ref("raw_customer_manager_Customer")}

@@ -9,9 +9,9 @@ SELECT
   CAST(OfferId AS INT64) AS id_offer,
   COALESCE(CAST(OfferName AS STRING), 'Unknown') AS offer_name,
   
-  -- Robust Money & Percent Cleaning from raw strings containing currency symbols
-  COALESCE(SAFE_CAST(REGEXP_REPLACE(Price, r'[^\d.-]', '') AS NUMERIC), 0.0) AS price,
-  COALESCE(SAFE_CAST(REGEXP_REPLACE(VAT, r'[^\d.-]', '') AS NUMERIC), 0.0) AS vat,
+  -- Natively stored as NUMERIC in postgres/parquet
+  COALESCE(CAST(Price AS NUMERIC), 0.0) AS price,
+  COALESCE(CAST(VAT AS NUMERIC), 0.0) AS vat,
   CAST(VatRateId AS INT64) AS vat_rate_id,
   
   -- Map C# OfferType enum to conformed bought_offer_instance_type
