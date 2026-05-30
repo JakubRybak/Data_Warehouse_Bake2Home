@@ -74,7 +74,7 @@ SELECT
   'Unknown' AS street,
   'Unknown' AS nr,
   'Unknown' AS city,
-  0 AS state,
+  'Unknown' AS state,
   'Unknown' AS country,
   'Unknown' AS zip_code,
   0.0 AS latitude,
