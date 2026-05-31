@@ -39,6 +39,11 @@
 | :--- | :--- | :--- |
 | `QUANTITY` | Number of items in the subscription plan | **SUM** |
 | `DURATION_DAYS` | Duration of the plan / cycle | **AVG**, **MAX** |
+| `PRICE` | Value/Price for a given subscription offer | **SUM** (Planned Revenue), **AVG** |
+| `VAT` | VAT rate for the offer | **AVG** |
+| `GROSS_AMOUNT` | Pre-calculated gross planned amount | **SUM** |
+| `NET_AMOUNT` | Pre-calculated net planned amount | **SUM** |
+| `VAT_AMOUNT` | Pre-calculated VAT planned amount | **SUM** |
 
 ---
 

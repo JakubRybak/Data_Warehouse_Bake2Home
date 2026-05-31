@@ -405,4 +405,40 @@
 | `ID_LOCATION_SITE` | INT64 | |
 | `ID_LOCATION` | INT64 | |
 | `ID_SITE` | INT64 | |
- 
+
+## FACT_PLANNER_ITEM
+| Kolumna | Typ w BigQuery | Uwagi |
+| :--- | :--- | :--- |
+| `SK_PLANNER_ITEM` | INT64 | |
+| `ID_PLANNER_ITEM` | INT64 | |
+| `ID_BOUGHT_OFFER_INSTANCE` | INT64 | |
+| `ID_OFFER` | INT64 | |
+| `ID_LOCATION` | INT64 | |
+| `ID_SITE` | INT64 | |
+| `ID_CUSTOMER_ADDRESS` | INT64 | |
+| `ID_CUSTOMER` | INT64 | |
+| `SK_START_DATE` | DATE | Partition key |
+| `SK_END_DATE` | DATE | |
+| `SK_CUSTOMER_ADDRESS` | INT64 | |
+| `SK_SITE` | INT64 | |
+| `SK_OFFER` | INT64 | |
+| `SK_LOCATION` | INT64 | |
+| `SK_CUSTOMER` | INT64 | |
+| `NEXT_VERSION` | INT64 | |
+| `PREVIOUS_VERSION` | INT64 | |
+| `DAY_INDEX` | INT64 | |
+| `DAY_NAME` | STRING | Mapped from DayIndex (0 = Sunday, 1 = Monday, etc.) |
+| `QUANTITY` | INT64 | |
+| `PRICE` | NUMERIC | |
+| `VAT` | NUMERIC | |
+| `GROSS_AMOUNT` | NUMERIC | Pre-calculated gross amount (Quantity * Price) |
+| `NET_AMOUNT` | NUMERIC | Pre-calculated net amount |
+| `VAT_AMOUNT` | NUMERIC | Pre-calculated VAT amount |
+| `BOUGHT_OFFER_INSTANCE_TYPE_ID` | INT64 | Mapped from C# |
+| `BOUGHT_OFFER_INSTANCE_TYPE` | STRING | Mapped from C# |
+| `PLANNER_ITEM_STATE_ID` | INT64 | Mapped from C# |
+| `PLANNER_ITEM_STATE` | STRING | Mapped from C# ('TO BE SET') |
+| `DURATION_DAYS` | INT64 | |
+| `IS_ACTIVE` | BOOL | Wyliczane na podstawie statusu / wiersza (TRUE jeśli NEXT_VERSION = 0) |
+| `CREATED_AT` | TIMESTAMP | Audit created timestamp |
+| `MODIFIED_AT` | TIMESTAMP | Audit updated timestamp |
