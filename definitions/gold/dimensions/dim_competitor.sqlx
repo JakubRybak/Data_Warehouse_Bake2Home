@@ -6,8 +6,8 @@ config {
 
 -- Renders the active competitors list
 SELECT
-  FARM_FINGERPRINT(c.id_place) AS sk_competitor,
-  c.id_place,
+  FARM_FINGERPRINT(c.id_competitor) AS sk_competitor,
+  c.id_competitor,
   c.name,
   c.address,
   c.latitude,

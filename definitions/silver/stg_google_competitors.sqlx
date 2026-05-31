@@ -5,7 +5,7 @@ config {
 }
 
 SELECT
-  COALESCE(CAST(place_id AS STRING), 'Unknown') AS id_place,
+  COALESCE(CAST(place_id AS STRING), 'Unknown') AS id_competitor,
   COALESCE(CAST(name AS STRING), 'Unknown') AS name,
   COALESCE(CAST(address AS STRING), 'Unknown') AS address,
   CAST(latitude AS FLOAT64) AS latitude,

@@ -45,16 +45,16 @@
 ## 2. Key Attributes
 
 ### Spatial and Logistics Attributes (GIS)
-**Tables:** `DIM_SITE`, `DIM_CUSTOMER_ADDRESS`, `DIM_COMPETITORS`
-* **Categorizing:** `CITY`, `ZIPCODE`, `STATE`, `COUNTRY`, `STREET`.
+**Tables:** `DIM_SITE`, `DIM_CUSTOMER_ADDRESS`, `DIM_COMPETITOR`
+* **Categorizing:** `CITY`, `ZIP_CODE`, `STATE`, `COUNTRY`, `STREET`.
 * **GIS (Coordinates):** `LATITUDE`, `LONGITUDE`, **`GEO_POINT`**.
-* **Reach Indicators in `DIM_CUSTOMER`:** 
-  * `DIST_TO_NEAREST_OWN_SITE_M`, `DIST_TO_NEAREST_COMP_BAKERY_M`
+* **Reach Indicators in `DIM_CUSTOMER_ADDRESS`:** 
+  * `DIST_TO_NEAREST_OWN_SITE_M`, `DIST_TO_NEAREST_COMP_BAKERY_M`, `DIST_TO_NEAREST_COMP_SUPERMARKET_M`
   * `COMP_BAKERY_COUNT_500M`, `OWN_SITE_COUNT_1000M`
 
 ### Product and Marketing Attributes
 **Tables:** `DIM_PRODUCT`, `DIM_OFFER`, `DIM_DISCOUNT`, `DIM_INGREDIENT`
-* **Categorizing:** `PRODUCT_TYPE_NAME`, `TYPE` (in offer), `CATEGORY` (Competitors).
+* **Categorizing:** `PRODUCT_TYPE_NAME`, `TYPE` (in offer), `COMPETITOR_TYPE` (Competitor).
 * **Technical/Nutritional:** `CALORIES`, `TOTAL_FATS`, `SUGAR`.
 * **Promotional:** `DISCOUNT_CODE`, `ONLY_FOR_FIRST_PURCHASE`.
 

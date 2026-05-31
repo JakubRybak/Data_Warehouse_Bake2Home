@@ -14,19 +14,26 @@
 | `ID_OFFER` | INT64 | |
 | `ID_CUSTOMER` | INT64 | |
 | `ID_PLANNER_ITEM` | INT64 | |
-| `SK_DATE_ORDER` | INT64 | |
+| `SK_DATE_ORDER` | DATE | Partition key |
 | `SK_OFFER` | INT64 | |
 | `SK_CUSTOMER_ADDRESS` | INT64 | |
 | `SK_LOCATION` | INT64 | |
 | `SK_SITE` | INT64 | |
 | `SK_CUSTOMER` | INT64 | |
 | `PRICE` | NUMERIC | |
-| `TYPE` | STRING | |
-| `ORDER_ITEM_STATE` | STRING | |
-| `MODIFIED_BY_HAND` | BOOL | |
-| `ORDER_STATE` | STRING | |
 | `QUANTITY` | INT64 | |
 | `VAT` | NUMERIC | |
+| `GROSS_AMOUNT` | NUMERIC | Pre-calculated gross sales amount |
+| `NET_AMOUNT` | NUMERIC | Pre-calculated net sales amount |
+| `VAT_AMOUNT` | NUMERIC | Pre-calculated VAT amount |
+| `MODIFIED_BY_HAND` | BOOL | |
+| `BOUGHT_OFFER_INSTANCE_TYPE_ID` | INT64 | Mapped from C# |
+| `BOUGHT_OFFER_INSTANCE_TYPE` | STRING | Mapped from C# |
+| `ORDER_ITEM_STATE_ID` | INT64 | Mapped from C# |
+| `ORDER_ITEM_STATE` | STRING | Mapped from C# |
+| `ORDER_STATE_ID` | INT64 | Mapped from C# |
+| `ORDER_STATE` | STRING | Mapped from C# |
+| `CREATED_AT` | TIMESTAMP | Audit created timestamp |
 | `DISCOUNT_PERCENT` | NUMERIC | |
 | `WEATHER_MORNING_PRECIP_PROB` | INT64 | max prawdopodobieństwo opadu w oknie 6-10, % |
 | `WEATHER_MORNING_PRECIP_SUM_MM` | NUMERIC | suma opadów w oknie 6-10, mm |
@@ -42,18 +49,16 @@
 | `CLIENT_DESCRIPTION` | STRING | |
 | `CLIENT_STREET` | STRING | |
 | `CLIENT_CITY` | STRING | |
-| `CLIENT_COUNTRY` | INT64 | |
-| `CLIENT_ZIPCODE` | STRING | |
-| `CLIENT_EMAIL` | STRING | |
+| `CLIENT_COUNTRY` | STRING | |
+| `CLIENT_ZIP_CODE` | STRING | |
 | `CLIENT_FULL_FORMAL_NAME` | STRING | |
-| `CLIENT_PHONE` | STRING | |
 | `NAME` | STRING | |
 | `STREET` | STRING | |
 | `NR` | STRING | |
 | `CITY` | STRING | |
 | `STATE` | STRING | |
-| `COUNTRY` | INT64 | |
-| `ZIPCODE` | STRING | |
+| `COUNTRY` | STRING | |
+| `ZIP_CODE` | STRING | |
 | `LATITUDE` | FLOAT64 | |
 | `LONGITUDE` | FLOAT64 | |
 | `GEO_POINT` | GEOGRAPHY | |
@@ -77,13 +82,13 @@
 | :--- | :--- | :--- |
 | `SK_CUSTOMER_ADDRESS` | INT64 | |
 | `ID_CUSTOMER_ADDRESS` | INT64 | |
+| `ID_CUSTOMER` | INT64 | |
 | `ADDRESS_NAME` | STRING | |
 | `ADDRESS` | STRING | |
 | `LONGITUDE` | FLOAT64 | |
 | `LATITUDE` | FLOAT64 | |
 | `GEO_POINT` | GEOGRAPHY | |
 | `ADDITIONAL_INFORMATION` | STRING | |
-| `STATE` | STRING | |
 | `DIST_TO_NEAREST_OWN_SITE_M` | FLOAT64 | |
 | `DIST_TO_NEAREST_COMP_BAKERY_M` | FLOAT64 | |
 | `DIST_TO_NEAREST_COMP_SUPERMARKET_M` | FLOAT64 | |
@@ -100,6 +105,8 @@
 | `OWN_SITE_COUNT_1000M` | INT64 | |
 | `OWN_SITE_COUNT_2000M` | INT64 | |
 | `OWN_SITE_COUNT_3000M` | INT64 | |
+| `STATE_ID` | INT64 | Mapped from C# |
+| `STATE` | STRING | Mapped from C# |
 
 ## DIM_CUSTOMER
 | Kolumna | Typ w BigQuery | Uwagi |
@@ -108,8 +115,8 @@
 | `ID_CUSTOMER` | INT64 | |
 | `SK_CONSENT_PROFILE` | INT64 | Klucz do profilu zgód (dim_consent_profile) |
 | `NAME` | STRING | |
-| `EMAIL` | STRING | |
-| `CUSTOMER_STATE` | STRING | |
+| `CUSTOMER_STATE_ID` | INT64 | Mapped from C# |
+| `CUSTOMER_STATE` | STRING | Mapped from C# |
 | `VALID_FROM` | TIMESTAMP | |
 | `VALID_TO` | TIMESTAMP | |
 | `IS_CURRENT` | BOOL | |
@@ -378,18 +385,17 @@
 | `VALID_FROM` | TIMESTAMP | |
 | `VALID_TO` | TIMESTAMP | |
 | `IS_CURRENT` | BOOL | |
-## DIM_COMPETITORS
+## DIM_COMPETITOR
 | Kolumna | Typ w BigQuery | Uwagi |
 | :--- | :--- | :--- |
 | `SK_COMPETITOR` | INT64 | |
-| `ID_COMPETITOR` | INT64 | |
-| `CATEGORY` | STRING | |
+| `ID_COMPETITOR` | STRING | Google Places API unique place ID |
 | `NAME` | STRING | |
+| `ADDRESS` | STRING | |
 | `LATITUDE` | FLOAT64 | |
 | `LONGITUDE` | FLOAT64 | |
 | `GEO_POINT` | GEOGRAPHY | |
-| `ADDRESS` | STRING | |
-| `VALID_FROM` | TIMESTAMP | |
-| `VALID_TO` | TIMESTAMP | |
-| `IS_CURRENT` | BOOL | |
+| `COMPETITOR_TYPE` | STRING | DIRECT (bakery) or INDIRECT (supermarket) |
+| `GOOGLE_TYPES` | ARRAY<STRING> | Raw Google API Place types list |
+| `EXTRACTED_AT` | TIMESTAMP | ETL extraction audit timestamp |
  
