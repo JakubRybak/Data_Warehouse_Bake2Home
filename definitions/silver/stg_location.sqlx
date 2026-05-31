@@ -8,7 +8,7 @@ SELECT
   CAST(Id AS INT64) AS id_location,
   COALESCE(CAST(Name AS STRING), 'Unknown') AS name,
   COALESCE(CAST(Description AS STRING), 'Unknown') AS description,
-  COALESCE(CAST(Status AS INT64), 0) AS status,
+  COALESCE(CAST(Status AS INT64), 0) AS state,
   CAST(Created AS TIMESTAMP) AS created_at,
   CAST(Updated AS TIMESTAMP) AS updated_at,
   COALESCE(CAST(UserId AS STRING), 'Unknown') AS user_id,

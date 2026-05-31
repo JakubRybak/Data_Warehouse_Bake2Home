@@ -5,13 +5,13 @@ config {
 }
 
 WITH states AS (
-  SELECT 1 AS status_id, 'ACTIVE' AS state
+  SELECT 1 AS state_id, 'ACTIVE' AS state
   UNION ALL
-  SELECT 2 AS status_id, 'CANCELLED' AS state
+  SELECT 2 AS state_id, 'CANCELLED' AS state
   UNION ALL
-  SELECT 3 AS status_id, 'EXPIRED' AS state
+  SELECT 3 AS state_id, 'EXPIRED' AS state
   UNION ALL
-  SELECT 0 AS status_id, 'NO_CONSENT' AS state
+  SELECT 0 AS state_id, 'NO_CONSENT' AS state
 )
 
 SELECT
@@ -28,11 +28,11 @@ UNION ALL
 SELECT
   -- Generate unique INT64 surrogate key using FARM_FINGERPRINT on combined states
   FARM_FINGERPRINT(CONCAT(r.state, '|', t.state, '|', m.state)) AS sk_consent_profile,
-  r.status_id AS rodo_state_id,
+  r.state_id AS rodo_state_id,
   r.state AS rodo_state,
-  t.status_id AS terms_state_id,
+  t.state_id AS terms_state_id,
   t.state AS terms_state,
-  m.status_id AS marketing_state_id,
+  m.state_id AS marketing_state_id,
   m.state AS marketing_state
 FROM states r
 CROSS JOIN states t

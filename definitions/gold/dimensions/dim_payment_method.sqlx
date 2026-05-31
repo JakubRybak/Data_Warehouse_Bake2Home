@@ -35,17 +35,17 @@ SELECT
   mobile,
   
   -- Map C# PaymentMethodState enum
-  status AS state_id,
+  state AS state_id,
   CASE
-    WHEN status = 0 THEN 'PRIMARY'
-    WHEN status = 1 THEN 'ACTIVE'
-    WHEN status = 2 THEN 'EXPIRED'
-    WHEN status = 3 THEN 'ENABLED'
-    WHEN status = 4 THEN 'DISABLED'
-    WHEN status = 5 THEN 'TEMPORARY_DISABLED'
-    WHEN status = 6 THEN 'WAITING_FOR_3DS2'
-    WHEN status = 7 THEN 'WAITING_FOR_CVV'
-    WHEN status = 8 THEN 'REJECTED'
+    WHEN state = 0 THEN 'PRIMARY'
+    WHEN state = 1 THEN 'ACTIVE'
+    WHEN state = 2 THEN 'EXPIRED'
+    WHEN state = 3 THEN 'ENABLED'
+    WHEN state = 4 THEN 'DISABLED'
+    WHEN state = 5 THEN 'TEMPORARY_DISABLED'
+    WHEN state = 6 THEN 'WAITING_FOR_3DS2'
+    WHEN state = 7 THEN 'WAITING_FOR_CVV'
+    WHEN state = 8 THEN 'REJECTED'
     ELSE 'UNKNOWN'
   END AS state
 FROM ${ref("stg_payment_method")}

@@ -8,7 +8,7 @@ SELECT
   CAST(Id AS INT64) AS id_payment_method,
   COALESCE(CAST(Type AS INT64), 0) AS type,
   COALESCE(CAST(Currency AS STRING), 'Unknown') AS currency,
-  COALESCE(CAST(Status AS INT64), 0) AS status,
+  COALESCE(CAST(Status AS INT64), 0) AS state,
   COALESCE(CAST(CardBrand AS STRING), 'Unknown') AS card_brand,
   COALESCE(CAST(Mobile AS BOOL), FALSE) AS mobile,
   CAST(Created AS TIMESTAMP) AS created_at,

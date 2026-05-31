@@ -25,10 +25,10 @@ pre_operations {
         l.id_location,
         l.name,
         l.description,
-        l.status AS state_id,
+        l.state AS state_id,
         CASE
-          WHEN l.status = 0 THEN 'EXISTING'
-          WHEN l.status = 1 THEN 'DELETED'
+          WHEN l.state = 0 THEN 'EXISTING'
+          WHEN l.state = 1 THEN 'DELETED'
           ELSE 'UNKNOWN'
         END AS state,
         COALESCE(v.vertexes, '[]') AS vertexes,
@@ -94,10 +94,10 @@ SELECT
   l.id_location,
   l.name,
   l.description,
-  l.status AS state_id,
+  l.state AS state_id,
   CASE
-    WHEN l.status = 0 THEN 'EXISTING'
-    WHEN l.status = 1 THEN 'DELETED'
+    WHEN l.state = 0 THEN 'EXISTING'
+    WHEN l.state = 1 THEN 'DELETED'
     ELSE 'UNKNOWN'
   END AS state,
   COALESCE(v.vertexes, '[]') AS vertexes,

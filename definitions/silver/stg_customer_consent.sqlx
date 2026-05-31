@@ -8,6 +8,6 @@ SELECT
   CAST(Id AS INT64) AS id_customer_consent,
   CAST(CustomerId AS INT64) AS id_customer,
   CAST(ConsentId AS INT64) AS id_consent,
-  CAST(Status AS INT64) AS status,
+  CAST(Status AS INT64) AS state,
   CAST(Date AS TIMESTAMP) AS consent_date
 FROM ${ref("raw_customer_manager_CustomerConsent")}

@@ -9,7 +9,7 @@ SELECT
   COALESCE(CAST(Name AS STRING), 'Unknown') AS name,
   COALESCE(CAST(CustomerState AS INT64), 0) AS customer_state,
   COALESCE(CAST(UserId AS STRING), 'Unknown') AS user_id,
-  COALESCE(CAST(OtherRoleStatus AS INT64), 0) AS other_role_status,
+  COALESCE(CAST(OtherRoleStatus AS INT64), 0) AS other_role_state,
   CAST(Created AS TIMESTAMP) AS created_at,
   CAST(Updated AS TIMESTAMP) AS updated_at
 FROM ${ref("raw_customer_manager_Customer")}
