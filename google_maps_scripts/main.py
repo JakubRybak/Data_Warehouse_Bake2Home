@@ -90,10 +90,13 @@ def run_competitors_pipeline(request=None):
             print(f"Skipping zone {zone['name']} due to geometry parsing error: {e}")
             continue
 
-        # Generate optimal honeycomb search grid (700m radius)
+        # Generate optimal honeycomb search grid (700m search radius)
+        # We pass the original polygon and a 3000m total safety buffer directly to a4_standard
+        # so all buffering logic is handled inside the hexagonal coverage algorithm.
         radius_meters = 700.0
-        centers_meters = a4_standard(poly, radius_meters)
-        print(f"Hexagonal grid coverage generated {len(centers_meters)} search circles.")
+        buffer_meters = 3000.0
+        centers_meters = a4_standard(poly, radius_meters, buffer_distance=buffer_meters)
+        print(f"Hexagonal grid coverage generated {len(centers_meters)} search circles with 3km outer boundary buffer.")
 
         # Query Places API for each circle center
         for idx, (x, y) in enumerate(centers_meters, 1):

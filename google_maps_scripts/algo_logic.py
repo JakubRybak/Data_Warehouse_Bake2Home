@@ -42,7 +42,7 @@ def _hex_grid(region: Polygon, radius: float, offset_x: float = 0.0, offset_y: f
                 centers.append((p.x, p.y))
     return centers
 
-def a4_standard(polygon: Polygon, radius: float) -> list:
+def a4_standard(polygon: Polygon, radius: float, buffer_distance: float = None) -> list:
     """
     A4_Standard Algorithm - Calculates the optimal hexagonal coverage of a polygon with circles.
     Scans 7 rotation angles and 16 translation shifts (4x4 offset grid), selecting the configuration
@@ -51,6 +51,7 @@ def a4_standard(polygon: Polygon, radius: float) -> list:
     d = radius * math.sqrt(3)
     row_h = d * math.sin(math.pi / 3)
     cx, cy = polygon.centroid.x, polygon.centroid.y
+    actual_buffer = buffer_distance if buffer_distance is not None else radius
 
     best_centers = []
     best_n = float('inf')
@@ -62,9 +63,8 @@ def a4_standard(polygon: Polygon, radius: float) -> list:
     for angle in angles:
         # Rotate the polygon to test alternative grid alignments
         rot_poly = shapely_rotate(polygon, angle, origin='centroid')
-        # Buffer the polygon by the search radius to ensure circle centers can lie slightly outside,
-        # guaranteeing that boundary and edge cases of the polygon are fully covered
-        search_region = rot_poly.buffer(radius)
+        # Buffer the polygon to ensure circle centers can cover outer margins
+        search_region = rot_poly.buffer(actual_buffer)
         
         for fx in shifts:
             for fy in shifts:
