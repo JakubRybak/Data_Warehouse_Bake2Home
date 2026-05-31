@@ -13,16 +13,16 @@ pre_operations {
         SELECT
           id_customer,
           id_consent,
-          status,
+          state,
           ROW_NUMBER() OVER(PARTITION BY id_customer, id_consent ORDER BY consent_date DESC) as rn
         FROM ${ref("stg_customer_consent")}
       ),
       pivoted_consents AS (
         SELECT
           id_customer,
-          COALESCE(MAX(CASE WHEN id_consent = -1 THEN status END), 0) AS rodo_status_id,
-          COALESCE(MAX(CASE WHEN id_consent = -2 THEN status END), 0) AS terms_status_id,
-          COALESCE(MAX(CASE WHEN id_consent = -3 THEN status END), 0) AS marketing_status_id
+          COALESCE(MAX(CASE WHEN id_consent = -1 THEN state END), 0) AS rodo_state_id,
+          COALESCE(MAX(CASE WHEN id_consent = -2 THEN state END), 0) AS terms_state_id,
+          COALESCE(MAX(CASE WHEN id_consent = -3 THEN state END), 0) AS marketing_state_id
         FROM latest_consents
         WHERE rn = 1
         GROUP BY id_customer
@@ -43,9 +43,9 @@ pre_operations {
       FROM ${ref("stg_customer")} c
       LEFT JOIN pivoted_consents pc ON c.id_customer = pc.id_customer
       LEFT JOIN ${ref("dim_consent_profile")} cp ON
-        COALESCE(pc.rodo_status_id, 0) = cp.rodo_status_id AND
-        COALESCE(pc.terms_status_id, 0) = cp.terms_status_id AND
-        COALESCE(pc.marketing_status_id, 0) = cp.marketing_status_id
+        COALESCE(pc.rodo_state_id, 0) = cp.rodo_state_id AND
+        COALESCE(pc.terms_state_id, 0) = cp.terms_state_id AND
+        COALESCE(pc.marketing_state_id, 0) = cp.marketing_state_id
     ) S
     ON T.id_customer = S.id_customer AND T.is_current = TRUE
     WHEN MATCHED AND (
@@ -63,16 +63,16 @@ WITH latest_consents AS (
   SELECT
     id_customer,
     id_consent,
-    status,
+    state,
     ROW_NUMBER() OVER(PARTITION BY id_customer, id_consent ORDER BY consent_date DESC) as rn
   FROM ${ref("stg_customer_consent")}
 ),
 pivoted_consents AS (
   SELECT
     id_customer,
-    COALESCE(MAX(CASE WHEN id_consent = -1 THEN status END), 0) AS rodo_status_id,
-    COALESCE(MAX(CASE WHEN id_consent = -2 THEN status END), 0) AS terms_status_id,
-    COALESCE(MAX(CASE WHEN id_consent = -3 THEN status END), 0) AS marketing_status_id
+    COALESCE(MAX(CASE WHEN id_consent = -1 THEN state END), 0) AS rodo_state_id,
+    COALESCE(MAX(CASE WHEN id_consent = -2 THEN state END), 0) AS terms_state_id,
+    COALESCE(MAX(CASE WHEN id_consent = -3 THEN state END), 0) AS marketing_state_id
   FROM latest_consents
   WHERE rn = 1
   GROUP BY id_customer
@@ -95,9 +95,9 @@ source_data AS (
   FROM ${ref("stg_customer")} c
   LEFT JOIN pivoted_consents pc ON c.id_customer = pc.id_customer
   LEFT JOIN ${ref("dim_consent_profile")} cp ON
-    COALESCE(pc.rodo_status_id, 0) = cp.rodo_status_id AND
-    COALESCE(pc.terms_status_id, 0) = cp.terms_status_id AND
-    COALESCE(pc.marketing_status_id, 0) = cp.marketing_status_id
+    COALESCE(pc.rodo_state_id, 0) = cp.rodo_state_id AND
+    COALESCE(pc.terms_state_id, 0) = cp.terms_state_id AND
+    COALESCE(pc.marketing_state_id, 0) = cp.marketing_state_id
 )
 
 SELECT
