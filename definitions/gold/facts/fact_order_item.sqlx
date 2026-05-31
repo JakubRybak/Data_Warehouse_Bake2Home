@@ -1,7 +1,7 @@
 config {
   type: "table",
   schema: "gold",
-  description: "Sales fact table"
+  description: "Sales fact table",
   bigquery: {
     partitionBy: "sk_date_order",
     clusterBy: ["sk_customer", "sk_site", "sk_offer"]
