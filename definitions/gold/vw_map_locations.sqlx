@@ -1,0 +1,29 @@
+config {
+  type: "view",
+  schema: "gold",
+  description: "Unified analytics view combining Bake2Home own sites and competitors for rich interactive mapping in Looker Studio."
+}
+
+SELECT
+  'own_site' AS location_type,
+  name,
+  street,
+  city,
+  latitude,
+  longitude,
+  geo_point
+FROM ${ref("dim_site")}
+WHERE id_site != -999999
+  AND is_current = TRUE
+
+UNION ALL
+
+SELECT
+  competitor_type AS location_type,
+  name,
+  address AS street,
+  'Poland' AS city,
+  latitude,
+  longitude,
+  geo_point
+FROM ${ref("dim_competitor")}
