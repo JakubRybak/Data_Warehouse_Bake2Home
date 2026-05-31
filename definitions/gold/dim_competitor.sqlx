@@ -4,21 +4,6 @@ config {
   description: "Competitors dimension table (bakeries and supermarkets) from Google Places API with a spatial anti-join to exclude Bake2Home's own sites."
 }
 
--- Default conformed row for unknown or missing keys
-SELECT
-  FARM_FINGERPRINT("-999999") AS sk_competitor,
-  '-999999' AS id_place,
-  'Unknown' AS name,
-  'Unknown' AS address,
-  0.0 AS latitude,
-  0.0 AS longitude,
-  ST_GEOGPOINT(0.0, 0.0) AS geo_point,
-  'Unknown' AS competitor_type,
-  ARRAY<STRING>[] AS google_types,
-  TIMESTAMP("1970-01-01 00:00:00") AS extracted_at
-
-UNION ALL
-
 -- Renders the active competitors list
 SELECT
   FARM_FINGERPRINT(c.id_place) AS sk_competitor,
