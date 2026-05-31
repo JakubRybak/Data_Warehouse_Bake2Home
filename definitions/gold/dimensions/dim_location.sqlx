@@ -25,12 +25,12 @@ pre_operations {
         l.id_location,
         l.name,
         l.description,
-        l.status AS status_id,
+        l.status AS state_id,
         CASE
           WHEN l.status = 0 THEN 'EXISTING'
           WHEN l.status = 1 THEN 'DELETED'
           ELSE 'UNKNOWN'
-        END AS status,
+        END AS state,
         COALESCE(v.vertexes, '[]') AS vertexes,
         l.created_at,
         l.updated_at
@@ -41,8 +41,8 @@ pre_operations {
     WHEN MATCHED AND (
       T.name IS DISTINCT FROM S.name OR
       T.description IS DISTINCT FROM S.description OR
-      T.status_id IS DISTINCT FROM S.status_id OR
-      T.status IS DISTINCT FROM S.status OR
+      T.state_id IS DISTINCT FROM S.state_id OR
+      T.state IS DISTINCT FROM S.state OR
       T.vertexes IS DISTINCT FROM S.vertexes
     ) THEN
       UPDATE SET 
@@ -69,8 +69,8 @@ SELECT
   -999999 AS id_location,
   'Unknown' AS name,
   'Unknown' AS description,
-  0 AS status_id,
-  'Unknown' AS status,
+  0 AS state_id,
+  'Unknown' AS state,
   '[]' AS vertexes,
   TIMESTAMP("1970-01-01 00:00:00") AS valid_from,
   TIMESTAMP("9999-12-31 23:59:59") AS valid_to,
@@ -94,12 +94,12 @@ SELECT
   l.id_location,
   l.name,
   l.description,
-  l.status AS status_id,
+  l.status AS state_id,
   CASE
     WHEN l.status = 0 THEN 'EXISTING'
     WHEN l.status = 1 THEN 'DELETED'
     ELSE 'UNKNOWN'
-  END AS status,
+  END AS state,
   COALESCE(v.vertexes, '[]') AS vertexes,
   ${when(incremental(), 
     `COALESCE(l.updated_at, l.created_at, CURRENT_TIMESTAMP())`, 

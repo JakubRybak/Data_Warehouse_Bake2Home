@@ -8,7 +8,6 @@
 | `ID_ORDER` | INT64 | |
 | `ID_BOUGHT_OFFER_INSTANCE` | INT64 | |
 | `ID_CUSTOMER_ADDRESS` | INT64 | |
-| `ID_PLATFORM_DISCOUNT` | INT64 | |
 | `ID_LOCATION` | INT64 | |
 | `ID_SITE` | INT64 | |
 | `ID_OFFER` | INT64 | |
@@ -34,7 +33,6 @@
 | `ORDER_STATE_ID` | INT64 | Mapped from C# |
 | `ORDER_STATE` | STRING | Mapped from C# |
 | `CREATED_AT` | TIMESTAMP | Audit created timestamp |
-| `DISCOUNT_PERCENT` | NUMERIC | |
 | `WEATHER_MORNING_PRECIP_PROB` | INT64 | max prawdopodobieństwo opadu w oknie 6-10, % |
 | `WEATHER_MORNING_PRECIP_SUM_MM` | NUMERIC | suma opadów w oknie 6-10, mm |
 | `WEATHER_MORNING_WAS_RAINY` | BOOL | |
@@ -72,7 +70,8 @@
 | `ID_LOCATION` | INT64 | |
 | `NAME` | STRING | |
 | `DESCRIPTION` | STRING | |
-| `STATUS` | STRING | |
+| `STATE_ID` | INT64 | Mapped from C# |
+| `STATE` | STRING | Mapped from C# |
 | `VERTEXES` | STRING | |
 | `VALID_FROM` | TIMESTAMP | |
 | `VALID_TO` | TIMESTAMP | |
@@ -125,8 +124,11 @@
 | Kolumna | Typ w BigQuery | Uwagi |
 | :--- | :--- | :--- |
 | `SK_CONSENT_PROFILE` | INT64 | Klucz główny (PK) |
+| `RODO_STATE_ID` | INT64 | Mapped from C# |
 | `RODO_STATE` | STRING | Status zgody RODO |
+| `TERMS_STATE_ID` | INT64 | Mapped from C# |
 | `TERMS_STATE` | STRING | Status zgody na regulamin |
+| `MARKETING_STATE_ID` | INT64 | Mapped from C# |
 | `MARKETING_STATE` | STRING | Status zgody marketingowej |
 ## FACT_DELIVERY_ITEM
 | Kolumna | Typ w BigQuery | Uwagi |
@@ -157,8 +159,7 @@
 | `SK_DELIVERY_MAN` | INT64 | |
 | `ID_DELIVERY_MAN` | INT64 | |
 | `NAME` | STRING | |
-| `EMAIL` | STRING | |
-| `PHONE_NUMBER` | STRING | |
+| `ID_SITE` | INT64 | |
 | `VALID_FROM` | TIMESTAMP | |
 | `VALID_TO` | TIMESTAMP | |
 | `IS_CURRENT` | BOOL | |
@@ -216,10 +217,13 @@
 | :--- | :--- | :--- |
 | `SK_PAYMENT_METHOD` | INT64 | |
 | `ID_PAYMENT_METHOD` | INT64 | |
-| `TYPE` | STRING | |
+| `TYPE_ID` | INT64 | Mapped from C# |
+| `TYPE` | STRING | Mapped from C# |
 | `CURRENCY` | STRING | |
 | `CARD_BRAND` | STRING | |
 | `MOBILE` | BOOL | |
+| `STATE_ID` | INT64 | Mapped from C# |
+| `STATE` | STRING | Mapped from C# |
 ## FACT_CUSTOMER_CONSENT
 | Kolumna | Typ w BigQuery | Uwagi |
 | :--- | :--- | :--- |
@@ -279,7 +283,8 @@
 | `ID_PRODUCT` | INT64 | |
 | `NAME` | STRING | |
 | `DESCRIPTION` | STRING | |
-| `STATE` | STRING | |
+| `STATE_ID` | INT64 | Mapped from C# |
+| `STATE` | STRING | Mapped from C# |
 | `PRODUCT_TYPE_NAME` | STRING | |
 | `WEIGHT` | FLOAT64 | |
 | `CALORIES` | FLOAT64 | |
@@ -320,8 +325,10 @@
 | `ID_OFFER` | INT64 | |
 | `NAME` | STRING | |
 | `PRICE` | NUMERIC | |
-| `STATE` | STRING | |
-| `TYPE` | STRING | |
+| `STATE_ID` | INT64 | Mapped from C# |
+| `STATE` | STRING | Mapped from C# |
+| `TYPE_ID` | INT64 | Mapped from C# |
+| `TYPE` | STRING | Mapped from C# |
 | `VAT` | NUMERIC | |
 | `VALID_FROM` | TIMESTAMP | |
 | `VALID_TO` | TIMESTAMP | |
@@ -330,13 +337,11 @@
 | Kolumna | Typ w BigQuery | Uwagi |
 | :--- | :--- | :--- |
 | `SK_OFFER_PRODUCT` | INT64 | |
-| `SK_OFFER` | INT64 | |
-| `SK_PRODUCT` | INT64 | |
+| `ID_OFFER_PRODUCT` | INT64 | |
+| `ID_OFFER` | INT64 | |
+| `ID_PRODUCT` | INT64 | |
 | `PRODUCT_COUNT` | INT64 | |
 | `PRODUCT_IN_OFFER_COUNT` | INT64 | |
-| `VALID_FROM` | TIMESTAMP | |
-| `VALID_TO` | TIMESTAMP | |
-| `IS_CURRENT` | BOOL | |
 ## DIM_DATE
 | Kolumna | Typ w BigQuery | Uwagi |
 | :--- | :--- | :--- |
@@ -357,18 +362,16 @@
 | `ID_INGREDIENT` | INT64 | |
 | `NAME` | STRING | |
 | `Unit` | STRING | |
+| `IS_PUBLIC` | BOOL | |
 ## BRIDGE_PRODUCT_INGREDIENT
 | Kolumna | Typ w BigQuery | Uwagi |
 | :--- | :--- | :--- |
 | `SK_PRODUCT_INGREDIENT` | INT64 | |
 | `ID_PRODUCT_INGREDIENT` | INT64 | |
-| `SK_PRODUCT` | INT64 | |
-| `SK_INGREDIENT` | INT64 | |
+| `ID_PRODUCT` | INT64 | |
+| `ID_INGREDIENT` | INT64 | |
 | `VALUE` | FLOAT64 | |
 | `IS_PUBLIC` | BOOL | |
-| `VALID_FROM` | TIMESTAMP | |
-| `VALID_TO` | TIMESTAMP | |
-| `IS_CURRENT` | BOOL | |
 ## DIM_ALLERGEN
 | Kolumna | Typ w BigQuery | Uwagi |
 | :--- | :--- | :--- |
@@ -380,11 +383,8 @@
 | :--- | :--- | :--- |
 | `SK_PRODUCT_ALLERGEN` | INT64 | |
 | `ID_PRODUCT_ALLERGEN` | INT64 | |
-| `SK_PRODUCT` | INT64 | |
-| `SK_ALLERGEN` | INT64 | |
-| `VALID_FROM` | TIMESTAMP | |
-| `VALID_TO` | TIMESTAMP | |
-| `IS_CURRENT` | BOOL | |
+| `ID_PRODUCT` | INT64 | |
+| `ID_ALLERGEN` | INT64 | |
 ## DIM_COMPETITOR
 | Kolumna | Typ w BigQuery | Uwagi |
 | :--- | :--- | :--- |
@@ -398,4 +398,11 @@
 | `COMPETITOR_TYPE` | STRING | DIRECT (bakery) or INDIRECT (supermarket) |
 | `GOOGLE_TYPES` | ARRAY<STRING> | Raw Google API Place types list |
 | `EXTRACTED_AT` | TIMESTAMP | ETL extraction audit timestamp |
+## BRIDGE_LOCATION_SITE
+| Kolumna | Typ w BigQuery | Uwagi |
+| :--- | :--- | :--- |
+| `SK_LOCATION_SITE` | INT64 | |
+| `ID_LOCATION_SITE` | INT64 | |
+| `ID_LOCATION` | INT64 | |
+| `ID_SITE` | INT64 | |
  

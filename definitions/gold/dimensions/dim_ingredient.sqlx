@@ -9,8 +9,7 @@ SELECT
   -999999 AS id_ingredient,
   'Unknown' AS name,
   'Unknown' AS unit,
-  FALSE AS is_public,
-  -999999 AS platform_client_id
+  FALSE AS is_public
 
 UNION ALL
 
@@ -20,8 +19,7 @@ SELECT
   id_ingredient,
   name,
   unit,
-  TRUE AS is_public,
-  CAST(-999999 AS INT64) AS platform_client_id
+  TRUE AS is_public
 FROM ${ref("stg_public_ingredient")}
 
 UNION ALL
@@ -32,6 +30,5 @@ SELECT
   id_ingredient,
   name,
   unit,
-  FALSE AS is_public,
-  COALESCE(platform_client_id, -999999) AS platform_client_id
+  FALSE AS is_public
 FROM ${ref("stg_private_ingredient")}

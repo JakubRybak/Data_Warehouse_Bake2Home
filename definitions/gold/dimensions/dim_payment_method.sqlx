@@ -12,8 +12,8 @@ SELECT
   'Unknown' AS currency,
   'Unknown' AS card_brand,
   FALSE AS mobile,
-  0 AS status_id,
-  'Unknown' AS status
+  0 AS state_id,
+  'Unknown' AS state
 
 UNION ALL
 
@@ -35,7 +35,7 @@ SELECT
   mobile,
   
   -- Map C# PaymentMethodState enum
-  status AS status_id,
+  status AS state_id,
   CASE
     WHEN status = 0 THEN 'PRIMARY'
     WHEN status = 1 THEN 'ACTIVE'
@@ -47,5 +47,5 @@ SELECT
     WHEN status = 7 THEN 'WAITING_FOR_CVV'
     WHEN status = 8 THEN 'REJECTED'
     ELSE 'UNKNOWN'
-  END AS status
+  END AS state
 FROM ${ref("stg_payment_method")}

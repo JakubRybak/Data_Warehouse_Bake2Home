@@ -16,11 +16,11 @@ WITH states AS (
 
 SELECT
   FARM_FINGERPRINT("-999999") AS sk_consent_profile,
-  0 AS rodo_status_id,
+  0 AS rodo_state_id,
   'Unknown' AS rodo_state,
-  0 AS terms_status_id,
+  0 AS terms_state_id,
   'Unknown' AS terms_state,
-  0 AS marketing_status_id,
+  0 AS marketing_state_id,
   'Unknown' AS marketing_state
 
 UNION ALL
@@ -28,11 +28,11 @@ UNION ALL
 SELECT
   -- Generate unique INT64 surrogate key using FARM_FINGERPRINT on combined states
   FARM_FINGERPRINT(CONCAT(r.state, '|', t.state, '|', m.state)) AS sk_consent_profile,
-  r.status_id AS rodo_status_id,
+  r.status_id AS rodo_state_id,
   r.state AS rodo_state,
-  t.status_id AS terms_status_id,
+  t.status_id AS terms_state_id,
   t.state AS terms_state,
-  m.status_id AS marketing_status_id,
+  m.status_id AS marketing_state_id,
   m.state AS marketing_state
 FROM states r
 CROSS JOIN states t
