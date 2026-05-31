@@ -1,6 +1,6 @@
 # API keys and secrets
 .env
-google_maps_test/.env
+local_tests/google_maps_test/.env
 
 # Python (virtual environments and cache)
 venv/
@@ -22,7 +22,7 @@ temp/
 node_modules/
 
 # Data and database dumps (Parquet)
-Extraction/data/
+docker_db_to_gcs_export/data/
 
 # scratch scripts
 scratch/
