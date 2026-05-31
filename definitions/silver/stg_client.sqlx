@@ -18,11 +18,6 @@ SELECT
   CAST(Updated AS TIMESTAMP) AS updated_at,
   COALESCE(CAST(UserId AS STRING), 'Unknown') AS user_id,
   COALESCE(CAST(ModifiedByUserId AS STRING), 'Unknown') AS modified_by_user_id,
-  
-  -- Mocked PII columns (excluded at Bronze level for GDPR compliance)
-  'Unknown' AS email,
-  'Unknown' AS phone,
-  
   COALESCE(CAST(FullFormalName AS STRING), 'Unknown') AS full_formal_name,
   COALESCE(CAST(Story AS STRING), 'Unknown') AS story
 FROM ${ref("raw_client_manager_Client")}

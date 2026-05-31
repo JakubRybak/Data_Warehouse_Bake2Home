@@ -1,12 +1,11 @@
 config {
   type: "incremental",
   schema: "gold",
-  description: "Delivery couriers dimension table, including contact details, bakery associations, and slowly changing historical data (SCD Type 2)."
+  description: "Delivery couriers dimension table"
 }
 
 pre_operations {
   ${when(incremental(), `
-    -- Close historical records that have changed in the source
     MERGE ${self()} T
     USING (
       SELECT

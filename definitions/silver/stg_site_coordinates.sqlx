@@ -1,17 +1,14 @@
 config {
   type: "view",
   schema: "silver",
-  description: "Cleaned and standardized site coordinates data, including geography points"
+  description: "Cleaned and standardized site coordinates data"
 }
 
 SELECT
   CAST(Id AS INT64) AS id_coordinates,
   COALESCE(CAST(Latitude AS FLOAT64), 0.0) AS latitude,
   COALESCE(CAST(Longitude AS FLOAT64), 0.0) AS longitude,
-  
-  -- Create a standard BigQuery GEOGRAPHY point for high-performance spatial analysis
   ST_GEOGPOINT(COALESCE(CAST(Longitude AS FLOAT64), 0.0), COALESCE(CAST(Latitude AS FLOAT64), 0.0)) AS geo_point,
-  
   CAST(Created AS TIMESTAMP) AS created_at,
   CAST(Updated AS TIMESTAMP) AS updated_at,
   COALESCE(CAST(UserId AS STRING), 'Unknown') AS user_id,

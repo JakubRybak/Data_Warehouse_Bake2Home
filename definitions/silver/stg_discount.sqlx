@@ -1,13 +1,12 @@
 config {
   type: "view",
   schema: "silver",
-  description: "Cleaned and standardized discount (voucher) data from wallet-db"
+  description: "Cleaned and standardized discount data from wallet-db"
 }
 
 SELECT
   CAST(Id AS INT64) AS id_discount,
   
-  -- Clean and cast financial/money columns that contain currency symbols in the raw parquet files
   COALESCE(SAFE_CAST(REGEXP_REPLACE(DiscountPercentage, r'[^\d.-]', '') AS NUMERIC), 0.0) AS discount_percentage,
   COALESCE(SAFE_CAST(REGEXP_REPLACE(DiscountFlatRate, r'[^\d.-]', '') AS NUMERIC), 0.0) AS discount_flat_rate,
   

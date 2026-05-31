@@ -1,7 +1,7 @@
 config {
   type: "table",
   schema: "gold",
-  description: "Payment methods dimension table, including mapped types, currencies, card brands, mobile flags, and status details (SCD Type 1). Includes a conformed Unknown row."
+  description: "Payment methods dimension table"
 }
 
 SELECT
@@ -18,23 +18,17 @@ SELECT
 UNION ALL
 
 SELECT
-  -- Generate unique conformed surrogate key based on natural primary key (SCD Type 1)
   FARM_FINGERPRINT(CAST(id_payment_method AS STRING)) AS sk_payment_method,
   id_payment_method,
-  
-  -- Map C# PaymentMethodType enum (0 = CardToken, 1 = PayByLink, shifted by 1 in the database)
   type AS type_id,
   CASE
     WHEN type = 1 THEN 'CARD_TOKEN'
     WHEN type = 2 THEN 'PAY_BY_LINK'
     ELSE 'UNKNOWN'
   END AS type,
-  
   currency,
   card_brand,
   mobile,
-  
-  -- Map C# PaymentMethodState enum
   state AS state_id,
   CASE
     WHEN state = 0 THEN 'PRIMARY'

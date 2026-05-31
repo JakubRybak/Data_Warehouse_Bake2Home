@@ -1,7 +1,7 @@
 config {
   type: "view",
   schema: "silver",
-  description: "Cleaned and standardized customer address data, including geographic points"
+  description: "Cleaned and standardized customer address data"
 }
 
 SELECT
@@ -11,9 +11,6 @@ SELECT
   COALESCE(CAST(Address AS STRING), 'Unknown') AS address,
   COALESCE(CAST(Longitude AS FLOAT64), 0.0) AS longitude,
   COALESCE(CAST(Latitude AS FLOAT64), 0.0) AS latitude,
-  
-  -- Create a standard BigQuery GEOGRAPHY point for high-performance spatial analysis
   ST_GEOGPOINT(COALESCE(CAST(Longitude AS FLOAT64), 0.0), COALESCE(CAST(Latitude AS FLOAT64), 0.0)) AS geo_point,
-  
   COALESCE(CAST(State AS INT64), 0) AS state
 FROM ${ref("raw_customer_manager_CustomerAddress")}

@@ -1,12 +1,11 @@
 config {
   type: "incremental",
   schema: "gold",
-  description: "Discounts (vouchers) dimension table, including rates, codes, limits, and slowly changing historical data (SCD Type 2)."
+  description: "Discounts dimension table"
 }
 
 pre_operations {
   ${when(incremental(), `
-    -- Close historical records that have changed in the source
     MERGE ${self()} T
     USING (
       SELECT

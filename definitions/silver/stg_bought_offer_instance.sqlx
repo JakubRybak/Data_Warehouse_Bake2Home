@@ -1,20 +1,16 @@
 config {
   type: "view",
   schema: "silver",
-  description: "Cleaned and standardized bought offer instances from planner-db, including conformed price cleaning and type mappings."
+  description: "Cleaned and standardized bought offer instances from planner-db"
 }
 
 SELECT
   CAST(Id AS INT64) AS id_bought_offer_instance,
   CAST(OfferId AS INT64) AS id_offer,
   COALESCE(CAST(OfferName AS STRING), 'Unknown') AS offer_name,
-  
-  -- Natively stored as NUMERIC in postgres/parquet
   COALESCE(CAST(Price AS NUMERIC), 0.0) AS price,
   COALESCE(CAST(VAT AS NUMERIC), 0.0) AS vat,
   CAST(VatRateId AS INT64) AS vat_rate_id,
-  
-  -- Map C# OfferType enum to conformed bought_offer_instance_type
   COALESCE(CAST(Type AS INT64), 0) AS bought_offer_instance_type_id,
   CASE
     WHEN Type = 0 THEN 'SINGLE'

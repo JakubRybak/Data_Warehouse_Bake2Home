@@ -1,11 +1,10 @@
 config {
   type: "table",
   schema: "gold",
-  description: "Bridge table linking Offers (dim_offer) and Products (dim_product) in a Many-to-Many relationship, using conformed surrogate and natural keys (SCD Type 1)."
+  description: "Bridge table linking Offers (dim_offer) and Products (dim_product)"
 }
 
 SELECT
-  -- Unique surrogate key for the relationship itself (very useful for BI counts)
   FARM_FINGERPRINT(CAST(id_offer_product AS STRING)) AS sk_offer_product,
   id_offer_product,
   id_offer,

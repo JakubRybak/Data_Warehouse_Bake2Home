@@ -1,7 +1,7 @@
 config {
   type: "table",
   schema: "gold",
-  description: "Allergens dimension table, containing allergen names (SCD Type 1). Includes a conformed Unknown row."
+  description: "Allergens dimension table"
 }
 
 SELECT
@@ -12,7 +12,6 @@ SELECT
 UNION ALL
 
 SELECT
-  -- Generate unique conformed surrogate key based on natural primary key (SCD Type 1)
   FARM_FINGERPRINT(CAST(id_allergen AS STRING)) AS sk_allergen,
   id_allergen,
   name

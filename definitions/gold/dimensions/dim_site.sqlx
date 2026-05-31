@@ -1,12 +1,11 @@
 config {
   type: "incremental",
   schema: "gold",
-  description: "Sites/Bakeries dimension table including conformed client details, geographic coordinates, and slowly changing historical data (SCD Type 2)."
+  description: "Sites/Bakeries dimension table"
 }
 
 pre_operations {
   ${when(incremental(), `
-    -- Close historical records that have changed in the source
     MERGE ${self()} T
     USING (
       SELECT

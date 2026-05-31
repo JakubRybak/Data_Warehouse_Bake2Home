@@ -1,20 +1,16 @@
 config {
   type: "view",
   schema: "silver",
-  description: "Cleaned and standardized planner items from planner-db, including conformed states and audit fields."
+  description: "Cleaned and standardized planner items from planner-db"
 }
 
 SELECT
   CAST(Id AS INT64) AS id_planner_item,
-  
-  -- Map PlannerItemState enum (to be set in the future)
   COALESCE(CAST(PlannerItemState AS INT64), 0) AS planner_item_state_id,
   'TO BE SET' AS planner_item_state,
-  
   COALESCE(CAST(Quantity AS INT64), 0) AS quantity,
   CAST(CustomerAddressId AS INT64) AS id_customer_address,
   COALESCE(CAST(DayIndex AS INT64), 0) AS day_index,
-  -- Map DayIndex (0 = Sunday in .NET C#) to English weekday name
   CASE
     WHEN DayIndex = 0 THEN 'Sunday'
     WHEN DayIndex = 1 THEN 'Monday'

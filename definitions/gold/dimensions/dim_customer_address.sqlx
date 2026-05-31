@@ -1,24 +1,21 @@
 config {
   type: "table",
   schema: "gold",
-  description: "Customer delivery addresses dimension table, storing geo-coordinates, BigQuery spatial geography points, own site and competitor density metrics (300m, 500m, 1000m, 2000m, 3000m), nearest distances, and customer associations."
+  description: "Customer delivery addresses dimension table"
 }
 
 WITH competitor_metrics AS (
   SELECT
     a.id_customer_address,
     
-    -- Distance to nearest competitor types (coalesced to -1.0 to represent 'None found within 3km')
     COALESCE(MIN(IF(c.competitor_type = 'bakery', ST_DISTANCE(a.geo_point, c.geo_point), NULL)), -1.0) AS dist_to_nearest_comp_bakery_m,
     COALESCE(MIN(IF(c.competitor_type = 'supermarket', ST_DISTANCE(a.geo_point, c.geo_point), NULL)), -1.0) AS dist_to_nearest_comp_supermarket_m,
     
-    -- Competitor bakery density counts
     COUNTIF(c.competitor_type = 'bakery' AND ST_DISTANCE(a.geo_point, c.geo_point) <= 300.0) AS comp_bakery_count_300m,
     COUNTIF(c.competitor_type = 'bakery' AND ST_DISTANCE(a.geo_point, c.geo_point) <= 500.0) AS comp_bakery_count_500m,
     COUNTIF(c.competitor_type = 'bakery' AND ST_DISTANCE(a.geo_point, c.geo_point) <= 1000.0) AS comp_bakery_count_1000m,
     COUNTIF(c.competitor_type = 'bakery' AND ST_DISTANCE(a.geo_point, c.geo_point) <= 2000.0) AS comp_bakery_count_2000m,
     
-    -- Competitor supermarket density counts
     COUNTIF(c.competitor_type = 'supermarket' AND ST_DISTANCE(a.geo_point, c.geo_point) <= 500.0) AS comp_supermarket_count_500m,
     COUNTIF(c.competitor_type = 'supermarket' AND ST_DISTANCE(a.geo_point, c.geo_point) <= 1000.0) AS comp_supermarket_count_1000m,
     COUNTIF(c.competitor_type = 'supermarket' AND ST_DISTANCE(a.geo_point, c.geo_point) <= 2000.0) AS comp_supermarket_count_2000m,
@@ -32,11 +29,7 @@ WITH competitor_metrics AS (
 own_site_metrics AS (
   SELECT
     a.id_customer_address,
-    
-    -- Distance to nearest own site (coalesced to -1.0 to represent 'None found within 3km')
     COALESCE(MIN(ST_DISTANCE(a.geo_point, s.geo_point)), -1.0) AS dist_to_nearest_own_site_m,
-    
-    -- Own site density counts
     COUNTIF(ST_DISTANCE(a.geo_point, s.geo_point) <= 300.0) AS own_site_count_300m,
     COUNTIF(ST_DISTANCE(a.geo_point, s.geo_point) <= 500.0) AS own_site_count_500m,
     COUNTIF(ST_DISTANCE(a.geo_point, s.geo_point) <= 1000.0) AS own_site_count_1000m,
@@ -82,7 +75,6 @@ SELECT
 UNION ALL
 
 SELECT
-  -- Generate unique INT64 surrogate key using FARM_FINGERPRINT on the natural primary key
   FARM_FINGERPRINT(CAST(a.id_customer_address AS STRING)) AS sk_customer_address,
   a.id_customer_address,
   a.id_customer,

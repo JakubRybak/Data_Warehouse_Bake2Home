@@ -1,23 +1,20 @@
 config {
   type: "view",
   schema: "gold",
-  description: "Zdenormalizowany widok analityczny pozycji zamówień (fact_order_item) złączony ze wszystkimi wymiarami, w tym z zagregowanymi produktami i alergenami. Zaprojektowany jako Single Source of Truth dla Looker Studio."
+  description: "View of fact_order_item joined with all dimensions."
 }
 
 WITH offer_products_agg AS (
   SELECT
     bop.id_offer,
-    -- Agregacja nazw produktów w ofercie z ich krotnością
     COALESCE(
       STRING_AGG(CONCAT(p.name, ' (x', CAST(bop.product_count AS STRING), ')'), ', ' ORDER BY p.name),
       'Unknown'
     ) AS products_list,
-    -- Agregacja unikalnych kategorii/typów produktów w ofercie
     COALESCE(
       STRING_AGG(DISTINCT p.product_type_name, ', ' ORDER BY p.product_type_name),
       'Unknown'
     ) AS product_types_list,
-    -- Agregacja unikalnych alergenów dla wszystkich produktów w danej ofercie
     COALESCE(
       STRING_AGG(DISTINCT al.name, ', ' ORDER BY al.name),
       'None'
@@ -34,7 +31,6 @@ WITH offer_products_agg AS (
 )
 
 SELECT
-  -- 1. Identyfikatory i Klucze Naturalne (Degenerate Dimensions)
   f.id_order_item,
   f.id_order,
   f.id_bought_offer_instance,
@@ -44,7 +40,6 @@ SELECT
   f.id_location,
   f.id_customer_address,
 
-  -- 2. Wymiar Czasu (Order Date)
   f.sk_date_order AS order_date,
   d.year AS order_year,
   d.quarter AS order_quarter,
@@ -57,7 +52,6 @@ SELECT
   d.is_working AS is_order_on_working_day,
   f.created_at AS order_created_timestamp,
 
-  -- 3. Wymiar Oferty i Produktów (Offer & Products Details)
   COALESCE(o.name, 'Unknown') AS offer_name,
   COALESCE(o.type, 'Unknown') AS offer_type,
   COALESCE(o.state, 'Unknown') AS offer_state,
@@ -65,11 +59,9 @@ SELECT
   COALESCE(opa.product_types_list, 'No Categories') AS product_categories_in_offer,
   COALESCE(opa.allergens_list, 'None') AS allergens_in_offer,
 
-  -- 4. Wymiar Klienta (Customer Details)
   COALESCE(c.name, 'Unknown') AS customer_name,
   COALESCE(c.customer_state, 'Unknown') AS customer_state,
 
-  -- 5. Wymiar Adresu Dostawy (Delivery Address Details)
   COALESCE(ca.address_name, 'Unknown') AS address_name,
   COALESCE(ca.address, 'Unknown') AS delivery_address,
   COALESCE(ca.state, 'Unknown') AS address_state,
@@ -93,20 +85,16 @@ SELECT
   ca.own_site_count_2000m,
   ca.own_site_count_3000m,
 
-  -- 6. Wymiar Lokalizacji i Piekarni (Location & Site Details)
   COALESCE(l.name, 'Unknown') AS location_zone_name,
   COALESCE(l.description, 'Unknown') AS location_zone_description,
   COALESCE(s.name, 'Unknown') AS bakery_site_name,
   COALESCE(s.city, 'Unknown') AS bakery_site_city,
   COALESCE(s.country, 'Unknown') AS bakery_site_country,
 
-  -- 7. Statusy i Stany Biznesowe (Conformed Enum States)
   f.bought_offer_instance_type,
   f.order_item_state,
   f.order_state,
   f.modified_by_hand AS is_modified_by_hand,
-
-  -- 8. Wskaźniki Finansowe i Mierniki (Metrics)
   f.quantity,
   f.price AS gross_unit_price,
   f.vat AS vat_rate,

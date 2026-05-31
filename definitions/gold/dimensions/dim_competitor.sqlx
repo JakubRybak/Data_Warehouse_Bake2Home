@@ -4,7 +4,6 @@ config {
   description: "Competitors dimension table (bakeries and supermarkets) from Google Places API with a spatial anti-join to exclude Bake2Home's own sites."
 }
 
--- Renders the active competitors list
 SELECT
   FARM_FINGERPRINT(c.id_competitor) AS sk_competitor,
   c.id_competitor,
@@ -17,11 +16,9 @@ SELECT
   c.google_types,
   c.extracted_at
 FROM ${ref("stg_google_competitors")} c
--- Spatial Self-Exclusion: Join with active Bake2Home sites closer than 30 meters
 LEFT JOIN ${ref("dim_site")} s
   ON s.id_site != -999999
   AND s.is_current = TRUE
   AND ST_DISTANCE(c.geo_point, s.geo_point) < 30.0
--- Exclude records where a match was found (s.id_site is NOT NULL)
 WHERE s.id_site IS NULL
 

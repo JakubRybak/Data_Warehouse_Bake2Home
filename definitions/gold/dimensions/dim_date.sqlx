@@ -1,7 +1,7 @@
 config {
   type: "table",
   schema: "gold",
-  description: "Date dimension table generated dynamically for the conformed range 2024-2030, using native DATE type as the primary key (sk_date) for optimal BigQuery partitioning."
+  description: "Date dimension table for the range 2024-2030"
 }
 
 WITH date_series AS (
@@ -10,27 +10,24 @@ WITH date_series AS (
 ),
 base_calendar AS (
   SELECT
-    -- Use native DATE as the conformed primary key (sk_date)
     date AS sk_date,
     EXTRACT(YEAR FROM date) AS year,
     EXTRACT(QUARTER FROM date) AS quarter,
     EXTRACT(MONTH FROM date) AS month_number,
-    -- Conformed Polish Month Names
     CASE EXTRACT(MONTH FROM date)
-      WHEN 1 THEN 'Styczeń'
-      WHEN 2 THEN 'Luty'
-      WHEN 3 THEN 'Marzec'
-      WHEN 4 THEN 'Kwiecień'
-      WHEN 5 THEN 'Maj'
-      WHEN 6 THEN 'Czerwiec'
-      WHEN 7 THEN 'Lipiec'
-      WHEN 8 THEN 'Sierpień'
-      WHEN 9 THEN 'Wrzesień'
-      WHEN 10 THEN 'Październik'
-      WHEN 11 THEN 'Listopad'
-      WHEN 12 THEN 'Grudzień'
+      WHEN 1 THEN 'January'
+      WHEN 2 THEN 'February'
+      WHEN 3 THEN 'March'
+      WHEN 4 THEN 'April'
+      WHEN 5 THEN 'May'
+      WHEN 6 THEN 'June'
+      WHEN 7 THEN 'July'
+      WHEN 8 THEN 'August'
+      WHEN 9 THEN 'September'
+      WHEN 10 THEN 'October'
+      WHEN 11 THEN 'November'
+      WHEN 12 THEN 'December'
     END AS month_name,
-    -- Shift BigQuery's Day of Week (1=Sunday, 7=Saturday) to Polish Standard (1=Monday, 7=Sunday)
     CASE EXTRACT(DAYOFWEEK FROM date)
       WHEN 1 THEN 7 -- Sunday
       WHEN 2 THEN 1 -- Monday
@@ -40,60 +37,48 @@ base_calendar AS (
       WHEN 6 THEN 5 -- Friday
       WHEN 7 THEN 6 -- Saturday
     END AS weekday_number,
-    -- Conformed Polish Weekday Names
     CASE EXTRACT(DAYOFWEEK FROM date)
-      WHEN 1 THEN 'Niedziela'
-      WHEN 2 THEN 'Poniedziałek'
-      WHEN 3 THEN 'Wtorek'
-      WHEN 4 THEN 'Środa'
-      WHEN 5 THEN 'Czwartek'
-      WHEN 6 THEN 'Piątek'
-      WHEN 7 THEN 'Sobota'
+      WHEN 1 THEN 'Sunday'
+      WHEN 2 THEN 'Monday'
+      WHEN 3 THEN 'Tuesday'
+      WHEN 4 THEN 'Wednesday'
+      WHEN 5 THEN 'Thursday'
+      WHEN 6 THEN 'Friday'
+      WHEN 7 THEN 'Saturday'
     END AS weekday_name
   FROM date_series
 ),
 holidays AS (
   SELECT
     sk_date,
-    -- Check for weekends
     IF(weekday_number IN (6, 7), TRUE, FALSE) AS is_weekend,
-    -- Check for fixed Polish statutory holidays
     CASE
-      -- New Year (1 Jan)
       WHEN month_number = 1 AND EXTRACT(DAY FROM sk_date) = 1 THEN TRUE
-      -- Epiphany (6 Jan)
       WHEN month_number = 1 AND EXTRACT(DAY FROM sk_date) = 6 THEN TRUE
-      -- Labour Day (1 May)
       WHEN month_number = 5 AND EXTRACT(DAY FROM sk_date) = 1 THEN TRUE
-      -- Constitution Day (3 May)
       WHEN month_number = 5 AND EXTRACT(DAY FROM sk_date) = 3 THEN TRUE
-      -- Assumption of Mary (15 Aug)
       WHEN month_number = 8 AND EXTRACT(DAY FROM sk_date) = 15 THEN TRUE
-      -- All Saints (1 Nov)
       WHEN month_number = 11 AND EXTRACT(DAY FROM sk_date) = 1 THEN TRUE
-      -- Independence Day (11 Nov)
       WHEN month_number = 11 AND EXTRACT(DAY FROM sk_date) = 11 THEN TRUE
-      -- Christmas (25 Dec)
+      WHEN month_number = 12 AND EXTRACT(DAY FROM sk_date) = 24 THEN TRUE
       WHEN month_number = 12 AND EXTRACT(DAY FROM sk_date) = 25 THEN TRUE
-      -- Boxing Day (26 Dec)
       WHEN month_number = 12 AND EXTRACT(DAY FROM sk_date) = 26 THEN TRUE
       
-      -- Polish mobile/statutory holidays hardcoded for the conformed range 2024-2030
-      -- Easter Monday & Corpus Christi (Boże Ciało)
+      -- Polish moveable statutory holidays (Easter Sunday, Easter Monday, Pentecost, Corpus Christi)
       -- 2024
-      WHEN sk_date = '2024-04-01' OR sk_date = '2024-05-30' THEN TRUE
+      WHEN sk_date IN ('2024-03-31', '2024-04-01', '2024-05-19', '2024-05-30') THEN TRUE
       -- 2025
-      WHEN sk_date = '2025-04-21' OR sk_date = '2025-06-19' THEN TRUE
+      WHEN sk_date IN ('2025-04-20', '2025-04-21', '2025-06-08', '2025-06-19') THEN TRUE
       -- 2026
-      WHEN sk_date = '2026-04-06' OR sk_date = '2026-06-04' THEN TRUE
+      WHEN sk_date IN ('2026-04-05', '2026-04-06', '2026-05-24', '2026-06-04') THEN TRUE
       -- 2027
-      WHEN sk_date = '2027-03-29' OR sk_date = '2027-05-27' THEN TRUE
+      WHEN sk_date IN ('2027-03-28', '2027-03-29', '2027-05-16', '2027-05-27') THEN TRUE
       -- 2028
-      WHEN sk_date = '2028-04-17' OR sk_date = '2028-06-15' THEN TRUE
+      WHEN sk_date IN ('2028-04-16', '2028-04-17', '2028-06-04', '2028-06-15') THEN TRUE
       -- 2029
-      WHEN sk_date = '2029-04-02' OR sk_date = '2029-05-31' THEN TRUE
+      WHEN sk_date IN ('2029-04-01', '2029-04-02', '2029-05-20', '2029-05-31') THEN TRUE
       -- 2030
-      WHEN sk_date = '2030-04-22' OR sk_date = '2030-06-20' THEN TRUE
+      WHEN sk_date IN ('2030-04-21', '2030-04-22', '2030-06-09', '2030-06-20') THEN TRUE
       
       ELSE FALSE
     END AS is_holiday
@@ -110,7 +95,6 @@ SELECT
   c.weekday_name,
   h.is_weekend,
   h.is_holiday,
-  -- A day is working if it's not a weekend and not a holiday
   IF(h.is_weekend = FALSE AND h.is_holiday = FALSE, TRUE, FALSE) AS is_working
 FROM base_calendar c
 JOIN holidays h ON c.sk_date = h.sk_date
@@ -122,9 +106,9 @@ SELECT
   1970 AS year,
   1 AS quarter,
   1 AS month_number,
-  'Styczeń' AS month_name,
+  'January' AS month_name,
   1 AS weekday_number,
-  'Poniedziałek' AS weekday_name,
+  'Monday' AS weekday_name,
   FALSE AS is_weekend,
   FALSE AS is_holiday,
   TRUE AS is_working

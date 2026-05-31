@@ -1,12 +1,11 @@
 config {
   type: "incremental",
   schema: "gold",
-  description: "Offers dimension table, including prices, C# enum mapped states and types, and conformed Slowly Changing Dimension (SCD Type 2) history using incremental strategy."
+  description: "Offers dimension table"
 }
 
 pre_operations {
   ${when(incremental(), `
-    -- Close historical records that have changed in the source
     MERGE ${self()} T
     USING (
       SELECT

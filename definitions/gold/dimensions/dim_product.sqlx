@@ -1,12 +1,11 @@
 config {
   type: "incremental",
   schema: "gold",
-  description: "Products dimension table, including categories, weights, nutritional values, and slowly changing historical data (SCD Type 2)."
+  description: "Products dimension table"
 }
 
 pre_operations {
   ${when(incremental(), `
-    -- Close historical records that have changed in the source
     MERGE ${self()} T
     USING (
       SELECT

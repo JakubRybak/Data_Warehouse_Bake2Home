@@ -1,12 +1,11 @@
 config {
   type: "incremental",
   schema: "gold",
-  description: "Customer dimension table including surrogate keys, pivoted consent states (mapped to dim_consent_profile), and Slowly Changing Dimension (SCD Type 2) history using incremental strategy."
+  description: "Customer dimension table"
 }
 
 pre_operations {
   ${when(incremental(), `
-    -- Close historical records that have changed in the source
     MERGE ${self()} T
     USING (
       WITH latest_consents AS (

@@ -1,4 +1,4 @@
-// List of all analytical tables in the Bronze layer (excluding technical tables and push tokens)
+// List of all analytical tables in the Bronze layer
 const tables = [
   // catalog-db (Product Catalog)
   "raw_catalog_Allergen",
@@ -75,11 +75,10 @@ const tables = [
   "raw_google_competitors"
 ];
 
-// Loop to declare each source table in Dataform
 tables.forEach(table => {
   declare({
-    database: "bake2home-data-warehouse", // GCP Project ID
-    schema: "bronze",                     // BigQuery Dataset
-    name: table                           // BigQuery Table Name
+    database: "bake2home-data-warehouse",
+    schema: "bronze",                    
+    name: table                           
   });
 });
