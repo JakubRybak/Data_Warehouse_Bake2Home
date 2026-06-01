@@ -1,0 +1,118 @@
+config {
+  type: "view",
+  schema: "gold",
+  description: "Unified denormalized reporting view of fact_planner_item joined with all conformed dimensions"
+}
+
+WITH offer_products_agg AS (
+  SELECT
+    bop.id_offer,
+    COALESCE(
+      STRING_AGG(CONCAT(p.name, ' (x', CAST(bop.product_count AS STRING), ')'), ', ' ORDER BY p.name),
+      'Unknown'
+    ) AS products_list,
+    COALESCE(
+      STRING_AGG(DISTINCT p.product_type_name, ', ' ORDER BY p.product_type_name),
+      'Unknown'
+    ) AS product_types_list,
+    COALESCE(
+      STRING_AGG(DISTINCT al.name, ', ' ORDER BY al.name),
+      'None'
+    ) AS allergens_list
+  FROM ${ref("bridge_offer_product")} bop
+  JOIN ${ref("dim_product")} p 
+    ON bop.id_product = p.id_product 
+    AND p.is_current = TRUE
+  LEFT JOIN ${ref("bridge_product_allergen")} bpa 
+    ON p.id_product = bpa.id_product
+  LEFT JOIN ${ref("dim_allergen")} al 
+    ON bpa.id_allergen = al.id_allergen
+  GROUP BY bop.id_offer
+)
+
+SELECT
+  f.id_planner_item,
+  f.id_bought_offer_instance,
+  f.id_offer,
+  f.id_location,
+  f.id_site,
+  f.id_customer_address,
+  f.id_customer,
+  f.sk_start_date AS subscription_start_date,
+  d_start.year AS start_year,
+  d_start.quarter AS start_quarter,
+  d_start.month_number AS start_month_number,
+  d_start.month_name AS start_month_name,
+  d_start.weekday_number AS start_weekday_number,
+  d_start.weekday_name AS start_weekday_name,
+  d_start.is_weekend AS is_start_on_weekend,
+  d_start.is_holiday AS is_start_on_holiday,
+  d_start.is_working AS is_start_on_working_day,
+  f.sk_end_date AS subscription_end_date,
+  COALESCE(o.name, 'Unknown') AS offer_name,
+  COALESCE(o.type, 'Unknown') AS offer_type,
+  COALESCE(o.state, 'Unknown') AS offer_state,
+  COALESCE(opa.products_list, 'No Products') AS products_in_offer,
+  COALESCE(opa.product_types_list, 'No Categories') AS product_categories_in_offer,
+  COALESCE(opa.allergens_list, 'None') AS allergens_in_offer,
+  COALESCE(c.name, 'Unknown') AS customer_name,
+  COALESCE(c.customer_state, 'Unknown') AS customer_state,
+  COALESCE(ca.address_name, 'Unknown') AS address_name,
+  COALESCE(ca.address, 'Unknown') AS delivery_address,
+  COALESCE(ca.state, 'Unknown') AS address_state,
+  ca.latitude AS delivery_latitude,
+  ca.longitude AS delivery_longitude,
+  ca.geo_point AS delivery_geo_point,
+  ca.dist_to_nearest_own_site_m,
+  ca.dist_to_nearest_comp_bakery_m,
+  ca.dist_to_nearest_comp_supermarket_m,
+  ca.comp_bakery_count_300m,
+  ca.comp_bakery_count_500m,
+  ca.comp_bakery_count_1000m,
+  ca.comp_bakery_count_2000m,
+  ca.comp_supermarket_count_500m,
+  ca.comp_supermarket_count_1000m,
+  ca.comp_supermarket_count_2000m,
+  ca.comp_supermarket_count_3000m,
+  ca.own_site_count_300m,
+  ca.own_site_count_500m,
+  ca.own_site_count_1000m,
+  ca.own_site_count_2000m,
+  ca.own_site_count_3000m,
+  COALESCE(l.name, 'Unknown') AS location_zone_name,
+  COALESCE(l.description, 'Unknown') AS location_zone_description,
+  COALESCE(s.name, 'Unknown') AS bakery_site_name,
+  COALESCE(s.city, 'Unknown') AS bakery_site_city,
+  COALESCE(s.country, 'Unknown') AS bakery_site_country,
+  f.next_version,
+  f.previous_version,
+  f.day_index,
+  f.day_name,
+  f.quantity,
+  f.duration_days,
+  f.price AS gross_unit_price,
+  f.vat AS vat_rate,
+  f.gross_amount AS gross_planned_amount,
+  f.net_amount AS net_planned_amount,
+  f.vat_amount AS vat_planned_amount,
+  f.bought_offer_instance_type,
+  f.planner_item_state,
+  f.is_active,
+  f.created_at AS plan_created_timestamp,
+  f.modified_at AS plan_modified_timestamp
+
+FROM ${ref("fact_planner_item")} f
+LEFT JOIN ${ref("dim_date")} d_start 
+  ON f.sk_start_date = d_start.sk_date
+LEFT JOIN ${ref("dim_offer")} o 
+  ON f.sk_offer = o.sk_offer
+LEFT JOIN ${ref("dim_customer")} c 
+  ON f.sk_customer = c.sk_customer
+LEFT JOIN ${ref("dim_customer_address")} ca 
+  ON f.sk_customer_address = ca.sk_customer_address
+LEFT JOIN ${ref("dim_location")} l 
+  ON f.sk_location = l.sk_location
+LEFT JOIN ${ref("dim_site")} s 
+  ON f.sk_site = s.sk_site
+LEFT JOIN offer_products_agg opa 
+  ON f.id_offer = opa.id_offer
