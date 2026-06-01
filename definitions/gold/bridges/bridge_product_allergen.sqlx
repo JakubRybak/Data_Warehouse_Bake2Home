@@ -1,7 +1,10 @@
 config {
   type: "table",
   schema: "gold",
-  description: "Bridge table linking Products (dim_product) and Allergens (dim_allergen)"
+  description: "Bridge table linking Products (dim_product) and Allergens (dim_allergen)",
+  bigquery: {
+    clusterBy: ["id_product", "id_allergen"]
+  }
 }
 
 SELECT

@@ -1,7 +1,10 @@
 config {
   type: "incremental",
   schema: "gold",
-  description: "Delivery couriers dimension table"
+  description: "Delivery couriers dimension table",
+  bigquery: {
+    clusterBy: ["id_delivery_man", "is_current"]
+  }
 }
 
 pre_operations {

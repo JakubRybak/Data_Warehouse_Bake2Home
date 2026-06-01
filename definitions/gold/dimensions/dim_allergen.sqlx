@@ -1,7 +1,10 @@
 config {
   type: "table",
   schema: "gold",
-  description: "Allergens dimension table"
+  description: "Allergens dimension table",
+  bigquery: {
+    clusterBy: ["id_allergen"]
+  }
 }
 
 SELECT

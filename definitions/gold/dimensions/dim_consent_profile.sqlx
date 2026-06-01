@@ -1,7 +1,10 @@
 config {
   type: "table",
   schema: "gold",
-  description: "Junk dimension storing all possible combinations of customer consent states (RODO, Terms, Marketing)"
+  description: "Junk dimension storing all possible combinations of customer consent states (RODO, Terms, Marketing)",
+  bigquery: {
+    clusterBy: ["sk_consent_profile"]
+  }
 }
 
 WITH states AS (

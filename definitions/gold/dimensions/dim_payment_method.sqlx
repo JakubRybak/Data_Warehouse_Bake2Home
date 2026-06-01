@@ -1,7 +1,10 @@
 config {
   type: "table",
   schema: "gold",
-  description: "Payment methods dimension table"
+  description: "Payment methods dimension table",
+  bigquery: {
+    clusterBy: ["id_payment_method"]
+  }
 }
 
 SELECT

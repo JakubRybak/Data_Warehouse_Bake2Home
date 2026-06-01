@@ -1,7 +1,10 @@
 config {
   type: "incremental",
   schema: "gold",
-  description: "Locations (delivery zones) dimension table"
+  description: "Locations (delivery zones) dimension table",
+  bigquery: {
+    clusterBy: ["id_location", "is_current"]
+  }
 }
 
 pre_operations {

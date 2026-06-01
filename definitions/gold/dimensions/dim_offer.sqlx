@@ -1,7 +1,10 @@
 config {
   type: "incremental",
   schema: "gold",
-  description: "Offers dimension table"
+  description: "Offers dimension table",
+  bigquery: {
+    clusterBy: ["id_offer", "is_current"]
+  }
 }
 
 pre_operations {

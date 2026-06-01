@@ -1,7 +1,10 @@
 config {
   type: "incremental",
   schema: "gold",
-  description: "Sites/Bakeries dimension table"
+  description: "Sites/Bakeries dimension table",
+  bigquery: {
+    clusterBy: ["id_site", "is_current"]
+  }
 }
 
 pre_operations {

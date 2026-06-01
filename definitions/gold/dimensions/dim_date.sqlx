@@ -1,7 +1,10 @@
 config {
   type: "table",
   schema: "gold",
-  description: "Date dimension table for the range 2024-2030"
+  description: "Date dimension table for the range 2024-2030",
+  bigquery: {
+    clusterBy: ["sk_date", "year", "month_number"]
+  }
 }
 
 WITH date_series AS (

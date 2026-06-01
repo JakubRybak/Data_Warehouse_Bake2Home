@@ -1,7 +1,10 @@
 config {
   type: "table",
   schema: "gold",
-  description: "Customer delivery addresses dimension table"
+  description: "Customer delivery addresses dimension table",
+  bigquery: {
+    clusterBy: ["id_customer", "id_customer_address"]
+  }
 }
 
 WITH competitor_metrics AS (

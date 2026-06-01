@@ -1,7 +1,10 @@
 config {
   type: "table",
   schema: "gold",
-  description: "Competitors dimension table (bakeries and supermarkets) from Google Places API with a spatial anti-join to exclude Bake2Home's own sites."
+  description: "Competitors dimension table (bakeries and supermarkets) from Google Places API with a spatial anti-join to exclude Bake2Home's own sites.",
+  bigquery: {
+    clusterBy: ["competitor_type", "id_competitor"]
+  }
 }
 
 SELECT

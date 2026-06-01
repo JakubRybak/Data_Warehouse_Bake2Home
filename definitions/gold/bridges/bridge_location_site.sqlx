@@ -1,7 +1,10 @@
 config {
   type: "table",
   schema: "gold",
-  description: "Bridge table linking Sites/Bakeries (dim_site) and Locations/Delivery zones (dim_location)"
+  description: "Bridge table linking Sites/Bakeries (dim_site) and Locations/Delivery zones (dim_location)",
+  bigquery: {
+    clusterBy: ["id_location", "id_site"]
+  }
 }
 
 SELECT

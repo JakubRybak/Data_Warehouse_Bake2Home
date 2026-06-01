@@ -1,7 +1,10 @@
 config {
   type: "table",
   schema: "gold",
-  description: "Ingredients dimension table"
+  description: "Ingredients dimension table",
+  bigquery: {
+    clusterBy: ["id_ingredient"]
+  }
 }
 
 SELECT
