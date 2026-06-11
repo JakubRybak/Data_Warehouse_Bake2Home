@@ -3,3 +3,4 @@
 3. Zrobić dashboardy
 4. Zasymulować przychodzące dane + zorkiestrować dataform 
 5. Dodać pogode
+6. jakies testy
