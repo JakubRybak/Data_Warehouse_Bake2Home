@@ -38,8 +38,8 @@ pre_operations {
         p.created_at,
         p.updated_at
       FROM ${ref("stg_bakery_product")} p
-      LEFT JOIN ${ref("stg_bakery_product_type")} pt ON p.id_product_type = pt.id_product_type
-      LEFT JOIN ${ref("stg_nutrition")} n ON p.id_product = n.id_product
+      LEFT JOIN ${ref("stg_bakery_product_type")} pt ON p.id_product_type = pt.id_product_type AND p.id_product_type != 0
+      LEFT JOIN ${ref("stg_nutrition")} n ON p.id_product = n.id_product AND p.id_product != 0
     ) S
     ON T.id_product = S.id_product AND T.is_current = TRUE
     WHEN MATCHED AND (
@@ -128,8 +128,8 @@ SELECT
   TIMESTAMP("9999-12-31 23:59:59") AS valid_to,
   TRUE AS is_current
 FROM ${ref("stg_bakery_product")} p
-LEFT JOIN ${ref("stg_bakery_product_type")} pt ON p.id_product_type = pt.id_product_type
-LEFT JOIN ${ref("stg_nutrition")} n ON p.id_product = n.id_product
+LEFT JOIN ${ref("stg_bakery_product_type")} pt ON p.id_product_type = pt.id_product_type AND p.id_product_type != 0
+LEFT JOIN ${ref("stg_nutrition")} n ON p.id_product = n.id_product AND p.id_product != 0
 ${when(incremental(), `
   WHERE NOT EXISTS (
     SELECT 1 FROM ${self()} t

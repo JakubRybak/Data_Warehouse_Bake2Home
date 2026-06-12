@@ -24,4 +24,3 @@ LEFT JOIN ${ref("dim_site")} s
   AND s.is_current = TRUE
   AND ST_DISTANCE(c.geo_point, s.geo_point) < 30.0
 WHERE s.id_site IS NULL
-

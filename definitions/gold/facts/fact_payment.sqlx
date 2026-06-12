@@ -34,19 +34,18 @@ SELECT
   COALESCE(p.error IS NOT NULL AND p.error != '', FALSE) AS is_error,
   COALESCE(p.status, 'Unknown') AS state,
   COALESCE(p.payment_type, 'Unknown') AS type,
-  COALESCE(p.for_manual_handling, FALSE) AS for_manual_handling,
-  COALESCE(p.paid_by_transaction_id, 'Unknown') AS paid_by_transaction_id
+  COALESCE(p.for_manual_handling, FALSE) AS for_manual_handling
 
 FROM ${ref("stg_payment")} p
-LEFT JOIN ${ref("stg_bakery_orders")} o ON p.id_order = o.id_order AND p.id_order != 0 AND p.id_order IS NOT NULL
-LEFT JOIN ${ref("stg_deliveries")} d ON p.id_delivery = d.id_delivery AND p.id_delivery != 0 AND p.id_delivery IS NOT NULL
-LEFT JOIN ${ref("stg_payment_method")} pm ON p.id_payment_method = pm.id_payment_method
-LEFT JOIN ${ref("dim_site")} s ON COALESCE(o.id_site, d.id_site) = s.id_site AND p.created_at >= s.valid_from AND p.created_at < s.valid_to
-LEFT JOIN ${ref("dim_site")} active_s ON COALESCE(o.id_site, d.id_site) = active_s.id_site AND active_s.is_current = TRUE
-LEFT JOIN ${ref("dim_discount")} disc ON p.id_discount = disc.id_discount AND p.created_at >= disc.valid_from AND p.created_at < disc.valid_to
-LEFT JOIN ${ref("dim_discount")} active_disc ON p.id_discount = active_disc.id_discount AND active_disc.is_current = TRUE
-LEFT JOIN ${ref("dim_payment_method")} pm_dim ON p.id_payment_method = pm_dim.id_payment_method
-LEFT JOIN ${ref("dim_customer")} c ON pm.id_customer = c.id_customer AND p.created_at >= c.valid_from AND p.created_at < c.valid_to
-LEFT JOIN ${ref("dim_customer")} active_c ON pm.id_customer = active_c.id_customer AND active_c.is_current = TRUE
-LEFT JOIN ${ref("dim_location")} l ON COALESCE(o.id_location, -999999) = l.id_location AND p.created_at >= l.valid_from AND p.created_at < l.valid_to
-LEFT JOIN ${ref("dim_location")} active_l ON COALESCE(o.id_location, -999999) = active_l.id_location AND active_l.is_current = TRUE
+LEFT JOIN ${ref("stg_bakery_orders")} o ON p.id_order = o.id_order AND p.id_order != 0
+LEFT JOIN ${ref("stg_deliveries")} d ON p.id_delivery = d.id_delivery AND p.id_delivery != 0
+LEFT JOIN ${ref("stg_payment_method")} pm ON p.id_payment_method = pm.id_payment_method AND p.id_payment_method != 0
+LEFT JOIN ${ref("dim_site")} s ON COALESCE(o.id_site, d.id_site) = s.id_site AND COALESCE(o.id_site, d.id_site) != 0 AND p.created_at >= s.valid_from AND p.created_at < s.valid_to
+LEFT JOIN ${ref("dim_site")} active_s ON COALESCE(o.id_site, d.id_site) = active_s.id_site AND COALESCE(o.id_site, d.id_site) != 0 AND active_s.is_current = TRUE
+LEFT JOIN ${ref("dim_discount")} disc ON p.id_discount = disc.id_discount AND p.id_discount != 0 AND p.created_at >= disc.valid_from AND p.created_at < disc.valid_to
+LEFT JOIN ${ref("dim_discount")} active_disc ON p.id_discount = active_disc.id_discount AND p.id_discount != 0 AND active_disc.is_current = TRUE
+LEFT JOIN ${ref("dim_payment_method")} pm_dim ON p.id_payment_method = pm_dim.id_payment_method AND p.id_payment_method != 0
+LEFT JOIN ${ref("dim_customer")} c ON pm.id_customer = c.id_customer AND pm.id_customer != 0 AND p.created_at >= c.valid_from AND p.created_at < c.valid_to
+LEFT JOIN ${ref("dim_customer")} active_c ON pm.id_customer = active_c.id_customer AND pm.id_customer != 0 AND active_c.is_current = TRUE
+LEFT JOIN ${ref("dim_location")} l ON COALESCE(o.id_location, -999999) = l.id_location AND COALESCE(o.id_location, -999999) != 0 AND p.created_at >= l.valid_from AND p.created_at < l.valid_to
+LEFT JOIN ${ref("dim_location")} active_l ON COALESCE(o.id_location, -999999) = active_l.id_location AND COALESCE(o.id_location, -999999) != 0 AND active_l.is_current = TRUE

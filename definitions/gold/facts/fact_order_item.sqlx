@@ -45,38 +45,38 @@ SELECT
   COALESCE(o.created_at, TIMESTAMP("1970-01-01 00:00:00")) AS created_at
 FROM ${ref("stg_bakery_order_items")} i
 LEFT JOIN ${ref("stg_bakery_orders")} o 
-  ON i.id_order = o.id_order
+  ON i.id_order = o.id_order AND i.id_order != 0
 LEFT JOIN ${ref("stg_bought_offer_instance")} boi 
-  ON i.id_bought_offer_instance = boi.id_bought_offer_instance
+  ON i.id_bought_offer_instance = boi.id_bought_offer_instance AND i.id_bought_offer_instance != 0
 LEFT JOIN ${ref("stg_customer_address")} ca 
-  ON o.id_customer_address = ca.id_customer_address
+  ON o.id_customer_address = ca.id_customer_address AND o.id_customer_address != 0
 LEFT JOIN ${ref("dim_customer_address")} dca
-  ON o.id_customer_address = dca.id_customer_address
+  ON o.id_customer_address = dca.id_customer_address AND o.id_customer_address != 0
 LEFT JOIN ${ref("dim_offer")} off
-  ON boi.id_offer = off.id_offer
+  ON boi.id_offer = off.id_offer AND boi.id_offer != 0
   AND o.created_at >= off.valid_from
   AND o.created_at < off.valid_to
 LEFT JOIN ${ref("dim_offer")} active_off
-  ON boi.id_offer = active_off.id_offer
+  ON boi.id_offer = active_off.id_offer AND boi.id_offer != 0
   AND active_off.is_current = TRUE
 LEFT JOIN ${ref("dim_location")} loc
-  ON o.id_location = loc.id_location
+  ON o.id_location = loc.id_location AND o.id_location != 0
   AND o.created_at >= loc.valid_from
   AND o.created_at < loc.valid_to
 LEFT JOIN ${ref("dim_location")} active_loc
-  ON o.id_location = active_loc.id_location
+  ON o.id_location = active_loc.id_location AND o.id_location != 0
   AND active_loc.is_current = TRUE
 LEFT JOIN ${ref("dim_site")} site
-  ON o.id_site = site.id_site
+  ON o.id_site = site.id_site AND o.id_site != 0
   AND o.created_at >= site.valid_from
   AND o.created_at < site.valid_to
 LEFT JOIN ${ref("dim_site")} active_site
-  ON o.id_site = active_site.id_site
+  ON o.id_site = active_site.id_site AND o.id_site != 0
   AND active_site.is_current = TRUE
 LEFT JOIN ${ref("dim_customer")} cust
-  ON ca.id_customer = cust.id_customer
+  ON ca.id_customer = cust.id_customer AND ca.id_customer != 0
   AND o.created_at >= cust.valid_from
   AND o.created_at < cust.valid_to
 LEFT JOIN ${ref("dim_customer")} active_cust
-  ON ca.id_customer = active_cust.id_customer
+  ON ca.id_customer = active_cust.id_customer AND ca.id_customer != 0
   AND active_cust.is_current = TRUE

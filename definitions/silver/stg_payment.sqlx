@@ -40,7 +40,6 @@ SELECT
     ELSE 'UNKNOWN'
   END AS payment_type,
   
-  CAST(PaidByTransactionId AS STRING) AS paid_by_transaction_id,
   CAST(Error AS STRING) AS error,
   CAST(DiscountId AS INT64) AS id_discount,
   CAST(DiscountedAmount AS NUMERIC) AS discounted_amount,

@@ -111,5 +111,5 @@ SELECT
     ELSE 'UNKNOWN'
   END AS state
 FROM ${ref("stg_customer_address")} a
-LEFT JOIN competitor_metrics cm ON a.id_customer_address = cm.id_customer_address
-LEFT JOIN own_site_metrics osm ON a.id_customer_address = osm.id_customer_address
+LEFT JOIN competitor_metrics cm ON a.id_customer_address = cm.id_customer_address AND a.id_customer_address != 0
+LEFT JOIN own_site_metrics osm ON a.id_customer_address = osm.id_customer_address AND a.id_customer_address != 0

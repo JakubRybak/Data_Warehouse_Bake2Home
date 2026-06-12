@@ -32,8 +32,8 @@ pre_operations {
         s.created_at,
         s.updated_at
       FROM ${ref("stg_site")} s
-      LEFT JOIN ${ref("stg_site_coordinates")} sc ON s.id_coordinates = sc.id_coordinates
-      LEFT JOIN ${ref("stg_client")} c ON s.id_client = c.id_client
+      LEFT JOIN ${ref("stg_site_coordinates")} sc ON s.id_coordinates = sc.id_coordinates AND s.id_coordinates != 0
+      LEFT JOIN ${ref("stg_client")} c ON s.id_client = c.id_client AND s.id_client != 0
     ) S
     ON T.id_site = S.id_site AND T.is_current = TRUE
     WHEN MATCHED AND (
@@ -128,8 +128,8 @@ SELECT
   TIMESTAMP("9999-12-31 23:59:59") AS valid_to,
   TRUE AS is_current
 FROM ${ref("stg_site")} s
-LEFT JOIN ${ref("stg_site_coordinates")} sc ON s.id_coordinates = sc.id_coordinates
-LEFT JOIN ${ref("stg_client")} c ON s.id_client = c.id_client
+LEFT JOIN ${ref("stg_site_coordinates")} sc ON s.id_coordinates = sc.id_coordinates AND s.id_coordinates != 0
+LEFT JOIN ${ref("stg_client")} c ON s.id_client = c.id_client AND s.id_client != 0
 ${when(incremental(), `
   WHERE NOT EXISTS (
     SELECT 1 FROM ${self()} t
