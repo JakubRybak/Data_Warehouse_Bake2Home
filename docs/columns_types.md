@@ -154,6 +154,13 @@
 | `PLANNED_QUANTITY` | INT64 | |
 | `PACKED_QUANTITY` | INT64 | |
 | `PRODUCT_PRICE` | NUMERIC | |
+| `PLANNED_AMOUNT` | NUMERIC | Pre-calculated planned amount |
+| `PACKED_AMOUNT` | NUMERIC | Pre-calculated packed amount |
+| `IS_SHORTAGE` | BOOL | True if packed < planned |
+| `DELIVERY_STATE_ID` | INT64 | Mapped from C# |
+| `DELIVERY_STATE` | STRING | Mapped from C# |
+| `DELIVERY_ITEM_STATE_ID` | INT64 | Mapped from C# |
+| `DELIVERY_ITEM_STATE` | STRING | Mapped from C# |
 ## DIM_DELIVERY_MAN
 | Kolumna | Typ w BigQuery | Uwagi |
 | :--- | :--- | :--- |
@@ -215,8 +222,10 @@
 | `LIST_OF_ORDER_ITEMS` | STRING | |
 | `ERROR` | STRING | |
 | `IS_ERROR` | BOOL | |
-| `STATE` | STRING | Mapped from Status |
-| `TYPE` | STRING | Mapped from PaymentType |
+| `PAYMENT_STATE_ID` | INT64 | Mapped from Status ID |
+| `PAYMENT_STATE` | STRING | Mapped from Status |
+| `PAYMENT_TYPE_ID` | INT64 | Mapped from PaymentType ID |
+| `PAYMENT_TYPE` | STRING | Mapped from PaymentType |
 | `FOR_MANUAL_HANDLING` | BOOL | |
 ## DIM_PAYMENT_METHOD
 | Kolumna | Typ w BigQuery | Uwagi |

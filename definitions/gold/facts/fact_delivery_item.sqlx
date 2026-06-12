@@ -33,7 +33,9 @@ SELECT
   COALESCE(di.planned_quantity, 0) * COALESCE(di.product_price, 0) AS planned_amount,
   COALESCE(di.packed_quantity, 0) * COALESCE(di.product_price, 0) AS packed_amount,
   
+  COALESCE(d.state_id, 0) AS delivery_state_id,
   COALESCE(d.state, 'UNKNOWN') AS delivery_state,
+  COALESCE(di.state_id, 0) AS delivery_item_state_id,
   COALESCE(di.state, 'UNKNOWN') AS delivery_item_state,
   
   COALESCE(di.packed_quantity < di.planned_quantity, FALSE) AS is_shortage

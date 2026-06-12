@@ -32,8 +32,10 @@ SELECT
   COALESCE(p.list_of_order_items, 'Unknown') AS list_of_order_items,
   COALESCE(p.error, 'Unknown') AS error,
   COALESCE(p.error IS NOT NULL AND p.error != '', FALSE) AS is_error,
-  COALESCE(p.status, 'Unknown') AS state,
-  COALESCE(p.payment_type, 'Unknown') AS type,
+  COALESCE(p.status_id, 0) AS payment_state_id,
+  COALESCE(p.status, 'Unknown') AS payment_state,
+  COALESCE(p.payment_type_id, 0) AS payment_type_id,
+  COALESCE(p.payment_type, 'Unknown') AS payment_type,
   COALESCE(p.for_manual_handling, FALSE) AS for_manual_handling
 
 FROM ${ref("stg_payment")} p
