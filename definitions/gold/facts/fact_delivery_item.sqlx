@@ -2,7 +2,10 @@ config {
   type: "table",
   schema: "gold",
   description: "Fact table for Delivery Items",
-  tags: ["daily", "gold"]
+  bigquery: {
+    partitionBy: "sk_date_delivery",
+    clusterBy: ["sk_customer", "sk_product"]
+  }
 }
 
 SELECT
