@@ -1,0 +1,38 @@
+config {
+  type: "view",
+  schema: "silver",
+  description: "Staging table for Refunds from wallet-db"
+}
+
+SELECT
+  CAST(Id AS INT64) AS id_refund,
+  COALESCE(CAST(PaymentId AS INT64), -999999) AS id_payment,
+  COALESCE(CAST(ClaimId AS INT64), -999999) AS id_claim,
+  
+  CAST(Status AS INT64) AS refund_state_id,
+  CASE CAST(Status AS INT64)
+    WHEN 0 THEN 'PENDING'
+    WHEN 1 THEN 'CANCELED'
+    WHEN 2 THEN 'FINALIZED'
+    WHEN 3 THEN 'PAYMENT_PROVIDER_ERROR'
+    WHEN 4 THEN 'MADE_BY_HAND'
+    ELSE 'UNKNOWN'
+  END AS refund_state,
+  
+  CAST(Type AS INT64) AS refund_type_id,
+  CASE CAST(Type AS INT64)
+    WHEN 0 THEN 'CLAIM'
+    WHEN 1 THEN 'UNDER_DELIVERY'
+    WHEN 2 THEN 'PAID_ORDER_ITEM_CANCELED'
+    ELSE 'UNKNOWN'
+  END AS refund_type,
+  
+  CAST(Amount AS NUMERIC) AS amount,
+  CAST(BaseAmount AS NUMERIC) AS base_amount,
+  CAST(Description AS STRING) AS description,
+  CAST(UserId AS STRING) AS user_id,
+  
+  CAST(Created AS TIMESTAMP) AS created_at,
+  CAST(Updated AS TIMESTAMP) AS modified_at
+FROM
+  ${ref("raw_wallet_Refunds")}

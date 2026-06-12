@@ -1,0 +1,58 @@
+config {
+  type: "table",
+  schema: "gold",
+  description: "Refund items fact table",
+  bigquery: {
+    partitionBy: "sk_date_refund",
+    clusterBy: ["sk_customer", "sk_product"]
+  }
+}
+
+SELECT
+  FARM_FINGERPRINT(COALESCE(CAST(ri.id_refund_item AS STRING), "-999999")) AS sk_refund_item,
+  COALESCE(ri.id_refund_item, -999999) AS id_refund_item,
+  COALESCE(r.id_refund, -999999) AS id_refund,
+  COALESCE(ri.id_product, -999999) AS id_product,
+  COALESCE(r.id_claim, -999999) AS id_claim,
+  COALESCE(r.id_payment, -999999) AS id_payment,
+  COALESCE(o.id_site, d.id_site, -999999) AS id_site,
+  COALESCE(pm.id_customer, -999999) AS id_customer,
+  COALESCE(p.id_client, -999999) AS id_client,
+  COALESCE(o.id_location, -999999) AS id_location,
+  
+  COALESCE(CAST(r.created_at AS DATE), CAST("1970-01-01" AS DATE)) AS sk_date_refund,
+  COALESCE(CAST(r.created_at AS DATE), CAST("1970-01-01" AS DATE)) AS sk_date_refund_created,
+  COALESCE(CAST(r.modified_at AS DATE), CAST("1970-01-01" AS DATE)) AS sk_date_refund_modified,
+  
+  COALESCE(s.sk_site, active_s.sk_site, FARM_FINGERPRINT("-999999")) AS sk_site,
+  COALESCE(prod.sk_product, active_prod.sk_product, FARM_FINGERPRINT("-999999")) AS sk_product,
+  COALESCE(c.sk_customer, active_c.sk_customer, FARM_FINGERPRINT("-999999")) AS sk_customer,
+  COALESCE(l.sk_location, active_l.sk_location, FARM_FINGERPRINT("-999999")) AS sk_location,
+  
+  COALESCE(ri.missing_product_quantity, 0) AS missing_product_quantity,
+  COALESCE(ri.amount, 0.0) AS amount,
+  COALESCE(ri.vat_amount, 0.0) AS vat_amount,
+  
+  COALESCE(r.refund_state, 'UNKNOWN') AS refund_state,
+  COALESCE(r.refund_state_id, -999999) AS refund_state_id,
+  COALESCE(r.refund_type, 'UNKNOWN') AS refund_type,
+  COALESCE(r.refund_type_id, -999999) AS refund_type_id
+
+FROM ${ref("stg_refund_items")} ri
+LEFT JOIN ${ref("stg_refund")} r ON ri.id_refund = r.id_refund AND ri.id_refund != 0
+LEFT JOIN ${ref("stg_payment")} p ON r.id_payment = p.id_payment AND r.id_payment != 0
+LEFT JOIN ${ref("stg_bakery_orders")} o ON p.id_order = o.id_order AND p.id_order != 0
+LEFT JOIN ${ref("stg_deliveries")} d ON p.id_delivery = d.id_delivery AND p.id_delivery != 0
+LEFT JOIN ${ref("stg_payment_method")} pm ON p.id_payment_method = pm.id_payment_method AND p.id_payment_method != 0
+
+LEFT JOIN ${ref("dim_site")} s ON COALESCE(o.id_site, d.id_site) = s.id_site AND COALESCE(o.id_site, d.id_site) != 0 AND r.created_at >= s.valid_from AND r.created_at < s.valid_to
+LEFT JOIN ${ref("dim_site")} active_s ON COALESCE(o.id_site, d.id_site) = active_s.id_site AND COALESCE(o.id_site, d.id_site) != 0 AND active_s.is_current = TRUE
+
+LEFT JOIN ${ref("dim_product")} prod ON ri.id_product = prod.id_product AND ri.id_product != 0 AND r.created_at >= prod.valid_from AND r.created_at < prod.valid_to
+LEFT JOIN ${ref("dim_product")} active_prod ON ri.id_product = active_prod.id_product AND ri.id_product != 0 AND active_prod.is_current = TRUE
+
+LEFT JOIN ${ref("dim_customer")} c ON pm.id_customer = c.id_customer AND pm.id_customer != 0 AND r.created_at >= c.valid_from AND r.created_at < c.valid_to
+LEFT JOIN ${ref("dim_customer")} active_c ON pm.id_customer = active_c.id_customer AND pm.id_customer != 0 AND active_c.is_current = TRUE
+
+LEFT JOIN ${ref("dim_location")} l ON COALESCE(o.id_location, -999999) = l.id_location AND COALESCE(o.id_location, -999999) != 0 AND r.created_at >= l.valid_from AND r.created_at < l.valid_to
+LEFT JOIN ${ref("dim_location")} active_l ON COALESCE(o.id_location, -999999) = active_l.id_location AND COALESCE(o.id_location, -999999) != 0 AND active_l.is_current = TRUE

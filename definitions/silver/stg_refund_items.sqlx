@@ -1,0 +1,20 @@
+config {
+  type: "view",
+  schema: "silver",
+  description: "Staging table for RefundItems from wallet-db"
+}
+
+SELECT
+  CAST(Id AS INT64) AS id_refund_item,
+  CAST(RefundId AS INT64) AS id_refund,
+  CAST(ProductId AS INT64) AS id_product,
+  
+  CAST(MissingProductQuantity AS INT64) AS missing_product_quantity,
+  CAST(Amount AS NUMERIC) AS amount,
+  CAST(VatAmount AS NUMERIC) AS vat_amount,
+  CAST(UserId AS STRING) AS user_id,
+  
+  CAST(Created AS TIMESTAMP) AS created_at,
+  CAST(Updated AS TIMESTAMP) AS modified_at
+FROM
+  ${ref("raw_wallet_RefundItems")}
