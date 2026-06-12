@@ -10,8 +10,8 @@ SELECT
   CAST(ProductId AS INT64) AS id_product,
   
   CAST(MissingProductQuantity AS INT64) AS missing_product_quantity,
-  CAST(Amount AS NUMERIC) AS amount,
-  CAST(VatAmount AS NUMERIC) AS vat_amount,
+  CAST(REGEXP_REPLACE(CAST(Amount AS STRING), r'[^\d.-]', '') AS NUMERIC) AS amount,
+  CAST(REGEXP_REPLACE(CAST(VatAmount AS STRING), r'[^\d.-]', '') AS NUMERIC) AS vat_amount,
   CAST(UserId AS STRING) AS user_id,
   
   CAST(Created AS TIMESTAMP) AS created_at,

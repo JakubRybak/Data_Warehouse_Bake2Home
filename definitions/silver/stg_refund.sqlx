@@ -27,8 +27,8 @@ SELECT
     ELSE 'UNKNOWN'
   END AS refund_type,
   
-  CAST(Amount AS NUMERIC) AS amount,
-  CAST(BaseAmount AS NUMERIC) AS base_amount,
+  CAST(REGEXP_REPLACE(CAST(Amount AS STRING), r'[^\d.-]', '') AS NUMERIC) AS amount,
+  CAST(REGEXP_REPLACE(CAST(BaseAmount AS STRING), r'[^\d.-]', '') AS NUMERIC) AS base_amount,
   CAST(Description AS STRING) AS description,
   CAST(UserId AS STRING) AS user_id,
   
