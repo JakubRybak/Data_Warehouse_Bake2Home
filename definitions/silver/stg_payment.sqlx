@@ -23,7 +23,7 @@ SELECT
     ELSE 'UNKNOWN'
   END AS status,
   
-  CAST(Amount AS NUMERIC) AS amount,
+  CAST(REGEXP_REPLACE(CAST(Amount AS STRING), r'[^0-9\.-]', '') AS NUMERIC) AS amount,
   CAST(OrderId AS INT64) AS id_order,
   CAST(DeliveryId AS INT64) AS id_delivery,
   COALESCE(CAST(UserId AS STRING), 'Unknown') AS user_id,
@@ -42,7 +42,7 @@ SELECT
   
   CAST(Error AS STRING) AS error,
   CAST(DiscountId AS INT64) AS id_discount,
-  CAST(DiscountedAmount AS NUMERIC) AS discounted_amount,
+  CAST(REGEXP_REPLACE(CAST(DiscountedAmount AS STRING), r'[^0-9\.-]', '') AS NUMERIC) AS discounted_amount,
   CAST(ClientId AS INT64) AS id_client
 FROM
   ${ref("raw_wallet_Payments")}
