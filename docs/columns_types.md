@@ -14,6 +14,8 @@
 | `ID_CUSTOMER` | INT64 | |
 | `ID_PLANNER_ITEM` | INT64 | |
 | `SK_DATE_ORDER` | DATE | Partition key |
+| `SK_DATE_ORDER_CREATED` | DATE | |
+| `SK_DATE_ORDER_MODIFIED` | DATE | |
 | `SK_OFFER` | INT64 | |
 | `SK_CUSTOMER_ADDRESS` | INT64 | |
 | `SK_LOCATION` | INT64 | |
@@ -32,7 +34,6 @@
 | `ORDER_ITEM_STATE` | STRING | Mapped from C# |
 | `ORDER_STATE_ID` | INT64 | Mapped from C# |
 | `ORDER_STATE` | STRING | Mapped from C# |
-| `CREATED_AT` | TIMESTAMP | Audit created timestamp |
 | `WEATHER_MORNING_PRECIP_PROB` | INT64 | max prawdopodobieństwo opadu w oknie 6-10, % |
 | `WEATHER_MORNING_PRECIP_SUM_MM` | NUMERIC | suma opadów w oknie 6-10, mm |
 | `WEATHER_MORNING_WAS_RAINY` | BOOL | |
@@ -150,7 +151,9 @@
 | `SK_SITE` | INT64 | |
 | `SK_CUSTOMER_ADDRESS` | INT64 | |
 | `SK_PRODUCT` | INT64 | |
-| `SK_DATE_DELIVERY` | INT64 | |
+| `SK_DATE_DELIVERY` | DATE | |
+| `SK_DATE_DELIVERY_CREATED` | DATE | |
+| `SK_DATE_DELIVERY_MODIFIED` | DATE | |
 | `PLANNED_QUANTITY` | INT64 | |
 | `PACKED_QUANTITY` | INT64 | |
 | `PRODUCT_PRICE` | NUMERIC | |
@@ -215,7 +218,8 @@
 | `SK_DISCOUNT` | INT64 | |
 | `SK_PAYMENT_METHOD` | INT64 | |
 | `SK_CUSTOMER` | INT64 | |
-| `SK_DATE_PAYMENT` | DATE | Partition key |
+| `SK_DATE_PAYMENT_CREATED` | DATE | Partition key |
+| `SK_DATE_PAYMENT_MODIFIED` | DATE | |
 | `SK_LOCATION` | INT64 | |
 | `AMOUNT` | NUMERIC | |
 | `DISCOUNTED_AMOUNT` | NUMERIC | Kwota pokryta zniżką |
@@ -434,6 +438,8 @@
 | `ID_CUSTOMER` | INT64 | |
 | `SK_START_DATE` | DATE | Partition key |
 | `SK_END_DATE` | DATE | |
+| `SK_DATE_PLAN_CREATED` | DATE | |
+| `SK_DATE_PLAN_MODIFIED` | DATE | |
 | `SK_CUSTOMER_ADDRESS` | INT64 | |
 | `SK_SITE` | INT64 | |
 | `SK_OFFER` | INT64 | |
@@ -454,6 +460,4 @@
 | `PLANNER_ITEM_STATE_ID` | INT64 | Mapped from C# |
 | `PLANNER_ITEM_STATE` | STRING | Mapped from C# |
 | `DURATION_DAYS` | INT64 | |
-| `IS_ACTIVE` | BOOL | Wyliczane na podstawie statusu / wiersza (TRUE jeśli NEXT_VERSION = 0) |
-| `CREATED_AT` | TIMESTAMP | Audit created timestamp |
-| `MODIFIED_AT` | TIMESTAMP | Audit updated timestamp |
+| `IS_ACTIVE` | BOOL | Wyliczane na podstawie statusu / wiersza (TRUE jeśli NEXT_VERSION = 0) |

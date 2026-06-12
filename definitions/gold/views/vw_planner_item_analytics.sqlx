@@ -99,8 +99,8 @@ SELECT
   f.bought_offer_instance_type,
   f.planner_item_state,
   f.is_active,
-  f.created_at AS plan_created_timestamp,
-  f.modified_at AS plan_modified_timestamp
+  f.sk_date_plan_created AS plan_created_date,
+  f.sk_date_plan_modified AS plan_modified_date
 
 FROM ${ref("fact_planner_item")} f
 LEFT JOIN ${ref("dim_date")} d_start 

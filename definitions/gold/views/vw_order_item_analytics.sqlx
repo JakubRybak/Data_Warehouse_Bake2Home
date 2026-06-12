@@ -50,7 +50,8 @@ SELECT
   d.is_weekend AS is_order_on_weekend,
   d.is_holiday AS is_order_on_holiday,
   d.is_working AS is_order_on_working_day,
-  f.created_at AS order_created_timestamp,
+  f.sk_date_order_created AS order_created_date,
+  f.sk_date_order_modified AS order_modified_date,
 
   COALESCE(o.name, 'Unknown') AS offer_name,
   COALESCE(o.type, 'Unknown') AS offer_type,

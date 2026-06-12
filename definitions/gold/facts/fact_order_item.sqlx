@@ -20,6 +20,8 @@ SELECT
   COALESCE(ca.id_customer, -999999) AS id_customer,
   COALESCE(i.id_planner_item, -999999) AS id_planner_item,
   COALESCE(o.date_order, CAST("1970-01-01" AS DATE)) AS sk_date_order,
+  COALESCE(CAST(o.created_at AS DATE), CAST("1970-01-01" AS DATE)) AS sk_date_order_created,
+  COALESCE(CAST(o.updated_at AS DATE), CAST("1970-01-01" AS DATE)) AS sk_date_order_modified,
   COALESCE(off.sk_offer, active_off.sk_offer, FARM_FINGERPRINT("-999999")) AS sk_offer,
   COALESCE(dca.sk_customer_address, FARM_FINGERPRINT("-999999")) AS sk_customer_address,
   COALESCE(loc.sk_location, active_loc.sk_location, FARM_FINGERPRINT("-999999")) AS sk_location,
@@ -41,8 +43,7 @@ SELECT
   COALESCE(i.order_item_state_id, -999999) AS order_item_state_id,
   COALESCE(i.order_item_state, 'Unknown') AS order_item_state,
   COALESCE(o.order_state_id, -999999) AS order_state_id,
-  COALESCE(o.order_state, 'Unknown') AS order_state,
-  COALESCE(o.created_at, TIMESTAMP("1970-01-01 00:00:00")) AS created_at
+  COALESCE(o.order_state, 'Unknown') AS order_state
 FROM ${ref("stg_bakery_order_items")} i
 LEFT JOIN ${ref("stg_bakery_orders")} o 
   ON i.id_order = o.id_order AND i.id_order != 0
