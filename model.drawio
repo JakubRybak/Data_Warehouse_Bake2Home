@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram name="Strona-1" id="qWixZZrSL6yISTHJjECI">
-        <mxGraphModel dx="4118" dy="2724" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+        <mxGraphModel dx="5055" dy="3118" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -2083,7 +2083,7 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="_Csio3JlE-vdO4Lg54OB-1" value="FACT_PAYMENT" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;fillColor=#0050ef;fontColor=#ffffff;strokeColor=#001DBC;" parent="1" vertex="1">
-                    <mxGeometry x="-1523" y="478" width="400" height="750" as="geometry"/>
+                    <mxGeometry x="-1523" y="415" width="400" height="750" as="geometry"/>
                 </mxCell>
                 <mxCell id="_Csio3JlE-vdO4Lg54OB-2" value="" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" parent="_Csio3JlE-vdO4Lg54OB-1" vertex="1">
                     <mxGeometry y="30" width="400" height="30" as="geometry"/>

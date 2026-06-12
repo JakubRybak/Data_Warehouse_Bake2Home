@@ -9,6 +9,17 @@ SELECT
   CAST(CustomerAddressId AS INT64) AS id_customer_address,
   CAST(AreaOfDeliveryForDateId AS INT64) AS id_area_of_delivery_for_date,
   COALESCE(CAST(State AS INT64), 0) AS state_id,
+  CASE CAST(State AS INT64)
+    WHEN 0 THEN 'WAITING_FOR_PAYMENT'
+    WHEN 1 THEN 'IN_PREPARATION'
+    WHEN 2 THEN 'READY_FOR_DELIVERY'
+    WHEN 3 THEN 'IN_DELIVERY'
+    WHEN 4 THEN 'DELIVERED'
+    WHEN 5 THEN 'CANCELLED'
+    WHEN 6 THEN 'CANCELLED_DUE_TO_PAYMENT_PROBLEM'
+    WHEN 7 THEN 'UNDELIVERED'
+    ELSE 'UNKNOWN'
+  END AS state,
   CAST(DeliveryManId AS INT64) AS id_delivery_man,
   CAST(SiteId AS INT64) AS id_site,
   CAST(OrderId AS INT64) AS id_order,

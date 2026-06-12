@@ -1,0 +1,47 @@
+config {
+  type: "table",
+  schema: "gold",
+  description: "Fact table for Delivery Items",
+  tags: ["daily", "gold"]
+}
+
+SELECT
+  FARM_FINGERPRINT(CAST(di.id_delivery_item AS STRING)) AS sk_delivery_item,
+  
+  di.id_delivery_item,
+  d.id_customer_address,
+  d.id_delivery_man,
+  di.id_product,
+  di.id_delivery,
+  d.id_site,
+  ca.id_customer,
+  a.id_location,
+  d.id_order,
+  
+  COALESCE(FARM_FINGERPRINT(CAST(a.id_location AS STRING)), FARM_FINGERPRINT("-999999")) AS sk_location,
+  COALESCE(FARM_FINGERPRINT(CAST(ca.id_customer AS STRING)), FARM_FINGERPRINT("-999999")) AS sk_customer,
+  COALESCE(FARM_FINGERPRINT(CAST(d.id_delivery_man AS STRING)), FARM_FINGERPRINT("-999999")) AS sk_delivery_man,
+  COALESCE(FARM_FINGERPRINT(CAST(d.id_site AS STRING)), FARM_FINGERPRINT("-999999")) AS sk_site,
+  COALESCE(FARM_FINGERPRINT(CAST(d.id_customer_address AS STRING)), FARM_FINGERPRINT("-999999")) AS sk_customer_address,
+  COALESCE(FARM_FINGERPRINT(CAST(di.id_product AS STRING)), FARM_FINGERPRINT("-999999")) AS sk_product,
+  CAST(FORMAT_TIMESTAMP('%Y%m%d', a.delivery_date) AS INT64) AS sk_date_delivery,
+  
+  COALESCE(di.planned_quantity, 0) AS planned_quantity,
+  COALESCE(di.packed_quantity, 0) AS packed_quantity,
+  COALESCE(di.product_price, 0) AS product_price,
+  
+  COALESCE(di.planned_quantity, 0) * COALESCE(di.product_price, 0) AS planned_amount,
+  COALESCE(di.packed_quantity, 0) * COALESCE(di.product_price, 0) AS packed_amount,
+  
+  COALESCE(d.state, 'UNKNOWN') AS delivery_state,
+  COALESCE(di.state, 'UNKNOWN') AS delivery_item_state,
+  
+  COALESCE(di.packed_quantity < di.planned_quantity, FALSE) AS is_shortage
+
+FROM ${ref("stg_delivery_items")} di
+LEFT JOIN ${ref("stg_deliveries")} d 
+  ON di.id_delivery = d.id_delivery AND di.id_delivery != 0
+LEFT JOIN ${ref("stg_area_of_delivery_for_date")} a 
+  ON d.id_area_of_delivery_for_date = a.id_area_of_delivery_for_date AND d.id_area_of_delivery_for_date != 0
+LEFT JOIN ${ref("stg_customer_address")} ca 
+  ON d.id_customer_address = ca.id_customer_address AND d.id_customer_address != 0

@@ -1,0 +1,15 @@
+config {
+  type: "view",
+  schema: "silver",
+  description: "Staging table for AreaOfDeliveryForDate from delivery-manager-db"
+}
+
+SELECT
+  CAST(Id AS INT64) AS id_area_of_delivery_for_date,
+  CAST(Date AS TIMESTAMP) AS delivery_date,
+  CAST(LocationId AS INT64) AS id_location,
+  CAST(SiteId AS INT64) AS id_site,
+  CAST(Created AS TIMESTAMP) AS created_at,
+  CAST(Updated AS TIMESTAMP) AS updated_at
+FROM
+  ${ref("raw_delivery_manager_AreaOfDeliveryForDate")}

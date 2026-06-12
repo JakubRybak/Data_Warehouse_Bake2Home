@@ -1,0 +1,37 @@
+config {
+  type: "view",
+  schema: "silver",
+  description: "Staging table for DeliveryItems from delivery-manager-db"
+}
+
+SELECT
+  CAST(Id AS INT64) AS id_delivery_item,
+  CAST(DeliveryId AS INT64) AS id_delivery,
+  CAST(ProductId AS INT64) AS id_product,
+  
+  COALESCE(CAST(State AS INT64), 0) AS state_id,
+  CASE CAST(State AS INT64)
+    WHEN 0 THEN 'WAITING_FOR_PAYMENT'
+    WHEN 1 THEN 'IN_PREPARATION'
+    WHEN 2 THEN 'PACKED'
+    WHEN 3 THEN 'INCOMPLETELY_PACKED'
+    WHEN 4 THEN 'CLAIMED_FOR_MISSING'
+    WHEN 5 THEN 'CLAIMED_OTHER_PROBLEM'
+    WHEN 6 THEN 'INCOMPLETELY_DELIVERED'
+    WHEN 7 THEN 'CLAIM_APPROVED'
+    WHEN 8 THEN 'CANCELLED_DUE_TO_PAYMENT_PROBLEM'
+    WHEN 9 THEN 'DELIVERED'
+    WHEN 10 THEN 'DELIVERY_CANCELLED'
+    WHEN 11 THEN 'OTHER'
+    WHEN 12 THEN 'UNDELIVERED'
+    ELSE 'UNKNOWN'
+  END AS state,
+  
+  CAST(PlannedQuantity AS INT64) AS planned_quantity,
+  CAST(PackedQuantity AS INT64) AS packed_quantity,
+  CAST(ProductName AS STRING) AS product_name,
+  CAST(ProductPrice AS NUMERIC) AS product_price,
+  CAST(Created AS TIMESTAMP) AS created_at,
+  CAST(Updated AS TIMESTAMP) AS modified_at
+FROM
+  ${ref("raw_delivery_manager_DeliveryItems")}
