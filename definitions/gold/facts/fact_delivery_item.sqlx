@@ -26,7 +26,7 @@ SELECT
   COALESCE(FARM_FINGERPRINT(CAST(di.id_product AS STRING)), FARM_FINGERPRINT("-999999")) AS sk_product,
   COALESCE(CAST(a.delivery_date AS DATE), CAST("1970-01-01" AS DATE)) AS sk_date_delivery,
   COALESCE(CAST(di.created_at AS DATE), CAST("1970-01-01" AS DATE)) AS sk_date_delivery_created,
-  COALESCE(CAST(di.updated_at AS DATE), CAST("1970-01-01" AS DATE)) AS sk_date_delivery_modified,
+  COALESCE(CAST(di.modified_at AS DATE), CAST("1970-01-01" AS DATE)) AS sk_date_delivery_modified,
   
   COALESCE(di.planned_quantity, 0) AS planned_quantity,
   COALESCE(di.packed_quantity, 0) AS packed_quantity,
