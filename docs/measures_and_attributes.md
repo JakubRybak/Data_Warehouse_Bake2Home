@@ -8,6 +8,9 @@
 | `PRICE` | Value/Price for a given product/offer | **SUM** (Revenue), **AVG** (Average price) |
 | `QUANTITY` | Quantity of ordered items | **SUM** |
 | `VAT` | VAT tax amount | **SUM** |
+| `GROSS_AMOUNT` | Pre-calculated gross sales amount | **SUM** |
+| `NET_AMOUNT` | Pre-calculated net sales amount | **SUM** |
+| `VAT_AMOUNT` | Pre-calculated VAT amount | **SUM** |
 | `WEATHER_MORNING_WAS_RAINY` | (`PRECIP_PROB` >= 50 AND `PRECIP_SUM_MM` >= 1.0) OR (`PRECIP_SUM_MM` >= 2.5) | **CUSTOM** |
 
 ### FACT_DELIVERY_ITEM
@@ -65,6 +68,8 @@
 
 ### Status Attributes
 * **In orders:** `ORDER_ITEM_STATE`, `ORDER_STATE`, `MODIFIED_BY_HAND`.
+* **In planner:** `PLANNER_ITEM_STATE`.
+* **In customers:** `CUSTOMER_STATE`.
 * **In payments:** `TYPE`, `CARD_BRAND`, `MOBILE`.
 * **In claims:** `STATE`, `ISSUE_TYPE`.
 

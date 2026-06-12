@@ -15,6 +15,8 @@ erDiagram
         varchar Name
         text PictureFileName
         int ProductTypeDisplayOrder
+        timestamp Created
+        timestamp Updated
     }
 
     BakeryProduct {
@@ -26,6 +28,8 @@ erDiagram
         int BakeryProductsTypeId FK
         int PlatformClientId
         int Weight
+        timestamp Created
+        timestamp Updated
     }
 
     Nutrition {
@@ -38,18 +42,24 @@ erDiagram
         float Protein
         float Sodium
         int ProductId FK
+        timestamp Created
+        timestamp Updated
     }
 
     Allergen {
         int Id PK
         varchar Name
         bool IsUsed
+        timestamp Created
+        timestamp Updated
     }
 
     ProductAllergen {
         int Id PK
         int AllergenId FK
         int BakeryProductId FK
+        timestamp Created
+        timestamp Updated
     }
 
     ProductAttribute {
@@ -57,12 +67,16 @@ erDiagram
         varchar Description
         varchar Value
         int BakeryProductId FK
+        timestamp Created
+        timestamp Updated
     }
 
     PublicIngredient {
         int Id PK
         varchar Name
         varchar Unit
+        timestamp Created
+        timestamp Updated
     }
 
     PrivateIngredient {
@@ -70,6 +84,8 @@ erDiagram
         int PlatformClientId
         varchar Name
         varchar Unit
+        timestamp Created
+        timestamp Updated
     }
 
     ProductPublicIngredient {
@@ -77,6 +93,8 @@ erDiagram
         int BakeryProductId FK
         int IngredientId FK
         float Value
+        timestamp Created
+        timestamp Updated
     }
 
     ProductPrivateIngredient {
@@ -84,6 +102,8 @@ erDiagram
         int BakeryProductId FK
         int IngredientId FK
         float Value
+        timestamp Created
+        timestamp Updated
     }
 
     BakeryOffer {
@@ -97,6 +117,8 @@ erDiagram
         int PlatformClientId
         int VatRateId
         numeric VAT
+        timestamp Created
+        timestamp Updated
     }
 
     OfferProduct {
@@ -109,6 +131,8 @@ erDiagram
         bool IsAvailableInOffer
         numeric ProductInOfferPrice
         numeric VATForProductInOffer
+        timestamp Created
+        timestamp Updated
     }
 
     Availability {
@@ -122,6 +146,8 @@ erDiagram
         bool Sunday
         timestamp AvailableDateFrom
         timestamp AvailableDateTo
+        timestamp Created
+        timestamp Updated
     }
 
     OfferAvailability {
@@ -133,18 +159,24 @@ erDiagram
         int Id PK
         int LocationId
         int BakeryOfferId FK
+        timestamp Created
+        timestamp Updated
     }
 
     OfferSite {
         int Id PK
         int SiteId
         int BakeryOfferId FK
+        timestamp Created
+        timestamp Updated
     }
 
     BakeryProductSiteNew {
         int Id PK
         int BakeryProductId FK
         int SiteId
+        timestamp Created
+        timestamp Updated
     }
 
     BakeryProductsTypes ||--o{ BakeryProduct : "typ produktu"
@@ -186,6 +218,8 @@ erDiagram
         text Email
         text FullFormalName
         text Phone
+        timestamp Created
+        timestamp Updated
     }
 
     Site {
@@ -199,12 +233,16 @@ erDiagram
         varchar ZipCode
         int ClientId FK
         int SiteCoordinatesId FK
+        timestamp Created
+        timestamp Updated
     }
 
     SiteCoordinates {
         int Id PK
         float Latitude
         float Longitude
+        timestamp Created
+        timestamp Updated
     }
 
     Person {
@@ -213,6 +251,8 @@ erDiagram
         text Name
         text Interview
         text PictureLink
+        timestamp Created
+        timestamp Updated
     }
 
     Location {
@@ -220,12 +260,16 @@ erDiagram
         varchar Name
         varchar Description
         int Status
+        timestamp Created
+        timestamp Updated
     }
 
     LocationSite {
         int Id PK
         int SiteId FK
         int LocationId FK
+        timestamp Created
+        timestamp Updated
     }
 
     PolygonVertex {
@@ -233,6 +277,8 @@ erDiagram
         int LocationId FK
         float Latitude
         float Longitude
+        timestamp Created
+        timestamp Updated
     }
 
     Leave {
@@ -243,6 +289,8 @@ erDiagram
         int Type
         text Description
         int State
+        timestamp Created
+        timestamp Updated
     }
 
     IndicatedBakery {
@@ -279,6 +327,8 @@ erDiagram
         int OtherRoleStatus
         int CustomerState
         text CustomerIp
+        timestamp Created
+        timestamp Updated
     }
 
     CustomerAddress {
@@ -291,6 +341,8 @@ erDiagram
         text AdditionalInformation
         int CustomerId FK
         int State
+        timestamp Created
+        timestamp Updated
     }
 
     CustomerAndroidToken {
@@ -301,6 +353,8 @@ erDiagram
         text InstallationId
         text Platform
         timestamp ExpirationTime
+        timestamp Created
+        timestamp Updated
     }
 
     Consents {
@@ -312,6 +366,8 @@ erDiagram
         timestamp ExpiryDate
         timestamp GoLiveDate
         int ObligationType
+        timestamp Created
+        timestamp Updated
     }
 
     CustomerConsent {
@@ -320,6 +376,8 @@ erDiagram
         int ConsentId FK
         int Status
         timestamp Date
+        timestamp Created
+        timestamp Updated
     }
 
     Customer ||--o{ CustomerAddress : "adresy dostawy"
@@ -345,6 +403,8 @@ erDiagram
         int OrderState
         int ServicingBySiteId
         int LocationId
+        timestamp Created
+        timestamp Updated
     }
 
     BakeryOrderItems {
@@ -355,6 +415,8 @@ erDiagram
         int OrderItemState
         bool ModifiedByHand
         int PlannerItemId FK
+        timestamp Created
+        timestamp Updated
     }
 
     BoughtOfferInstances {
@@ -367,6 +429,8 @@ erDiagram
         numeric VAT
         int VatRateId
         int Type
+        timestamp Created
+        timestamp Updated
     }
 
     PlannerItems {
@@ -382,6 +446,8 @@ erDiagram
         int BoughtOfferInstanceId FK
         int ServicingBySiteId
         int LocationId
+        timestamp Created
+        timestamp Updated
     }
 
     PlatformDiscount {
@@ -392,6 +458,8 @@ erDiagram
         int NumbersOfOrders
         int Discount
         text AdditionalInformation
+        timestamp Created
+        timestamp Updated
     }
 
     BakeryOrders ||--o{ BakeryOrderItems : "pozycje zamowienia"
@@ -417,6 +485,8 @@ erDiagram
         int EstimatedNoOfDelivery
         int LocationId
         int SiteId
+        timestamp Created
+        timestamp Updated
     }
 
     Deliveries {
@@ -433,6 +503,8 @@ erDiagram
         text CustomerUserId
         text DeliveryManUserId
         int OrderId
+        timestamp Created
+        timestamp Updated
     }
 
     DeliveryItems {
@@ -444,6 +516,8 @@ erDiagram
         numeric ProductPrice
         int ProductId
         int DeliveryId FK
+        timestamp Created
+        timestamp Updated
     }
 
     DeliveryManArea {
@@ -451,6 +525,8 @@ erDiagram
         int DeliveryManId
         int AreaOfDeliveryForDateId FK
         int State
+        timestamp Created
+        timestamp Updated
     }
 
     AreaOfDeliveryForDate ||--o{ Deliveries : "dostawy w obszarze"
@@ -477,6 +553,8 @@ erDiagram
         text NIP
         int SiteId
         int ContractOwner
+        timestamp Created
+        timestamp Updated
     }
 
     Address {
@@ -489,6 +567,8 @@ erDiagram
         text HouseNumber
         text ZipCode
         int DeliveryManId FK
+        timestamp Created
+        timestamp Updated
     }
 
     BankAccount {
@@ -496,6 +576,8 @@ erDiagram
         text BankName
         text BankAccountNumber
         int DeliveryManId FK
+        timestamp Created
+        timestamp Updated
     }
 
     DeliveryManAndroidToken {
@@ -505,6 +587,8 @@ erDiagram
         int TokenState
         text InstallationId
         text Platform
+        timestamp Created
+        timestamp Updated
     }
 
     DeliveryManLocationAllocation {
@@ -513,6 +597,8 @@ erDiagram
         timestamp Date
         int DeliveryManId FK
         int SiteId
+        timestamp Created
+        timestamp Updated
     }
 
     DeliveryManUnavailability {
@@ -521,6 +607,8 @@ erDiagram
         timestamp DateFrom
         timestamp DateTo
         int State
+        timestamp Created
+        timestamp Updated
     }
 
     DeliveryMan ||--o{ Address : "adresy"
@@ -549,6 +637,8 @@ erDiagram
         int AgreedDiscountId
         int AgreedReturnAmount
         int ServicingBySiteId
+        timestamp Created
+        timestamp Updated
     }
 
     ClaimEntityDeliveryItems {
@@ -562,6 +652,8 @@ erDiagram
         int NumberOfProductsWithAcceptedClaim
         int ProductId
         int ClaimedQuantity
+        timestamp Created
+        timestamp Updated
     }
 
     ClaimItems {
@@ -571,6 +663,8 @@ erDiagram
         text Notifier
         text PictureName
         int Type
+        timestamp Created
+        timestamp Updated
     }
 
     ClaimsEntity ||--o{ ClaimEntityDeliveryItems : "reklamowane produkty"
@@ -595,6 +689,8 @@ erDiagram
         text CardBrand
         bool Mobile
         int CustomerId
+        timestamp Created
+        timestamp Updated
     }
 
     Discounts {
@@ -610,6 +706,8 @@ erDiagram
         int ClientId
         bool OnlyForFirstPurchase
         int CustomerId
+        timestamp Created
+        timestamp Updated
     }
 
     Payments {
@@ -627,6 +725,8 @@ erDiagram
         int DiscountId FK
         money DiscountedAmount
         int ClientId
+        timestamp Created
+        timestamp Updated
     }
 
     DiscountUses {
@@ -635,6 +735,8 @@ erDiagram
         int CustomerId
         int DiscountId FK
         text ListOfPaymentIds
+        timestamp Created
+        timestamp Updated
     }
 
     Refunds {
@@ -646,6 +748,8 @@ erDiagram
         int ClaimId
         int PaymentId FK
         money BaseAmount
+        timestamp Created
+        timestamp Updated
     }
 
     RefundItems {
@@ -655,6 +759,8 @@ erDiagram
         money Amount
         money VatAmount
         int ProductId
+        timestamp Created
+        timestamp Updated
     }
 
     RefundCreationErrors {
@@ -664,6 +770,8 @@ erDiagram
         int Code
         text Description
         int RefundId FK
+        timestamp Created
+        timestamp Updated
     }
 
     RefundFinalizationError {
@@ -675,6 +783,8 @@ erDiagram
         timestamp RefundRegistrationDate
         text Status
         text ErrorCode
+        timestamp Created
+        timestamp Updated
     }
 
     PaymentMethods ||--o{ Payments : "platnosci metoda"

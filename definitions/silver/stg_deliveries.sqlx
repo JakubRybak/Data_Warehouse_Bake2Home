@@ -1,0 +1,18 @@
+config {
+  type: "view",
+  schema: "silver",
+  description: "Staging table for Deliveries from delivery-manager-db"
+}
+
+SELECT
+  CAST(Id AS INT64) AS id_delivery,
+  CAST(CustomerAddressId AS INT64) AS id_customer_address,
+  CAST(AreaOfDeliveryForDateId AS INT64) AS id_area_of_delivery_for_date,
+  COALESCE(CAST(State AS INT64), 0) AS state_id,
+  CAST(DeliveryManId AS INT64) AS id_delivery_man,
+  CAST(SiteId AS INT64) AS id_site,
+  CAST(OrderId AS INT64) AS id_order,
+  CAST(Created AS TIMESTAMP) AS created_at,
+  CAST(Updated AS TIMESTAMP) AS updated_at
+FROM
+  ${ref("raw_delivery_manager_Deliveries")}

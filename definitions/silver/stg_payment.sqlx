@@ -1,0 +1,49 @@
+config {
+  type: "view",
+  schema: "silver",
+  description: "Staging table for Payments from wallet-db"
+}
+
+SELECT
+  CAST(Id AS INT64) AS id_payment,
+  CAST(Created AS TIMESTAMP) AS created_at,
+  CAST(Updated AS TIMESTAMP) AS updated_at,
+  
+  COALESCE(CAST(Status AS INT64), 2147483647) AS status_id,
+  CASE CAST(Status AS INT64)
+    WHEN 0 THEN 'NEW'
+    WHEN 1 THEN 'PENDING'
+    WHEN 2 THEN 'WAITING_FOR_CONFIRMATION'
+    WHEN 3 THEN 'COMPLETED'
+    WHEN 4 THEN 'CANCELED'
+    WHEN 5 THEN 'PAYMENT_PROVIDER_ERROR'
+    WHEN 6 THEN 'WAITING_FOR_3DS2'
+    WHEN 7 THEN 'WAITING_FOR_CVV'
+    WHEN 8 THEN 'PAYMENT_PROVIDER_UNAVAILABLE'
+    ELSE 'UNKNOWN'
+  END AS status,
+  
+  CAST(Amount AS NUMERIC) AS amount,
+  CAST(OrderId AS INT64) AS id_order,
+  CAST(DeliveryId AS INT64) AS id_delivery,
+  COALESCE(CAST(UserId AS STRING), 'Unknown') AS user_id,
+  CAST(PaymentMethodId AS INT64) AS id_payment_method,
+  CAST(ListOfOrderItems AS STRING) AS list_of_order_items,
+  CAST(ForManualHandling AS BOOL) AS for_manual_handling,
+  
+  COALESCE(CAST(PaymentType AS INT64), 0) AS payment_type_id,
+  CASE CAST(PaymentType AS INT64)
+    WHEN 0 THEN 'UNKNOWN'
+    WHEN 1 THEN 'TEST_PAYMENT'
+    WHEN 2 THEN 'CARD_REGISTRATION'
+    WHEN 3 THEN 'FLOURY'
+    ELSE 'UNKNOWN'
+  END AS payment_type,
+  
+  CAST(PaidByTransactionId AS STRING) AS paid_by_transaction_id,
+  CAST(Error AS STRING) AS error,
+  CAST(DiscountId AS INT64) AS id_discount,
+  CAST(DiscountedAmount AS NUMERIC) AS discounted_amount,
+  CAST(ClientId AS INT64) AS id_client
+FROM
+  ${ref("raw_wallet_Payments")}

@@ -116,6 +116,7 @@
 | `NAME` | STRING | |
 | `CUSTOMER_STATE_ID` | INT64 | Mapped from C# |
 | `CUSTOMER_STATE` | STRING | Mapped from C# |
+| `ACCOUNT_CREATED_AT` | TIMESTAMP | Account registration date |
 | `VALID_FROM` | TIMESTAMP | |
 | `VALID_TO` | TIMESTAMP | |
 | `IS_CURRENT` | BOOL | |
@@ -207,11 +208,16 @@
 | `SK_DISCOUNT` | INT64 | |
 | `SK_PAYMENT_METHOD` | INT64 | |
 | `SK_CUSTOMER` | INT64 | |
-| `SK_DATE_PAYMENT` | INT64 | |
+| `SK_DATE_PAYMENT` | DATE | Partition key |
 | `SK_LOCATION` | INT64 | |
 | `AMOUNT` | NUMERIC | |
+| `DISCOUNTED_AMOUNT` | NUMERIC | Kwota pokryta zniżką |
 | `LIST_OF_ORDER_ITEMS` | STRING | |
 | `ERROR` | STRING | |
+| `IS_ERROR` | BOOL | |
+| `STATE` | STRING | Mapped from Status |
+| `TYPE` | STRING | Mapped from PaymentType |
+| `FOR_MANUAL_HANDLING` | BOOL | |
 ## DIM_PAYMENT_METHOD
 | Kolumna | Typ w BigQuery | Uwagi |
 | :--- | :--- | :--- |
@@ -437,7 +443,7 @@
 | `BOUGHT_OFFER_INSTANCE_TYPE_ID` | INT64 | Mapped from C# |
 | `BOUGHT_OFFER_INSTANCE_TYPE` | STRING | Mapped from C# |
 | `PLANNER_ITEM_STATE_ID` | INT64 | Mapped from C# |
-| `PLANNER_ITEM_STATE` | STRING | Mapped from C# ('TO BE SET') |
+| `PLANNER_ITEM_STATE` | STRING | Mapped from C# |
 | `DURATION_DAYS` | INT64 | |
 | `IS_ACTIVE` | BOOL | Wyliczane na podstawie statusu / wiersza (TRUE jeśli NEXT_VERSION = 0) |
 | `CREATED_AT` | TIMESTAMP | Audit created timestamp |

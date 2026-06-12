@@ -41,6 +41,7 @@ pre_operations {
           ELSE 'UNKNOWN'
         END AS customer_state,
         cp.sk_consent_profile,
+        c.created_at AS account_created_at,
         c.updated_at
       FROM ${ref("stg_customer")} c
       LEFT JOIN pivoted_consents pc ON c.id_customer = pc.id_customer
@@ -109,6 +110,7 @@ SELECT
   'Unknown' AS name,
   0 AS customer_state_id,
   'Unknown' AS customer_state,
+  TIMESTAMP("1970-01-01 00:00:00") AS account_created_at,
   TIMESTAMP("1970-01-01 00:00:00") AS valid_from,
   TIMESTAMP("9999-12-31 23:59:59") AS valid_to,
   TRUE AS is_current
@@ -133,6 +135,7 @@ SELECT
   name,
   customer_state_id,
   customer_state,
+  COALESCE(created_at, TIMESTAMP("1970-01-01 00:00:00")) AS account_created_at,
   ${when(incremental(), 
     `COALESCE(updated_at, created_at, CURRENT_TIMESTAMP())`, 
     `COALESCE(created_at, CURRENT_TIMESTAMP())`

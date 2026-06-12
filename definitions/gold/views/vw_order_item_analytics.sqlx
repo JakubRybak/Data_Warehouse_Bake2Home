@@ -61,6 +61,7 @@ SELECT
 
   COALESCE(c.name, 'Unknown') AS customer_name,
   COALESCE(c.customer_state, 'Unknown') AS customer_state,
+  c.account_created_at AS customer_account_created_at,
 
   COALESCE(ca.address_name, 'Unknown') AS address_name,
   COALESCE(ca.address, 'Unknown') AS delivery_address,
