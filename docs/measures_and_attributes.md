@@ -19,6 +19,8 @@
 | `PLANNED_QUANTITY` | Quantity planned for delivery | **SUM** |
 | `PACKED_QUANTITY` | Quantity actually packed | **SUM** |
 | `PRODUCT_PRICE` | Value of the product in delivery | **SUM** |
+| `PLANNED_AMOUNT` | Pre-calculated planned amount | **SUM** |
+| `PACKED_AMOUNT` | Pre-calculated packed amount | **SUM** |
 
 ### FACT_CLAIM_ITEM
 | Measure | Business Description | Default Aggregation |
@@ -33,6 +35,7 @@
 | Measure | Business Description | Default Aggregation |
 | :--- | :--- | :--- |
 | `AMOUNT` (PAYMENT) | Booked payment amount | **SUM** |
+| `DISCOUNTED_AMOUNT` (PAYMENT) | Amount covered by discount | **SUM** |
 | `AMOUNT` (REFUND) | Actual refund amount (net/gross) | **SUM** |
 | `VAT_AMOUNT` | Refunded VAT amount | **SUM** |
 | `MISSING_PRODUCT_QUANTITY` | Quantity of missing products forming the basis of the refund | **SUM** |
@@ -67,10 +70,12 @@
 * **Promotional:** `DISCOUNT_CODE`, `ONLY_FOR_FIRST_PURCHASE`.
 
 ### Status Attributes
-* **In orders:** `ORDER_ITEM_STATE`, `ORDER_STATE`, `MODIFIED_BY_HAND`.
-* **In planner:** `PLANNER_ITEM_STATE`.
+* **In orders:** `ORDER_ITEM_STATE`, `ORDER_STATE`, `MODIFIED_BY_HAND`, `BOUGHT_OFFER_INSTANCE_TYPE`.
+* **In planner:** `PLANNER_ITEM_STATE`, `BOUGHT_OFFER_INSTANCE_TYPE`, `IS_ACTIVE`.
 * **In customers:** `CUSTOMER_STATE`.
-* **In payments:** `TYPE`, `CARD_BRAND`, `MOBILE`.
+* **In payments / payment methods:** `PAYMENT_STATE`, `PAYMENT_TYPE`, `FOR_MANUAL_HANDLING`, `IS_ERROR`, `TYPE`, `CARD_BRAND`, `MOBILE`.
+* **In refunds:** `REFUND_STATE`, `REFUND_TYPE`.
+* **In deliveries:** `DELIVERY_STATE`, `DELIVERY_ITEM_STATE`, `IS_SHORTAGE`.
 * **In claims:** `STATE`, `ISSUE_TYPE`.
 
 ---

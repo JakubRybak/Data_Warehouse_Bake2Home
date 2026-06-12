@@ -22,21 +22,21 @@
 | `SK_SITE` | INT64 | |
 | `SK_CUSTOMER` | INT64 | |
 | `PRICE` | NUMERIC | |
+| `BOUGHT_OFFER_INSTANCE_TYPE` | STRING | Mapped from C# |
+| `BOUGHT_OFFER_INSTANCE_TYPE_ID` | INT64 | Mapped from C# |
+| `ORDER_ITEM_STATE` | STRING | Mapped from C# |
+| `ORDER_ITEM_STATE_ID` | INT64 | Mapped from C# |
+| `ORDER_STATE` | STRING | Mapped from C# |
+| `ORDER_STATE_ID` | INT64 | Mapped from C# |
+| `MODIFIED_BY_HAND` | BOOL | |
 | `QUANTITY` | INT64 | |
 | `VAT` | NUMERIC | |
+| `WEATHER_MORNING_PRECIP_SUM_MM` | NUMERIC | suma opadów w oknie 6-10, mm |
+| `WEATHER_MORNING_WAS_RAINY` | BOOL | |
+| `WEATHER_MORNING_PRECIP_PROB` | INT64 | max prawdopodobieństwo opadu w oknie 6-10, % |
 | `GROSS_AMOUNT` | NUMERIC | Pre-calculated gross sales amount |
 | `NET_AMOUNT` | NUMERIC | Pre-calculated net sales amount |
 | `VAT_AMOUNT` | NUMERIC | Pre-calculated VAT amount |
-| `MODIFIED_BY_HAND` | BOOL | |
-| `BOUGHT_OFFER_INSTANCE_TYPE_ID` | INT64 | Mapped from C# |
-| `BOUGHT_OFFER_INSTANCE_TYPE` | STRING | Mapped from C# |
-| `ORDER_ITEM_STATE_ID` | INT64 | Mapped from C# |
-| `ORDER_ITEM_STATE` | STRING | Mapped from C# |
-| `ORDER_STATE_ID` | INT64 | Mapped from C# |
-| `ORDER_STATE` | STRING | Mapped from C# |
-| `WEATHER_MORNING_PRECIP_PROB` | INT64 | max prawdopodobieństwo opadu w oknie 6-10, % |
-| `WEATHER_MORNING_PRECIP_SUM_MM` | NUMERIC | suma opadów w oknie 6-10, mm |
-| `WEATHER_MORNING_WAS_RAINY` | BOOL | |
 ## DIM_SITE
 | Kolumna | Typ w BigQuery | Uwagi |
 | :--- | :--- | :--- |
@@ -156,14 +156,14 @@
 | `SK_DATE_DELIVERY_MODIFIED` | DATE | |
 | `PLANNED_QUANTITY` | INT64 | |
 | `PACKED_QUANTITY` | INT64 | |
-| `PRODUCT_PRICE` | NUMERIC | |
 | `PLANNED_AMOUNT` | NUMERIC | Pre-calculated planned amount |
 | `PACKED_AMOUNT` | NUMERIC | Pre-calculated packed amount |
 | `IS_SHORTAGE` | BOOL | True if packed < planned |
-| `DELIVERY_STATE_ID` | INT64 | Mapped from C# |
+| `PRODUCT_PRICE` | NUMERIC | |
 | `DELIVERY_STATE` | STRING | Mapped from C# |
-| `DELIVERY_ITEM_STATE_ID` | INT64 | Mapped from C# |
+| `DELIVERY_STATE_ID` | INT64 | Mapped from C# |
 | `DELIVERY_ITEM_STATE` | STRING | Mapped from C# |
+| `DELIVERY_ITEM_STATE_ID` | INT64 | Mapped from C# |
 ## DIM_DELIVERY_MAN
 | Kolumna | Typ w BigQuery | Uwagi |
 | :--- | :--- | :--- |
@@ -223,15 +223,15 @@
 | `SK_DATE_PAYMENT_MODIFIED` | DATE | |
 | `SK_LOCATION` | INT64 | |
 | `AMOUNT` | NUMERIC | |
-| `DISCOUNTED_AMOUNT` | NUMERIC | Kwota pokryta zniżką |
 | `LIST_OF_ORDER_ITEMS` | STRING | |
 | `ERROR` | STRING | |
 | `IS_ERROR` | BOOL | |
-| `PAYMENT_STATE_ID` | INT64 | Mapped from Status ID |
-| `PAYMENT_STATE` | STRING | Mapped from Status |
-| `PAYMENT_TYPE_ID` | INT64 | Mapped from PaymentType ID |
-| `PAYMENT_TYPE` | STRING | Mapped from PaymentType |
+| `DISCOUNTED_AMOUNT` | NUMERIC | Kwota pokryta zniżką |
 | `FOR_MANUAL_HANDLING` | BOOL | |
+| `PAYMENT_STATE` | STRING | Mapped from Status |
+| `PAYMENT_STATE_ID` | INT64 | Mapped from Status ID |
+| `PAYMENT_TYPE` | STRING | Mapped from PaymentType |
+| `PAYMENT_TYPE_ID` | INT64 | Mapped from PaymentType ID |
 ## DIM_PAYMENT_METHOD
 | Kolumna | Typ w BigQuery | Uwagi |
 | :--- | :--- | :--- |
@@ -256,31 +256,6 @@
 | `SK_END_DATE` | INT64 | |
 | `IS_ACTIVE` | BOOL | |
 | `CONSENT_NAME` | STRING | |
-## FACT_PLANNER_ITEM
-| Kolumna | Typ w BigQuery | Uwagi |
-| :--- | :--- | :--- |
-| `SK_PLANNER_ITEM` | INT64 | |
-| `ID_PLANNER_ITEM` | INT64 | |
-| `ID_BOUGHT_OFFER_INSTANCE` | INT64 | |
-| `ID_OFFER` | INT64 | |
-| `ID_LOCATION` | INT64 | |
-| `ID_SITE` | INT64 | |
-| `ID_CUSTOMER_ADDRESS` | INT64 | |
-| `ID_CUSTOMER` | INT64 | |
-| `SK_CUSTOMER_ADDRESS` | INT64 | |
-| `SK_SITE` | INT64 | |
-| `SK_START_DATE` | INT64 | |
-| `SK_END_DATE` | INT64 | |
-| `SK_OFFER` | INT64 | |
-| `SK_LOCATION` | INT64 | |
-| `SK_CUSTOMER` | INT64 | |
-| `NEXT_VERSION` | STRING | |
-| `PREVIOUS_VERSION` | STRING | |
-| `DAY_INDEX` | INT64 | |
-| `QUANTITY` | INT64 | |
-| `PLANNER_ITEM_STATE` | STRING | |
-| `DURATION_DAYS` | INT64 | |
-| `IS_ACTIVE` | BOOL | |
 ## DIM_DISCOUNT
 | Kolumna | Typ w BigQuery | Uwagi |
 | :--- | :--- | :--- |
@@ -457,6 +432,9 @@
 | `DAY_INDEX` | INT64 | |
 | `DAY_NAME` | STRING | Mapped from DayIndex (0 = Sunday, 1 = Monday, etc.) |
 | `QUANTITY` | INT64 | |
+| `PLANNER_ITEM_STATE` | STRING | Mapped from C# |
+| `DURATION_DAYS` | INT64 | |
+| `IS_ACTIVE` | BOOL | Wyliczane na podstawie statusu / wiersza (TRUE jeśli NEXT_VERSION = 0) |
 | `PRICE` | NUMERIC | |
 | `VAT` | NUMERIC | |
 | `GROSS_AMOUNT` | NUMERIC | Pre-calculated gross amount (Quantity * Price) |
@@ -464,7 +442,4 @@
 | `VAT_AMOUNT` | NUMERIC | Pre-calculated VAT amount |
 | `BOUGHT_OFFER_INSTANCE_TYPE_ID` | INT64 | Mapped from C# |
 | `BOUGHT_OFFER_INSTANCE_TYPE` | STRING | Mapped from C# |
-| `PLANNER_ITEM_STATE_ID` | INT64 | Mapped from C# |
-| `PLANNER_ITEM_STATE` | STRING | Mapped from C# |
-| `DURATION_DAYS` | INT64 | |
-| `IS_ACTIVE` | BOOL | Wyliczane na podstawie statusu / wiersza (TRUE jeśli NEXT_VERSION = 0) |
+| `PLANNER_ITEM_STATE_ID` | INT64 | Mapped from C# |
