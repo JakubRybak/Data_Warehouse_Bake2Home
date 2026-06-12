@@ -9,7 +9,7 @@ config {
 }
 
 SELECT
-  GENERATE_UUID() AS sk_payment,
+  FARM_FINGERPRINT(COALESCE(CAST(p.id_payment AS STRING), "-999999")) AS sk_payment,
   COALESCE(p.id_payment, -999999) AS id_payment,
   COALESCE(p.id_order, -999999) AS id_order,
   COALESCE(p.id_delivery, -999999) AS id_delivery,
@@ -32,7 +32,7 @@ SELECT
   COALESCE(p.list_of_order_items, 'Unknown') AS list_of_order_items,
   COALESCE(p.error, 'Unknown') AS error,
   COALESCE(p.error IS NOT NULL AND p.error != '', FALSE) AS is_error,
-  COALESCE(p.status_id, 0) AS payment_state_id,
+  COALESCE(p.status_id, -999999) AS payment_state_id,
   COALESCE(p.status, 'Unknown') AS payment_state,
   COALESCE(p.payment_type_id, 0) AS payment_type_id,
   COALESCE(p.payment_type, 'Unknown') AS payment_type,

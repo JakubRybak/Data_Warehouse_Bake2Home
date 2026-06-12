@@ -38,9 +38,9 @@ SELECT
   COALESCE(i.modified_by_hand, FALSE) AS modified_by_hand,
   COALESCE(boi.bought_offer_instance_type_id, 0) AS bought_offer_instance_type_id,
   COALESCE(boi.bought_offer_instance_type, 'Unknown') AS bought_offer_instance_type,
-  COALESCE(i.order_item_state_id, 0) AS order_item_state_id,
+  COALESCE(i.order_item_state_id, -999999) AS order_item_state_id,
   COALESCE(i.order_item_state, 'Unknown') AS order_item_state,
-  COALESCE(o.order_state_id, 0) AS order_state_id,
+  COALESCE(o.order_state_id, -999999) AS order_state_id,
   COALESCE(o.order_state, 'Unknown') AS order_state,
   COALESCE(o.created_at, TIMESTAMP("1970-01-01 00:00:00")) AS created_at
 FROM ${ref("stg_bakery_order_items")} i

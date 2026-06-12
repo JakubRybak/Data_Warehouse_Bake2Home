@@ -8,7 +8,7 @@ SELECT
   CAST(Id AS INT64) AS id_order,
   CAST(CustomerAddressId AS INT64) AS id_customer_address,
   CAST(Date AS DATE) AS date_order,
-  COALESCE(CAST(OrderState AS INT64), 0) AS order_state_id,
+  COALESCE(CAST(OrderState AS INT64), -999999) AS order_state_id,
   CASE
     WHEN OrderState = 0 THEN 'PLANNED'
     WHEN OrderState = 1 THEN 'IN_PROGRESS'

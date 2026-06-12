@@ -41,7 +41,7 @@ SELECT
   COALESCE(DATE_DIFF(CAST(i.end_date AS DATE), CAST(i.start_date AS DATE), DAY), 0) AS duration_days,
   COALESCE(boi.bought_offer_instance_type_id, 0) AS bought_offer_instance_type_id,
   COALESCE(boi.bought_offer_instance_type, 'Unknown') AS bought_offer_instance_type,
-  COALESCE(i.planner_item_state_id, 0) AS planner_item_state_id,
+  COALESCE(i.planner_item_state_id, -999999) AS planner_item_state_id,
   COALESCE(i.planner_item_state, 'Unknown') AS planner_item_state,
   (i.next_version = 0) AS is_active,
   COALESCE(i.created_at, TIMESTAMP("1970-01-01 00:00:00")) AS created_at,

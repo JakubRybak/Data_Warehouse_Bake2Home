@@ -8,7 +8,7 @@ SELECT
   CAST(Id AS INT64) AS id_delivery,
   CAST(CustomerAddressId AS INT64) AS id_customer_address,
   CAST(AreaOfDeliveryForDateId AS INT64) AS id_area_of_delivery_for_date,
-  COALESCE(CAST(State AS INT64), 0) AS state_id,
+  COALESCE(CAST(State AS INT64), -999999) AS state_id,
   CASE CAST(State AS INT64)
     WHEN 0 THEN 'WAITING_FOR_PAYMENT'
     WHEN 1 THEN 'IN_PREPARATION'

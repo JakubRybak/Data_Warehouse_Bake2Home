@@ -6,17 +6,17 @@ config {
 }
 
 SELECT
-  FARM_FINGERPRINT(CAST(di.id_delivery_item AS STRING)) AS sk_delivery_item,
+  FARM_FINGERPRINT(COALESCE(CAST(di.id_delivery_item AS STRING), "-999999")) AS sk_delivery_item,
   
-  di.id_delivery_item,
-  d.id_customer_address,
-  d.id_delivery_man,
-  di.id_product,
-  di.id_delivery,
-  d.id_site,
-  ca.id_customer,
-  a.id_location,
-  d.id_order,
+  COALESCE(di.id_delivery_item, -999999) AS id_delivery_item,
+  COALESCE(d.id_customer_address, -999999) AS id_customer_address,
+  COALESCE(d.id_delivery_man, -999999) AS id_delivery_man,
+  COALESCE(di.id_product, -999999) AS id_product,
+  COALESCE(di.id_delivery, -999999) AS id_delivery,
+  COALESCE(d.id_site, -999999) AS id_site,
+  COALESCE(ca.id_customer, -999999) AS id_customer,
+  COALESCE(a.id_location, -999999) AS id_location,
+  COALESCE(d.id_order, -999999) AS id_order,
   
   COALESCE(FARM_FINGERPRINT(CAST(a.id_location AS STRING)), FARM_FINGERPRINT("-999999")) AS sk_location,
   COALESCE(FARM_FINGERPRINT(CAST(ca.id_customer AS STRING)), FARM_FINGERPRINT("-999999")) AS sk_customer,
@@ -33,9 +33,9 @@ SELECT
   COALESCE(di.planned_quantity, 0) * COALESCE(di.product_price, 0) AS planned_amount,
   COALESCE(di.packed_quantity, 0) * COALESCE(di.product_price, 0) AS packed_amount,
   
-  COALESCE(d.state_id, 0) AS delivery_state_id,
+  COALESCE(d.state_id, -999999) AS delivery_state_id,
   COALESCE(d.state, 'UNKNOWN') AS delivery_state,
-  COALESCE(di.state_id, 0) AS delivery_item_state_id,
+  COALESCE(di.state_id, -999999) AS delivery_item_state_id,
   COALESCE(di.state, 'UNKNOWN') AS delivery_item_state,
   
   COALESCE(di.packed_quantity < di.planned_quantity, FALSE) AS is_shortage

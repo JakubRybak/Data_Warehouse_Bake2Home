@@ -6,8 +6,8 @@ config {
 
 SELECT
   CAST(Id AS INT64) AS id_planner_item,
-  COALESCE(CAST(PlannerItemState AS INT64), 0) AS planner_item_state_id,
-  CASE COALESCE(CAST(PlannerItemState AS INT64), 0)
+  COALESCE(CAST(PlannerItemState AS INT64), -999999) AS planner_item_state_id,
+  CASE COALESCE(CAST(PlannerItemState AS INT64), -999999)
     WHEN 0 THEN 'PLANNED'
     WHEN 1 THEN 'PENDING_APPROVAL'
     WHEN 2 THEN 'REMOVED'
