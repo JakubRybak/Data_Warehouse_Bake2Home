@@ -19,11 +19,11 @@ WITH states AS (
 
 SELECT
   FARM_FINGERPRINT("-999999") AS sk_consent_profile,
-  0 AS rodo_state_id,
+  -999999 AS rodo_state_id,
   'Unknown' AS rodo_state,
-  0 AS terms_state_id,
+  -999999 AS terms_state_id,
   'Unknown' AS terms_state,
-  0 AS marketing_state_id,
+  -999999 AS marketing_state_id,
   'Unknown' AS marketing_state
 
 UNION ALL
