@@ -16,6 +16,7 @@ base_calendar AS (
     date AS sk_date,
     EXTRACT(YEAR FROM date) AS year,
     EXTRACT(QUARTER FROM date) AS quarter,
+    EXTRACT(WEEK FROM date) AS week,
     EXTRACT(MONTH FROM date) AS month_number,
     CASE EXTRACT(MONTH FROM date)
       WHEN 1 THEN 'January'
@@ -88,6 +89,7 @@ SELECT
   c.sk_date,
   c.year,
   c.quarter,
+  c.week,
   c.month_number,
   c.month_name,
   c.weekday_number,
@@ -104,6 +106,7 @@ SELECT
   CAST('1970-01-01' AS DATE) AS sk_date,
   1970 AS year,
   1 AS quarter,
+  1 AS week,
   1 AS month_number,
   'January' AS month_name,
   1 AS weekday_number,
