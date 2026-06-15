@@ -53,6 +53,7 @@ SELECT
   0 AS use_limit_per_user,
   0.0 AS minimal_transaction_amount,
   FALSE AS only_for_first_purchase
+FROM UNNEST([1])
 ${when(incremental(), `WHERE FALSE`)}
 
 UNION ALL
