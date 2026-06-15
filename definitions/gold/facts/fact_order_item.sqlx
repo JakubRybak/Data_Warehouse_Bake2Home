@@ -44,8 +44,8 @@ SELECT
   COALESCE(i.order_item_state, 'Unknown') AS order_item_state,
   COALESCE(o.order_state_id, -999999) AS order_state_id,
   COALESCE(o.order_state, 'Unknown') AS order_state,
-  -1 AS weather_morning_precip_prob,
-  -1 AS weather_morning_precip_sum_mm,
+  -1.0 AS weather_morning_precip_prob,
+  -1.0 AS weather_morning_precip_sum_mm,
   -1 AS weather_morning_was_rainy
 FROM ${ref("stg_bakery_order_items")} i
 LEFT JOIN ${ref("stg_bakery_orders")} o 
