@@ -178,7 +178,71 @@ Pokażemy histogram wartości zamówień z każdej grupy klientów którzy zamaw
 
 ---
 
-### 6. Dokumentacja wykorzystania narzędzi AI
+### 6. Analiza jakości i spójności danych
+
+#### 6.1 Raport Kompletności Danych
+* **Cel:** Sprawdzenie jakości danych w systemach źródłowych i wykrycie ewentualnych anomalii w postaci braku wartości w kluczowych polach.
+* **Kroki:** Uruchomienie skryptu w Jupyter Notebook łączącego się z `INFORMATION_SCHEMA` BigQuery. Skrypt iteruje po każdej tabeli we wszystkich warstwach (Bronze, Silver, Gold) i zlicza procentowy udział wartości NULL w poszczególnych kolumnach.
+* **Oczekiwany wynik:** Otrzymanie czytelnego raportu w formie tabeli pokazującego odsetek braków dla każdej kolumny. Spodziewamy się wysokiej kompletności dla kluczy głównych oraz ewentualnych uzasadnionych biznesowo braków (np. data rozwiązania umowy).
+* **Potwierdzenie:** 
+
+  ![Raport Kompletności - Bronze](images/1_bronze.png)
+  ![Raport Kompletności - Silver](images/1_silver.png)
+  ![Raport Kompletności - Gold](images/1_gold.png)
+
+#### 6.2 Audyt Spójności Ścieżek Danych
+* **Cel:** Weryfikacja przepływu encji od surowego pliku na GCS (Bronze) do docelowej tabeli w hurtowni (Gold) pod kątem wycieków i duplikacji.
+* **Kroki:** Skrypt zlicza liczbę wierszy dla 16 kluczowych encji kolejno w datasetach `bronze`, `silver` oraz `gold`.
+* **Oczekiwany wynik:** Tabela faktów przenosi dokładnie 100% wolumenu na każdej warstwie. Tabele wymiarowe rosną o dokładnie 1 wiersz w warstwie Gold z powodu dodawania technicznego rekordu `-999999` do obsługi braków. Brak jakichkolwiek iloczynów kartezjańskich.
+* **Potwierdzenie:** 
+
+  ![Audyt Spójności Ścieżek Danych](images/2.png)
+
+#### 6.3 Raport Odrzutów Biznesowych i Relacji
+* **Cel:** Wykrycie braków w integralności referencyjnej oraz zbudowanie profilu biznesowego transakcji (np. jaki odsetek koszyków nie zawiera zniżki).
+* **Kroki:** Skanowanie wszystkich tabel faktów oraz tabel pomostowych w warstwie Gold w celu zliczenia wystąpień technicznego klucza zastępczego `-999999` dla każdego klucza obcego.
+* **Oczekiwany wynik:** Brak ukrytych sierot technicznych. Zidentyfikowanie naturalnych wyjątków biznesowych (np. płatności bez użycia zniżki) na oczekiwanym poziomie. Potwierdzenie, że hurtownia danych nie łamie zapytań analitycznych z powodu braku klucza w źródle.
+* **Potwierdzenie:** 
+
+  ![Raport Odrzutów Biznesowych (Sieroty)](images/3.png)
+
+---
+
+### 7. Testy Akceptacyjne, Funkcjonalne i End-to-End
+
+#### 7.1 Weryfikacja Historyzacji Danych
+* **Cel:** Potwierdzenie poprawnego działania mechanizmu Slowly Changing Dimensions Typu 2 w celu zachowania prawdy historycznej.
+* **Kroki:** Symulacja zmiany nazwiska klienta w bazie operacyjnej, przetworzenie danych przez Dataform i odpytanie hurtowni zapytaniem SQL dla `id_customer = 1` sortując po dacie aktualizacji.
+* **Oczekiwany wynik:** Dwa rekordy dla tego samego klienta: stary ze zgaszoną flagą `is_current = FALSE` (oraz zamkniętą datą `valid_to`) i nowy z flagą `is_current = TRUE` oraz zaktualizowanym nazwiskiem.
+* **Potwierdzenie:** 
+
+  ![Raport Odrzutów Biznesowych (Sieroty)](images/4.png)
+
+#### 7.2 Test Filtrowania Przestrzennego
+* **Cel:** Weryfikacja poprawności czyszczenia danych konkurencji o własne placówki. Zewnętrzne API (Google Maps) mogłoby zwracać własne piekarnie jako placówki w tej samej okolicy.
+* **Kroki:** Skrypt sprawdzający analizuje kartezjańskie złączenie gotowych tabel `dim_site` oraz `dim_competitor` w warstwie Gold z nałożonym warunkiem dystansu GIS (`ST_DISTANCE < 30.0m`).
+* **Oczekiwany wynik:** Zwrócona pusta tabela, co bezsprzecznie potwierdza poprawność odrzucenia z bazy konkurencji punktów nakładających się na nasze sklepy.
+* **Potwierdzenie:** 
+
+  ![Raport Odrzutów Biznesowych (Sieroty)](images/5.png)
+
+#### 7.3 Potwierdzenie całościowego działania systemu
+* **Cel:** Udowodnienie, że nowo pojawiające się zdarzenie biznesowe przepływa poprawnie przez całą architekturę aż do widoku dla użytkownika końcowego.
+* **Kroki:** 
+  1. Zanotowanie aktualnej wartości sprzedaży na raporcie Looker Studio.
+  2. Wgranie do GCS pliku Parquet symulującego gigantyczną transakcję (np. wartość 500 PLN).
+  3. Uruchomienie przeliczenia modelu (Dataform).
+  4. Odświeżenie raportu końcowego.
+* **Oczekiwany wynik:** Wskazania na wykresie/dashboardzie w Looker Studio powinny natychmiast uwzględnić nową transakcję, zwiększając łączną sumę o dokładnie 500 PLN.
+* **Potwierdzenie:** 
+
+  ![Raport Odrzutów Biznesowych (Sieroty)](images/6_1.png)
+
+  ![Raport Odrzutów Biznesowych (Sieroty)](images/6_2.png)
+
+---
+
+### 8. Dokumentacja wykorzystania narzędzi AI
 
 W trakcie realizacji projektu korzystaliśmy z narzędzia Claude Code (Anthropic) jako asystenta. Poniżej uczciwa ocena zakresu wykorzystania.
 
