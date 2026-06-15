@@ -11,87 +11,104 @@
 -- --------------------------------------------------------------------------------
 
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_catalog_Allergen`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/catalog-db/Allergen.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_catalog_Availability`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/catalog-db/Availability.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_catalog_BakeryOffer`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/catalog-db/BakeryOffer.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_catalog_BakeryProduct`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/catalog-db/BakeryProduct.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_catalog_BakeryProductSiteNew`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/catalog-db/BakeryProductSiteNew.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_catalog_BakeryProductsTypes`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/catalog-db/BakeryProductsTypes.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_catalog_Nutrition`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/catalog-db/Nutrition.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_catalog_OfferAvailability`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/catalog-db/OfferAvailability.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_catalog_OfferLocation`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/catalog-db/OfferLocation.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_catalog_OfferProduct`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/catalog-db/OfferProduct.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_catalog_OfferSite`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/catalog-db/OfferSite.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_catalog_PrivateIngredient`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/catalog-db/PrivateIngredient.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_catalog_ProductAllergen`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/catalog-db/ProductAllergen.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_catalog_ProductAttribute`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/catalog-db/ProductAttribute.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_catalog_ProductPrivateIngredient`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/catalog-db/ProductPrivateIngredient.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_catalog_ProductPublicIngredient`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/catalog-db/ProductPublicIngredient.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_catalog_PublicIngredient`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/catalog-db/PublicIngredient.parquet']
 );
@@ -102,17 +119,20 @@ OPTIONS (
 -- --------------------------------------------------------------------------------
 
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_claim_manager_ClaimEntityDeliveryItems`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/claim-manager-db/ClaimEntityDeliveryItems.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_claim_manager_ClaimItems`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/claim-manager-db/ClaimItems.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_claim_manager_ClaimsEntity`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/claim-manager-db/ClaimsEntity.parquet']
 );
@@ -123,47 +143,56 @@ OPTIONS (
 -- --------------------------------------------------------------------------------
 
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_client_manager_Client`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/client-manager-db/Client.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_client_manager_IndicatedBakery`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/client-manager-db/IndicatedBakery.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_client_manager_Leave`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/client-manager-db/Leave.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_client_manager_Location`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/client-manager-db/Location.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_client_manager_LocationSite`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/client-manager-db/LocationSite.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_client_manager_Person`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/client-manager-db/Person.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_client_manager_PolygonVertex`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/client-manager-db/PolygonVertex.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_client_manager_Site`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/client-manager-db/Site.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_client_manager_SiteCoordinates`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/client-manager-db/SiteCoordinates.parquet']
 );
@@ -174,22 +203,26 @@ OPTIONS (
 -- --------------------------------------------------------------------------------
 
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_customer_manager_Consents`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/customer-manager-db/Consents.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_customer_manager_Customer`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/customer-manager-db/Customer.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_customer_manager_CustomerAddress`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/customer-manager-db/CustomerAddress.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_customer_manager_CustomerConsent`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/customer-manager-db/CustomerConsent.parquet']
 );
@@ -200,27 +233,32 @@ OPTIONS (
 -- --------------------------------------------------------------------------------
 
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_delivery_account_manager_Address`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/delivery-account-manager-db/Address.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_delivery_account_manager_BankAccount`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/delivery-account-manager-db/BankAccount.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_delivery_account_manager_DeliveryMan`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/delivery-account-manager-db/DeliveryMan.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_delivery_account_manager_DeliveryManLocationAllocation`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/delivery-account-manager-db/DeliveryManLocationAllocation.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_delivery_account_manager_DeliveryManUnavailability`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/delivery-account-manager-db/DeliveryManUnavailability.parquet']
 );
@@ -231,22 +269,26 @@ OPTIONS (
 -- --------------------------------------------------------------------------------
 
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_delivery_manager_AreaOfDeliveryForDate`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/delivery-manager-db/AreaOfDeliveryForDate.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_delivery_manager_Deliveries`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/delivery-manager-db/Deliveries.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_delivery_manager_DeliveryItems`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/delivery-manager-db/DeliveryItems.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_delivery_manager_DeliveryManArea`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/delivery-manager-db/DeliveryManArea.parquet']
 );
@@ -257,27 +299,32 @@ OPTIONS (
 -- --------------------------------------------------------------------------------
 
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_planner_BakeryOrderItems`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/planner-db/BakeryOrderItems.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_planner_BakeryOrders`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/planner-db/BakeryOrders.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_planner_BoughtOfferInstances`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/planner-db/BoughtOfferInstances.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_planner_PlannerItems`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/planner-db/PlannerItems.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_planner_PlatformDiscount`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/planner-db/PlatformDiscount.parquet']
 );
@@ -288,42 +335,58 @@ OPTIONS (
 -- --------------------------------------------------------------------------------
 
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_wallet_DiscountUses`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/wallet-db/DiscountUses.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_wallet_Discounts`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/wallet-db/Discounts.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_wallet_PaymentMethods`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/wallet-db/PaymentMethods.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_wallet_Payments`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/wallet-db/Payments.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_wallet_RefundCreationErrors`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/wallet-db/RefundCreationErrors.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_wallet_RefundFinalizationError`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/wallet-db/RefundFinalizationError.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_wallet_RefundItems`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/wallet-db/RefundItems.parquet']
 );
 CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.raw_wallet_Refunds`
-OPTIONS (
+OPTIONS
+(
   format = 'PARQUET',
   uris = ['gs://bake2home-raw-data/data/wallet-db/Refunds.parquet']
+);
+
+--- Weather
+CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.weather`
+OPTIONS
+(
+  format = 'PARQUET',
+  uris = ['gs://bake2home-raw-data/weather/weather.parquet']
 );
