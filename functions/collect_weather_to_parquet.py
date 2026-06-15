@@ -104,3 +104,14 @@ def collect_weather_to_parquet(request):
             )
         i = i + 1
     df_results_weather.to_parquet("gs://bake2home-raw-data/weather/weather.parquet")
+
+    # reload table
+    query = """
+    CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.weather`
+    OPTIONS
+    (
+    format = 'PARQUET',
+    uris = ['gs://bake2home-raw-data/weather/weather.parquet']
+    );
+    """
+    client.query(query).result()
