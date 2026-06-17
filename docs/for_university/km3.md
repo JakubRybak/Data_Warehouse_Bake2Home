@@ -272,7 +272,7 @@ W trakcie realizacji projektu korzystaliśmy z narzędzia Claude Code (Anthropic
 - **Skrypty Google Maps API** (testy, pobieranie danych POI z FieldMask i filtrami kategorii)
 - **Cały pipeline Dataform** (bronze/silver/gold): surrogate keys, SCD2, spatial joiny z danymi konkurencji, metryki odległościowe w DIM_CUSTOMER
 - **Wszystkie wymiary i tabele faktów** oraz bridge tables, widoki SQL analityczne, null rows
-- **Struktura projektu** i organizacja plików
+- **Struktura projektu** i organizacja plików, oraz drobna pomoc przy lookerze
 
 #### Co wykonał Adam
 
