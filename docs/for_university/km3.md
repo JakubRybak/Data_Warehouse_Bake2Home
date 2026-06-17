@@ -75,13 +75,7 @@ Dane o konkurencji i POI (Google Maps API): Raz w miesiącu (Monthly). Cykl otwi
 | `PRODUCT_PRICE` | Value of the product in delivery | **SUM** |
 
 ##### FACT_CLAIM_ITEM
-| Measure | Business Description | Default Aggregation |
-| :--- | :--- | :--- |
-| `AGREED_RETURN_AMOUNT` | Agreed return amount for the customer | **SUM** |
-| `ORDERED_QUANTITY` | Initially ordered quantity (context) | **SUM**, **MAX** |
-| `DELIVERED_QUANTITY` | Actually delivered quantity (context) | **SUM**, **MAX** |
-| `NUMBER_OF_PRODUCTS_WITH_ACCEPTED_CLAIM` | Number of accepted products in the claim | **SUM** |
-| `CLAIMED_QUANTITY` | Quantity reported in the claim | **SUM** |
+Zrezygnowaliśmy z implementacji tej faktówki! :(
 
 ##### FACT_PAYMENT & FACT_REFUND_ITEM
 | Measure | Business Description | Default Aggregation |
@@ -269,6 +263,7 @@ W trakcie realizacji projektu korzystaliśmy z narzędzia Claude Code (Anthropic
 - **Looker Studio** - nauka obsługi narzędzia, podłączenie hurtowni BigQuery jako źródła danych (custom query, parametry `@DS_START_DATE`), pola kalkulowane `CASE WHEN` dla wartości binarnych, diagnoza date range control
 - **Edycja i formatowanie tekstu** w `docs/km2.md` - formatowanie tabel CSV, poprawa sekcji 2.1 (urwane zdanie), korekta opisu harmonogramu, dodanie zdania o bucketach w 5.3
 - **Wspólne redagowanie dokumentacji** - Claude współtworzył i edytował treść dokumentacji projektowej, w tym niniejszy dokument
+- **Pomoc przy google cloud** - przy połapaniu się w moliwościach i UI oraz permisjach na google cloud
 
 
 ##### Co wykonał Jakub

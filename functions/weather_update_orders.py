@@ -29,7 +29,9 @@ def weather_update_orders(request):
     missing_data = client.query(query).result()
 
     i = 0
+    total = missing_data.total_rows
     for data in missing_data:
+        print("Processing data: " + str(i) + "/" + str(total))
         longitude = data["longitude"]
         latitude = data["latitude"]
         date_str = data["date_str"]
@@ -51,4 +53,5 @@ def weather_update_orders(request):
                 + str(data["sk_order_item"])
             )
             res = client.query(query).result()
+        i = i + 1
     return 200

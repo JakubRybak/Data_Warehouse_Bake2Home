@@ -93,7 +93,9 @@ def collect_weather_to_parquet(request):
         }
 
     i = 0
+    total = missing_data.total_rows
     for data in missing_data:
+        print("Processing data: " + str(i) + "/" + str(total))
         result_row = get_weather(data)
         df_results_weather = pd.concat(
             [df_results_weather, pd.DataFrame(result_row)], ignore_index=True
@@ -102,9 +104,18 @@ def collect_weather_to_parquet(request):
             df_results_weather.to_parquet(
                 "gs://bake2home-raw-data/weather/weather.parquet"
             )
+            # reload table
+            query = """
+            CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.weather`
+            OPTIONS
+            (
+            format = 'PARQUET',
+            uris = ['gs://bake2home-raw-data/weather/weather.parquet']
+            );
+            """
+            client.query(query).result()
         i = i + 1
     df_results_weather.to_parquet("gs://bake2home-raw-data/weather/weather.parquet")
-
     # reload table
     query = """
     CREATE OR REPLACE EXTERNAL TABLE `bake2home-data-warehouse.bronze.weather`
