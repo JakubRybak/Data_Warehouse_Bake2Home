@@ -72,7 +72,10 @@ const tables = [
   "raw_wallet_Refunds",
   
   // Google Places API Pipeline (Competitors)
-  "raw_google_competitors"
+  "raw_google_competitors",
+
+  // Weather data
+  "weather"
 ];
 
 tables.forEach(table => {
