@@ -2,3 +2,4 @@ functions-framework==3.*
 pandas
 google-cloud-bigquery
 pyarrow
+db-dtypes
