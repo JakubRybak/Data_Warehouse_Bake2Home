@@ -18,7 +18,7 @@ def collect_weather_to_parquet(request):
         latitude = row["latitude"]
         longitude = row["longitude"]
         date = row["date"]
-        saved_weathers[(latitude, longitude, date)] = row
+        saved_weathers[str(latitude) + str(longitude) + str(date)] = row
 
     query = """
         SELECT longitude, latitude, FORMAT_DATE('%Y-%m-%d', sk_date_order) as date_str FROM `gold.fact_order_item` fact_orders
@@ -96,6 +96,12 @@ def collect_weather_to_parquet(request):
     total = missing_data.total_rows
     for data in missing_data:
         print("Processing data: " + str(i) + "/" + str(total))
+        lat = data["latitude"]
+        lon = data["longitude"]
+        d_str = data["date_str"]
+        if str(lat) + str(lon) + str(d_str) in saved_weathers:
+            i += 1
+            continue
         result_row = get_weather(data)
         df_results_weather = pd.concat(
             [df_results_weather, pd.DataFrame(result_row)], ignore_index=True
@@ -126,3 +132,4 @@ def collect_weather_to_parquet(request):
     );
     """
     client.query(query).result()
+    return "OK", 200
